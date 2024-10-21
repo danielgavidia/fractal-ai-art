@@ -1,15 +1,23 @@
-import { useState } from "react";
+// import { useState } from "react";
 import BouncingBall from "./BouncingBall";
 
-const configArrayDefault = [
-	{ xVelocicy: 2, yVelocity: 2 },
-	{ xVelocicy: 4, yVelocity: 4 },
-	{ xVelocicy: 6, yVelocity: 6 },
-	{ xVelocicy: 8, yVelocity: 8 },
-];
+// const configArrayDefault = [
+// 	{ xVelocicy: 2, yVelocity: 2 },
+// 	{ xVelocicy: 4, yVelocity: 4 },
+// 	{ xVelocicy: 6, yVelocity: 6 },
+// 	{ xVelocicy: 8, yVelocity: 8 },
+// ];
 
 const Feed = () => {
-	const [configArray, setConfigArray] = useState(configArrayDefault);
+	// const [configArray, setConfigArray] = useState(configArrayDefault);
+
+	const configArray = [
+		{ xVelocicy: 2, yVelocity: 2 },
+		{ xVelocicy: 4, yVelocity: 4 },
+		{ xVelocicy: 6, yVelocity: 6 },
+		{ xVelocicy: 8, yVelocity: 8 },
+	];
+
 	return (
 		<div>
 			{configArray.map((config, key) => {
