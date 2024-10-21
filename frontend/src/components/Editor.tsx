@@ -1,5 +1,11 @@
+import BouncingBall from "./BouncingBall";
+
 const Editor = () => {
-	return <div>Editor</div>;
+	return (
+		<div>
+			<BouncingBall />
+		</div>
+	);
 };
 
 export default Editor;
