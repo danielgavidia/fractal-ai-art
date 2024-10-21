@@ -9,6 +9,17 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  // Defaults
+  id        String   @id @default(uuid()) // or cuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Fields
+  firebaseId String @unique @default("")
+  email      String @default("")
+}
+
 model Config {
   // Defaults
   id        String   @id @default(uuid()) // or cuid

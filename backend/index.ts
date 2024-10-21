@@ -1,6 +1,13 @@
-import { getConfigs, postConfig } from "./prisma/prismaFunctions";
-import type { Config } from "./types/types";
 import express from "express";
+import { verifyFirebaseToken } from "./middleware";
+import { getUserLogin, getUserSignup } from "./prisma/prismaAuth";
+import { getConfigs, postConfig } from "./prisma/prismaFunctions";
+
+// Types
+import type { Config } from "./types/types";
+import type { User } from "@prisma/client";
+
+// Setup
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
@@ -24,27 +31,42 @@ app.listen(port, () => {
 
 // Post to config array
 app.post("/api/config", async (req, res) => {
-	// Consoles
 	console.log("POST: api/config");
-
-	// Logic
 	const { xVelocity, yVelocity } = req.body;
 	const data: Config = await postConfig(xVelocity, yVelocity);
 	console.log(data);
-
-	// Res
 	res.status(200).json({ data: data });
 });
 
 // Get config array
 app.get("/api/config", async (req, res) => {
-	// Consoles
 	console.log("GET: api/config");
-
-	// Logic
 	const data: Config[] = await getConfigs();
 	console.log(data);
-
-	// Res
 	res.status(200).json({ data: data });
+});
+
+// ---
+// Auth
+
+// Base auth
+app.post("/authenticate", verifyFirebaseToken, (req, res) => {
+	const firebaseId = req.body.firebaseId;
+	res.status(200).json({ firebaseId: firebaseId });
+});
+
+// Login
+app.post("/user/login", verifyFirebaseToken, async (req, res) => {
+	const { firebaseId, email } = req.body;
+	const user: User = await getUserLogin(firebaseId, email);
+	console.log(user);
+	res.status(200).json({ user: user });
+});
+
+// Signup
+app.post("/user/signup", verifyFirebaseToken, async (req, res) => {
+	const { firebaseId, email } = req.body;
+	const user: User = await getUserSignup(firebaseId, email);
+	console.log(user);
+	res.status(200).json({ user: user });
 });

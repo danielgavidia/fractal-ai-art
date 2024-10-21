@@ -19,8 +19,8 @@ const Feed = () => {
 		<div>
 			{configArray.map((config, key) => {
 				return (
-					<div className="w-full flex justify-center pb-2">
-						<BouncingBall key={key} xVelocity={config.xVelocity} yVelocity={config.yVelocity} />
+					<div key={key} className="w-full flex justify-center pb-2">
+						<BouncingBall xVelocity={config.xVelocity} yVelocity={config.yVelocity} />
 					</div>
 				);
 			})}
