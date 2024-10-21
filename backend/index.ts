@@ -1,3 +1,4 @@
+import { getConfigs, postConfig } from "./prisma/prismaFunctions";
 import type { Config } from "./types/types";
 import express from "express";
 const app = express();
@@ -21,31 +22,29 @@ app.listen(port, () => {
 
 // Routes
 
-// Data (config array)
-let data: Config[] = [];
-
 // Post to config array
-app.post("/api/config", (req, res) => {
+app.post("/api/config", async (req, res) => {
 	// Consoles
 	console.log("POST: api/config");
-	console.log(req.body);
 
 	// Logic
 	const { xVelocity, yVelocity } = req.body;
-	const newConfig: Config = {
-		xVelocity: Number(xVelocity),
-		yVelocity: Number(yVelocity),
-	};
-	data.push(newConfig);
+	const data: Config = await postConfig(xVelocity, yVelocity);
+	console.log(data);
+
+	// Res
 	res.status(200).json({ data: data });
 });
 
 // Get config array
-app.get("/api/config", (req, res) => {
+app.get("/api/config", async (req, res) => {
 	// Consoles
 	console.log("GET: api/config");
-	console.log(data);
 
 	// Logic
+	const data: Config[] = await getConfigs();
+	console.log(data);
+
+	// Res
 	res.status(200).json({ data: data });
 });
