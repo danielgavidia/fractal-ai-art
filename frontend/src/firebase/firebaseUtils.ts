@@ -1,10 +1,6 @@
 import axios from "axios";
 import type { User } from "../types/types";
-import {
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	UserCredential,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 
 export async function firebaseAuth(
@@ -12,9 +8,12 @@ export async function firebaseAuth(
 	password: string,
 	authOperation: "login" | "signup"
 ): Promise<User> {
+	const authInstance = getAuth();
+	let idToken: string | undefined;
+
 	if (authOperation === "login") {
-		const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
-		const idToken: string = await userCredential.user.getIdToken();
+		await signInWithEmailAndPassword(auth, email, password);
+		idToken = await authInstance.currentUser?.getIdToken();
 		const res = await axios({
 			method: "POST",
 			url: `${import.meta.env.VITE_BACKEND_URL}/user/login`,
@@ -25,12 +24,8 @@ export async function firebaseAuth(
 		const data: User = res.data;
 		return data;
 	} else {
-		const userCredential: UserCredential = await createUserWithEmailAndPassword(
-			auth,
-			email,
-			password
-		);
-		const idToken: string = await userCredential.user.getIdToken();
+		await createUserWithEmailAndPassword(auth, email, password);
+		idToken = await authInstance.currentUser?.getIdToken();
 		const res = await axios({
 			method: "POST",
 			url: `${import.meta.env.VITE_BACKEND_URL}/user/signup`,

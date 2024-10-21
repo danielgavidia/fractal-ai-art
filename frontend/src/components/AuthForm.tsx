@@ -6,8 +6,11 @@ interface AuthProps {
 const AuthForm = ({ authOperation }: AuthProps) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	console.log("email", email);
+	console.log("password", password);
 	const handleFirebaseAuth = async (e: React.FormEvent): Promise<void> => {
 		e.preventDefault();
+		console.log("clicked");
 		const res = await firebaseAuth(email, password, authOperation);
 		console.log(`Login/Signup for email: ${res.email}`);
 		setEmail("");

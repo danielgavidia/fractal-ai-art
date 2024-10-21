@@ -9,6 +9,12 @@ const Root = () => {
 				<button onClick={() => navigate("/feed")} className="flex-1 text-left p-2">
 					AI Art
 				</button>
+				<button onClick={() => navigate("/auth/login")} className="p-2">
+					Login
+				</button>
+				<button onClick={() => navigate("/auth/signup")} className="p-2">
+					Signup
+				</button>
 				<button onClick={() => navigate("/feed")} className="p-2">
 					Feed
 				</button>

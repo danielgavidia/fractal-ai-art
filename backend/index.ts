@@ -59,6 +59,7 @@ app.post("/authenticate", verifyFirebaseToken, (req, res) => {
 app.post("/user/login", verifyFirebaseToken, async (req, res) => {
 	const { firebaseId, email } = req.body;
 	const user: User = await getUserLogin(firebaseId, email);
+	console.log(user);
 	res.status(200).json({ user: user });
 });
 
@@ -66,5 +67,6 @@ app.post("/user/login", verifyFirebaseToken, async (req, res) => {
 app.post("/user/signup", verifyFirebaseToken, async (req, res) => {
 	const { firebaseId, email } = req.body;
 	const user: User = await getUserSignup(firebaseId, email);
+	console.log(user);
 	res.status(200).json({ user: user });
 });

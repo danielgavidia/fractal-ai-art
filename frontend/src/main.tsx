@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/Root.tsx";
 import RouteFeed from "./routes/RouteFeed.tsx";
 import RouteEditor from "./routes/RouteEditor.tsx";
+import RouteAuth from "./routes/RouteAuth.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
 				path: "/editor",
 				element: <RouteEditor />,
 			},
+			{ path: "/auth/:authOperation", element: <RouteAuth /> },
 		],
 	},
 ]);
