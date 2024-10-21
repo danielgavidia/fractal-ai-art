@@ -1,5 +1,11 @@
+import Feed from "../components/Feed";
+
 const RouteFeed = () => {
-	return <div>RouteFeed</div>;
+	return (
+		<div>
+			<Feed />
+		</div>
+	);
 };
 
 export default RouteFeed;

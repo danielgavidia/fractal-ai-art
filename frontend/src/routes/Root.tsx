@@ -4,7 +4,7 @@ const Root = () => {
 	const navigate = useNavigate();
 	return (
 		<div className="w-full">
-			<nav className="w-full flex border-b-2 border-black">
+			<nav className="w-full flex border-b-2 border-black bg-sky-800 text-white">
 				<button onClick={() => navigate("/feed")} className="flex-1 text-left p-2">
 					AI Art
 				</button>
