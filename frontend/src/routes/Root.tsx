@@ -4,7 +4,8 @@ const Root = () => {
 	const navigate = useNavigate();
 	return (
 		<div className="w-full">
-			<nav className="w-full flex border-b-2 border-black bg-sky-800 text-white">
+			{/* Navbar */}
+			<nav className="w-full sticky top-0 z-10 flex border-b-2 border-black bg-sky-800 text-white">
 				<button onClick={() => navigate("/feed")} className="flex-1 text-left p-2">
 					AI Art
 				</button>
@@ -15,6 +16,8 @@ const Root = () => {
 					Editor
 				</button>
 			</nav>
+
+			{/* Outlet */}
 			<div className="p-2 w-full">
 				<Outlet />
 			</div>
