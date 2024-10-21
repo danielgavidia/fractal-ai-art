@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BouncingBall from "./BouncingBall";
+import { postConfig } from "../utils/postConfig";
 
 const Editor = () => {
 	const [xVelocity, setXVelocity] = useState<number>(2);
@@ -8,6 +9,7 @@ const Editor = () => {
 	const xBounds = { upper: 20, lower: 0 };
 	const yBounds = { upper: 20, lower: 0 };
 
+	// Change velocity
 	function handleSetVelocity(type: string, increase: boolean): void {
 		if (type === "x" && increase && xVelocity < xBounds.upper) {
 			setXVelocity((prev) => prev + 2);
@@ -19,6 +21,11 @@ const Editor = () => {
 			setYVelocity((prev) => prev - 2);
 		}
 	}
+
+	// Submit new config
+	// function submitConfig() {
+
+	// }
 
 	return (
 		<div className="w-full justify-center">
@@ -39,8 +46,18 @@ const Editor = () => {
 			</div>
 
 			{/* Bouncing Ball viewer */}
-			<div className="w-full flex justify-center">
+			<div className="w-full flex justify-center pb-2">
 				<BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} />
+			</div>
+
+			{/* Post button */}
+			<div className="w-full flex justify-center">
+				<button
+					onClick={() => postConfig(xVelocity, yVelocity)}
+					className="w-40 h-12 bg-sky-700 text-white rounded-lg"
+				>
+					Post
+				</button>
 			</div>
 		</div>
 	);
