@@ -21,7 +21,7 @@ export async function firebaseAuth(
 				Authorization: `Bearer ${idToken}`,
 			},
 		});
-		const data: User = res.data;
+		const data: User = res.data.user;
 		return data;
 	} else {
 		await createUserWithEmailAndPassword(auth, email, password);
@@ -33,7 +33,7 @@ export async function firebaseAuth(
 				Authorization: `Bearer ${idToken}`,
 			},
 		});
-		const data: User = res.data;
+		const data: User = res.data.user;
 		return data;
 	}
 }
