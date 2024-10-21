@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { AuthContext } from "../components/AuthContext";
+import { AuthContext } from "../utils/AuthContext";
 import { auth } from "../firebase/firebaseConfig";
 
 const Root = () => {
