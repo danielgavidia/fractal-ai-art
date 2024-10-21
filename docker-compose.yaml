@@ -10,7 +10,6 @@ services:
       - FRONTEND_URL=${FRONTEND_URL}
       - DATABASE_URL=${DATABASE_URL}
       - DIRECT_URL=${DIRECT_URL}
-      # Firebase auth
       # Auth
       - FIREBASE_TYPE=${FIREBASE_TYPE}
       - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
@@ -36,6 +35,13 @@ services:
       dockerfile: ./frontend/Dockerfile
     environment:
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
+      # Auth
+      - VITE_API_KEY=${VITE_API_KEY}
+      - VITE_AUTH_DOMAIN=${VITE_AUTH_DOMAIN}
+      - VITE_PROJECT_ID=${VITE_PROJECT_ID}
+      - VITE_STORAGE_BUCKET=${VITE_STORAGE_BUCKET}
+      - VITE_MESSAGING_SENDER_ID=${VITE_MESSAGING_SENDER_ID}
+      - VITE_APP_ID=${VITE_APP_ID}
     depends_on:
       - backend
     ports:
