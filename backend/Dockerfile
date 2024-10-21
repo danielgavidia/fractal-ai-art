@@ -13,8 +13,5 @@ RUN bun add prisma
 # Copy the rest of the application code to the working directory
 COPY ./backend .
 
-# Expose the port that the Socket.IO server will run on
-EXPOSE 3000
-
 # Run the prisma migrations and application
 CMD ["sh", "-c", "bun prisma migrate deploy && bun run index.ts"]

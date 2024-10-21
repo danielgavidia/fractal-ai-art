@@ -5,11 +5,12 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     ports:
-      - "3000:3000"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
       - FRONTEND_URL=${FRONTEND_URL}
       - DATABASE_URL=${DATABASE_URL}
       - DIRECT_URL=${DIRECT_URL}
+      - BACKEND_PORT=${BACKEND_PORT}
       # Auth
       - FIREBASE_TYPE=${FIREBASE_TYPE}
       - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
@@ -23,7 +24,7 @@ services:
       - FIREBASE_CLIENT_CERT_URL=${FIREBASE_CLIENT_CERT_URL}
       - FIREBASE_UNIVERSE_DOMAIN=${FIREBASE_UNIVERSE_DOMAIN}
     env_file:
-      - .env
+      - ./backend/.env
     depends_on:
       database:
         condition: service_healthy
@@ -45,9 +46,9 @@ services:
     depends_on:
       - backend
     ports:
-      - "5173:80"
+      - "${FRONTEND_PORT}:80"
     env_file:
-      - .env
+      - ./frontend/.env
 
   # Database
   database:

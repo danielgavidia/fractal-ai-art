@@ -9,7 +9,7 @@ import type { User } from "@prisma/client";
 
 // Setup
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.BACKEND_PORT;
 const cors = require("cors");
 
 app.use(
