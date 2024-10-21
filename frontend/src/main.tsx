@@ -7,6 +7,7 @@ import Root from "./routes/Root.tsx";
 import RouteFeed from "./routes/RouteFeed.tsx";
 import RouteEditor from "./routes/RouteEditor.tsx";
 import RouteAuth from "./routes/RouteAuth.tsx";
+import { AuthProvider } from "./components/AuthProvider.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -32,6 +33,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
 	// <StrictMode>
-	<RouterProvider router={router} />
+	<AuthProvider>
+		<RouterProvider router={router} />
+	</AuthProvider>
 	// </StrictMode>
 );
