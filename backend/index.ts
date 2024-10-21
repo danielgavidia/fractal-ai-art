@@ -1,3 +1,4 @@
+import type { Config } from "./types/types";
 import express from "express";
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,11 +22,6 @@ app.listen(port, () => {
 // Routes
 
 // Data (config array)
-type Config = {
-	xVelocity: number;
-	yVelocity: number;
-};
-
 let data: Config[] = [];
 
 // Post to config array
@@ -36,7 +32,7 @@ app.post("/api/config", (req, res) => {
 
 	// Logic
 	const { xVelocity, yVelocity } = req.body;
-	const newConfig = {
+	const newConfig: Config = {
 		xVelocity: Number(xVelocity),
 		yVelocity: Number(yVelocity),
 	};
