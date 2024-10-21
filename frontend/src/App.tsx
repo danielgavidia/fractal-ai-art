@@ -2,7 +2,7 @@ import Editor from "./components/Editor";
 
 const App = () => {
 	return (
-		<div>
+		<div className="w-full">
 			<Editor />
 		</div>
 	);

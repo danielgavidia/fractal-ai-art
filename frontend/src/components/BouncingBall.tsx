@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const BouncingBall: React.FC = () => {
+interface BouncingBallProps {
+	xVelocity: number;
+	yVelocity: number;
+}
+
+const BouncingBall = ({ xVelocity, yVelocity }: BouncingBallProps) => {
 	const [position, setPosition] = useState({ x: 50, y: 50 });
-	const [velocity, setVelocity] = useState({ x: 2, y: 2 });
+	const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
 	const ballSize = 30; // Ball diameter
 	const boxWidth = 400; // Width of the rectangular space
 	const boxHeight = 300; // Height of the rectangular space
+
+	useEffect(() => {
+		setPosition({ x: 50, y: 50 });
+		setVelocity({ x: xVelocity, y: yVelocity });
+	}, [xVelocity, yVelocity]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
