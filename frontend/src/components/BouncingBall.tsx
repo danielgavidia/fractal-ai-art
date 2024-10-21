@@ -9,12 +9,12 @@ const BouncingBall = ({ xVelocity, yVelocity }: BouncingBallProps) => {
 	const [position, setPosition] = useState({ x: 50, y: 50 });
 	const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
 	const ballSize = 30; // Ball diameter
-	const boxWidth = 400; // Width of the rectangular space
+	const boxWidth = 300; // Width of the rectangular space
 	const boxHeight = 300; // Height of the rectangular space
 
 	useEffect(() => {
-		setPosition({ x: 50, y: 50 });
-		setVelocity({ x: xVelocity, y: yVelocity });
+		setPosition({ x: 50, y: 50 }); // Reset to starting position
+		setVelocity({ x: xVelocity, y: yVelocity }); // Update velocity
 	}, [xVelocity, yVelocity]);
 
 	useEffect(() => {
