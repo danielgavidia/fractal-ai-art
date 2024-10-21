@@ -22,11 +22,6 @@ const Editor = () => {
 		}
 	}
 
-	// Submit new config
-	// function submitConfig() {
-
-	// }
-
 	return (
 		<div className="w-full justify-center">
 			{/* Edit X velocity */}

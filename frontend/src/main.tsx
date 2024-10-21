@@ -1,12 +1,15 @@
-// import { StrictMode } from "react";
 import "./index.css";
 
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthProvider } from "./components/AuthProvider.tsx";
+
+// Routes
 import Root from "./routes/Root.tsx";
 import RouteFeed from "./routes/RouteFeed.tsx";
 import RouteEditor from "./routes/RouteEditor.tsx";
 import RouteAuth from "./routes/RouteAuth.tsx";
+import PrivateRoute from "./routes/PrivateRoute.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -23,15 +26,20 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/editor",
-				element: <RouteEditor />,
+				element: (
+					<PrivateRoute element={<RouteEditor />} isLoggedIn={false} redirectPath="/auth/login" />
+				),
 			},
-			{ path: "/auth/:authOperation", element: <RouteAuth /> },
+			{
+				path: "/auth/:authOperation",
+				element: <PrivateRoute element={<RouteAuth />} isLoggedIn={true} redirectPath="/feed" />,
+			},
 		],
 	},
 ]);
 
 createRoot(document.getElementById("root")!).render(
-	// <StrictMode>
-	<RouterProvider router={router} />
-	// </StrictMode>
+	<AuthProvider>
+		<RouterProvider router={router} />
+	</AuthProvider>
 );
