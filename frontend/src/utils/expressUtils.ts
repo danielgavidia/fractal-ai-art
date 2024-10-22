@@ -1,13 +1,29 @@
 import axios from "axios";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Artwork, Like, User } from "../types/types";
 
-// Aut instance
-const authInstance = getAuth();
+// Auth instance
+async function getIdToken(): Promise<string> {
+	const authInstance = getAuth();
+	return new Promise((resolve, reject) => {
+		onAuthStateChanged(authInstance, async (user) => {
+			if (user) {
+				try {
+					const idToken = await user.getIdToken();
+					resolve(idToken);
+				} catch (error) {
+					reject(new Error("Unable to retrieve idToken"));
+				}
+			} else {
+				reject(new Error("No user is signed in"));
+			}
+		});
+	});
+}
 
 // Get user info
 export async function getUser(userId: string): Promise<User> {
-	const idToken = await authInstance.currentUser?.getIdToken();
+	const idToken = await getIdToken();
 
 	const res = await axios({
 		method: "POST",
@@ -24,9 +40,25 @@ export async function getUser(userId: string): Promise<User> {
 	return data;
 }
 
+// Get user info (all)
+export async function getUsers(): Promise<User[]> {
+	const idToken = await getIdToken();
+
+	const res = await axios({
+		method: "POST",
+		url: `${import.meta.env.VITE_BACKEND_URL}/api/user/info/all`,
+		headers: {
+			Authorization: `Bearer ${idToken}`,
+		},
+	});
+
+	const data: User[] = res.data.data;
+	return data;
+}
+
 // Get user info (current)
 export async function getUserCurrent(): Promise<User> {
-	const idToken = await authInstance.currentUser?.getIdToken();
+	const idToken = await getIdToken();
 
 	const res = await axios({
 		method: "POST",
@@ -53,7 +85,7 @@ export async function getArtworks(): Promise<Artwork[]> {
 
 // Get artworks for a single user
 export async function getArtworksUser(userId: string): Promise<Artwork[]> {
-	const idToken = await authInstance.currentUser?.getIdToken();
+	const idToken = await getIdToken();
 
 	const res = await axios({
 		method: "POST",
@@ -72,7 +104,7 @@ export async function getArtworksUser(userId: string): Promise<Artwork[]> {
 
 // Post artwork
 export async function postArtwork(xVelocity: number, yVelocity: number): Promise<Artwork[]> {
-	const idToken = await authInstance.currentUser?.getIdToken();
+	const idToken = await getIdToken();
 
 	const res = await axios({
 		method: "POST",
@@ -92,7 +124,7 @@ export async function postArtwork(xVelocity: number, yVelocity: number): Promise
 
 // Post like
 export async function postLike(artworkId: string): Promise<Like> {
-	const idToken = await authInstance.currentUser?.getIdToken();
+	const idToken = await getIdToken();
 
 	const res = await axios({
 		method: "POST",

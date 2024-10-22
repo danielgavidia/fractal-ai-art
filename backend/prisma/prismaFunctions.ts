@@ -2,7 +2,7 @@ import prisma from "./prisma";
 import type { Artwork, Like, User } from "../types/types";
 import { userInfo } from "os";
 
-// Get user data
+// Get user data (single)
 interface GetUserProps {
 	firebaseId?: string;
 	userId?: string;
@@ -29,6 +29,12 @@ export async function getUser({ firebaseId, userId }: GetUserProps): Promise<Use
 
 		return res;
 	}
+}
+
+// Get user data (all users)
+export async function getUsers(): Promise<User[]> {
+	const res: User[] = await prisma.user.findMany({});
+	return res;
 }
 
 // Get artworks (all)

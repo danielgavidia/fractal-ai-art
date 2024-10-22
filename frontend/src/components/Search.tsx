@@ -1,54 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const dummyData: Dummy[] = [
-	{
-		userId: "123",
-		email: "jane@gmail.com",
-		totalLikes: 40,
-	},
-	{
-		userId: "123",
-		email: "jimmy@gmail.com",
-		totalLikes: 50,
-	},
-	{
-		userId: "123",
-		email: "tom@gmail.com",
-		totalLikes: 40,
-	},
-	{
-		userId: "123",
-		email: "tim@gmail.com",
-		totalLikes: 50,
-	},
-];
-
-type Dummy = {
-	userId: string;
-	email: string;
-	totalLikes: number;
-};
+import { getUsers } from "../utils/expressUtils";
+import { User } from "../types/types";
 
 const Search = () => {
 	const [searchQuery, setSearchQuery] = useState<string>("");
-	const [data, setData] = useState<Dummy[]>(dummyData);
+	const [userData, setUserData] = useState<User[]>([]);
 	const navigate = useNavigate();
 
+	// Fetch user data
+	useEffect(() => {
+		const fetch = async () => {
+			const res = await getUsers();
+			setUserData(res);
+		};
+		fetch();
+	}, []);
+
 	// Submit search query
-	function searchEmails(data: Dummy[], query: string): Dummy[] {
+	function searchEmails(userData: User[], query: string): User[] {
 		const lowerQuery = query.toLowerCase();
-		return data.filter((x) => x.email.toLowerCase().includes(lowerQuery));
+		return userData.filter((x) => x.email.toLowerCase().includes(lowerQuery));
 	}
 
 	function handleSubmit(e: React.FormEvent): void {
 		e.preventDefault();
-		const newData = searchEmails(data, searchQuery);
-		setData(newData);
+		if (!userData) {
+			return;
+		}
+		const newData = searchEmails(userData, searchQuery);
+		setUserData(newData);
 		setSearchQuery("");
 	}
-
-	// Dummy data
 
 	return (
 		<div>
@@ -61,14 +44,18 @@ const Search = () => {
 				/>
 			</form>
 			<div className="p-1 space-y-2">
-				{data.map((user, key) => {
-					return (
-						<div key={key} className="flex justify-between">
-							<button onClick={() => navigate(`/profile/${user.userId}`)}>{user.email}</button>
-							<p>{user.totalLikes}</p>
-						</div>
-					);
-				})}
+				{userData && (
+					<>
+						{userData.map((user, key) => {
+							return (
+								<div key={key} className="flex justify-between">
+									<button onClick={() => navigate(`/profile/${user.id}`)}>{user.email}</button>
+									{/* <p>{user.totalLikes}</p> */}
+								</div>
+							);
+						})}
+					</>
+				)}
 			</div>
 		</div>
 	);
