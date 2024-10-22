@@ -32,7 +32,7 @@ const Root = () => {
 			setUserInfo(res);
 		};
 		fetch();
-	}, []);
+	}, [authContext]);
 
 	return (
 		<div className="w-full">
@@ -53,9 +53,11 @@ const Root = () => {
 						<button onClick={() => navigate("/editor")} className="p-2">
 							Editor
 						</button>
-						<button onClick={() => navigate(`/profile/${userInfo?.id}`)} className="p-2">
-							Profile
-						</button>
+						{userInfo && (
+							<button onClick={() => navigate(`/profile/${userInfo.id}`)} className="p-2">
+								Profile
+							</button>
+						)}
 					</>
 				) : (
 					// User is logged out / not signed up
