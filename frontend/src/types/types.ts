@@ -1,4 +1,4 @@
-export type Config = {
+export type Artwork = {
 	xVelocity: number;
 	yVelocity: number;
 };

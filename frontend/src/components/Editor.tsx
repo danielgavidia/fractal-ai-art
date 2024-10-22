@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BouncingBall from "./BouncingBall";
-import { postConfig } from "../utils/postConfig";
+import { postArtwork } from "../utils/expressUtils";
 
 const Editor = () => {
 	const [xVelocity, setXVelocity] = useState<number>(2);
@@ -48,7 +48,7 @@ const Editor = () => {
 			{/* Post button */}
 			<div className="w-full flex justify-center">
 				<button
-					onClick={() => postConfig(xVelocity, yVelocity)}
+					onClick={() => postArtwork(xVelocity, yVelocity)}
 					className="w-40 h-12 bg-sky-700 text-white rounded-lg"
 				>
 					Post

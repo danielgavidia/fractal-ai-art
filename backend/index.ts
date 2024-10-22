@@ -1,10 +1,10 @@
 import express from "express";
 import { verifyFirebaseToken } from "./middleware";
 import { getUserLogin, getUserSignup } from "./prisma/prismaAuth";
-import { getConfigs, postConfig } from "./prisma/prismaFunctions";
+import { getArtworks, getArtworksUser, postArtwork } from "./prisma/prismaFunctions";
 
 // Types
-import type { Config } from "./types/types";
+import type { Artwork } from "./types/types";
 import type { User } from "@prisma/client";
 
 // Setup
@@ -29,19 +29,29 @@ app.listen(port, () => {
 
 // Routes
 
-// Post to config array
-app.post("/api/config", async (req, res) => {
-	console.log("POST: api/config");
-	const { xVelocity, yVelocity } = req.body;
-	const data: Config = await postConfig(xVelocity, yVelocity);
+// Get artworks array (all)
+app.get("/api/artwork/all", async (req, res) => {
+	console.log("GET: /api/artwork/all");
+	const data: Artwork[] = await getArtworks();
 	console.log(data);
 	res.status(200).json({ data: data });
 });
 
-// Get config array
-app.get("/api/config", async (req, res) => {
-	console.log("GET: api/config");
-	const data: Config[] = await getConfigs();
+// Get artworks for a single user
+app.get("/api/artwork/user", verifyFirebaseToken, async (req, res) => {
+	console.log(`GET: /api/artwork/user`);
+	const firebaseId = req.body.firebaseId;
+	const data: Artwork[] = await getArtworksUser(firebaseId);
+	console.log(data);
+	res.status(200).json({ data: data });
+});
+
+// Post to artwork array
+app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /api/artwork");
+	const firebaseId = req.body.firebaseId;
+	const { xVelocity, yVelocity } = req.body;
+	const data: Artwork = await postArtwork(firebaseId, xVelocity, yVelocity);
 	console.log(data);
 	res.status(200).json({ data: data });
 });
@@ -57,6 +67,7 @@ app.post("/authenticate", verifyFirebaseToken, (req, res) => {
 
 // Login
 app.post("/user/login", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /user/login");
 	const { firebaseId, email } = req.body;
 	const user: User = await getUserLogin(firebaseId, email);
 	console.log(user);
@@ -65,6 +76,7 @@ app.post("/user/login", verifyFirebaseToken, async (req, res) => {
 
 // Signup
 app.post("/user/signup", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /user/signup");
 	const { firebaseId, email } = req.body;
 	const user: User = await getUserSignup(firebaseId, email);
 	console.log(user);
