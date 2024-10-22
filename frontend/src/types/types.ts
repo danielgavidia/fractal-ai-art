@@ -5,6 +5,7 @@ export type Artwork = {
 	xVelocity: number;
 	yVelocity: number;
 	user?: User | null;
+	likesCount?: number | null;
 };
 
 export type User = {

@@ -3,10 +3,14 @@ import type { Artwork, Like, User } from "../types/types";
 
 // Get artworks (all)
 export async function getArtworks(): Promise<Artwork[]> {
-	const res: Artwork[] = await prisma.artwork.findMany({
-		include: { user: true },
+	const res = await prisma.artwork.findMany({
+		include: { user: true, _count: { select: { likes: true } } },
 	});
-	return res;
+	const resMapped: Artwork[] = res.map((artwork) => ({
+		...artwork,
+		likesCount: artwork._count.likes,
+	}));
+	return resMapped;
 }
 
 // Get artworks for single user
@@ -18,10 +22,16 @@ export async function getArtworksUser(firebaseId: string): Promise<Artwork[]> {
 		throw new Error("User not found");
 	}
 
-	const res: Artwork[] = await prisma.artwork.findMany({
+	const res = await prisma.artwork.findMany({
 		where: { userId: user.id },
+		include: { _count: { select: { likes: true } } },
 	});
-	return res;
+
+	const resMapped: Artwork[] = res.map((artwork) => ({
+		...artwork,
+		likesCount: artwork._count.likes,
+	}));
+	return resMapped;
 }
 
 // Post artwork
