@@ -1,13 +1,13 @@
 import prisma from "./prisma";
-import type { Config } from "../types/types";
+import type { Artwork } from "../types/types";
 
-export async function getConfigs(): Promise<Config[]> {
-	const res: Config[] = await prisma.config.findMany({});
+export async function getArtworks(): Promise<Artwork[]> {
+	const res: Artwork[] = await prisma.config.findMany({});
 	return res;
 }
 
-export async function postConfig(xVelocity: number, yVelocity: number): Promise<Config> {
-	const res: Config = await prisma.config.create({
+export async function postArtwork(xVelocity: number, yVelocity: number): Promise<Artwork> {
+	const res: Artwork = await prisma.config.create({
 		data: {
 			xVelocity: xVelocity,
 			yVelocity: yVelocity,

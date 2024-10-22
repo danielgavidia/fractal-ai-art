@@ -1,4 +1,4 @@
-export type Config = {
+export type Artwork = {
 	id?: string;
 	createdAt?: Date;
 	updatedAt?: Date;

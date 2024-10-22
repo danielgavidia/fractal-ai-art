@@ -20,7 +20,7 @@ model User {
   email      String @default("")
 }
 
-model Config {
+model Artwork {
   // Defaults
   id        String   @id @default(uuid()) // or cuid
   createdAt DateTime @default(now())

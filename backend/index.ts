@@ -1,10 +1,10 @@
 import express from "express";
 import { verifyFirebaseToken } from "./middleware";
 import { getUserLogin, getUserSignup } from "./prisma/prismaAuth";
-import { getConfigs, postConfig } from "./prisma/prismaFunctions";
+import { getArtworks, postArtwork } from "./prisma/prismaFunctions";
 
 // Types
-import type { Config } from "./types/types";
+import type { Artwork } from "./types/types";
 import type { User } from "@prisma/client";
 
 // Setup
@@ -29,19 +29,19 @@ app.listen(port, () => {
 
 // Routes
 
-// Post to config array
-app.post("/api/config", async (req, res) => {
-	console.log("POST: api/config");
+// Post to artwork array
+app.post("/api/artwork", async (req, res) => {
+	console.log("POST: api/artwork");
 	const { xVelocity, yVelocity } = req.body;
-	const data: Config = await postConfig(xVelocity, yVelocity);
+	const data: Artwork = await postArtwork(xVelocity, yVelocity);
 	console.log(data);
 	res.status(200).json({ data: data });
 });
 
 // Get config array
-app.get("/api/config", async (req, res) => {
-	console.log("GET: api/config");
-	const data: Config[] = await getConfigs();
+app.get("/api/artwork", async (req, res) => {
+	console.log("GET: api/artwork");
+	const data: Artwork[] = await getArtworks();
 	console.log(data);
 	res.status(200).json({ data: data });
 });

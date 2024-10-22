@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import BouncingBall from "./BouncingBall";
-import { getConfigs } from "../utils/getConfigs";
-import { Config } from "../types/types";
+import { getArtworks } from "../utils/expressUtils";
+import { Artwork } from "../types/types";
 
 const Feed = () => {
-	const [configArray, setConfigArray] = useState<Config[]>([]);
+	const [artworkArray, setArtworkArray] = useState<Artwork[]>([]);
 
 	// Reload configs
 	useEffect(() => {
 		const fetch = async () => {
-			const res = await getConfigs();
-			setConfigArray(res);
+			const res = await getArtworks();
+			setArtworkArray(res);
 		};
 		fetch();
 	}, []);
 
 	return (
 		<div>
-			{configArray.map((config, key) => {
+			{artworkArray.map((artwork, key) => {
+				const { xVelocity, yVelocity } = artwork;
 				return (
 					<div key={key} className="w-full flex justify-center pb-2">
-						<BouncingBall xVelocity={config.xVelocity} yVelocity={config.yVelocity} />
+						<BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} />
 					</div>
 				);
 			})}
