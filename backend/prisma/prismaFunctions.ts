@@ -33,8 +33,18 @@ export async function getUser({ firebaseId, userId }: GetUserProps): Promise<Use
 
 // Get user data (all users)
 export async function getUsers(): Promise<User[]> {
-	const res: User[] = await prisma.user.findMany({});
-	return res;
+	const res = await prisma.user.findMany({
+		include: {
+			_count: {
+				select: { likes: true },
+			},
+		},
+	});
+	const resMapped: User[] = res.map((user) => ({
+		...user,
+		likesCount: user._count.likes,
+	}));
+	return resMapped;
 }
 
 // Get artworks (all)

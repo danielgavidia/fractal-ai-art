@@ -50,7 +50,7 @@ const Search = () => {
 							return (
 								<div key={key} className="flex justify-between">
 									<button onClick={() => navigate(`/profile/${user.id}`)}>{user.email}</button>
-									{/* <p>{user.totalLikes}</p> */}
+									<p>{user.likesCount}</p>
 								</div>
 							);
 						})}
