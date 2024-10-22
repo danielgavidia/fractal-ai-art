@@ -9,6 +9,7 @@ import Root from "./routes/Root.tsx";
 import RouteFeed from "./routes/RouteFeed.tsx";
 import RouteEditor from "./routes/RouteEditor.tsx";
 import RouteAuth from "./routes/RouteAuth.tsx";
+import RouteProfile from "./routes/RouteProfile.tsx";
 import PrivateRoute from "./routes/PrivateRoute.tsx";
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 			{
 				path: "/auth/:authOperation",
 				element: <PrivateRoute element={<RouteAuth />} isLoggedIn={true} redirectPath="/feed" />,
+			},
+			{
+				path: "/profile/:userId",
+				element: <RouteProfile />,
 			},
 		],
 	},

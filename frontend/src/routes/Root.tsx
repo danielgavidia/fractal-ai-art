@@ -1,9 +1,14 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
 import { auth } from "../firebase/firebaseConfig";
+import { getUserCurrent } from "../utils/expressUtils";
+import { User } from "../types/types";
 
 const Root = () => {
+	// userId
+	const [userInfo, setUserInfo] = useState<User>();
+
 	// Navigation
 	const navigate = useNavigate();
 
@@ -19,6 +24,15 @@ const Root = () => {
 		await auth.signOut();
 		navigate("/feed");
 	}
+
+	// Fetch user id
+	useEffect(() => {
+		const fetch = async () => {
+			const res = await getUserCurrent();
+			setUserInfo(res);
+		};
+		fetch();
+	}, []);
 
 	return (
 		<div className="w-full">
@@ -38,6 +52,9 @@ const Root = () => {
 						</button>
 						<button onClick={() => navigate("/editor")} className="p-2">
 							Editor
+						</button>
+						<button onClick={() => navigate(`/profile/${userInfo?.id}`)} className="p-2">
+							Profile
 						</button>
 					</>
 				) : (

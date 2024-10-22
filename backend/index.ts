@@ -1,7 +1,13 @@
 import express from "express";
 import { verifyFirebaseToken } from "./middleware";
 import { getUserLogin, getUserSignup } from "./prisma/prismaAuth";
-import { getArtworks, getArtworksUser, postArtwork, postLike } from "./prisma/prismaFunctions";
+import {
+	getArtworks,
+	getArtworksUser,
+	getUser,
+	postArtwork,
+	postLike,
+} from "./prisma/prismaFunctions";
 
 // Types
 import type { Artwork, Like } from "./types/types";
@@ -29,6 +35,24 @@ app.listen(port, () => {
 
 // Routes
 
+// Get user info
+app.post("/api/user/info", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /api/user/info");
+	const { userId } = req.body;
+	const data: User = await getUser({ userId: userId });
+	console.log(data);
+	res.status(200).json({ data: data });
+});
+
+// Get user info (current)
+app.post("/api/user/info/current", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /api/user/info/current");
+	const { firebaseId } = req.body;
+	const data: User = await getUser({ firebaseId: firebaseId });
+	console.log(data);
+	res.status(200).json({ data: data });
+});
+
 // Get artworks array (all)
 app.get("/api/artwork/all", async (req, res) => {
 	console.log("GET: /api/artwork/all");
@@ -38,10 +62,10 @@ app.get("/api/artwork/all", async (req, res) => {
 });
 
 // Get artworks for a single user
-app.get("/api/artwork/user", verifyFirebaseToken, async (req, res) => {
-	console.log(`GET: /api/artwork/user`);
-	const firebaseId = req.body.firebaseId;
-	const data: Artwork[] = await getArtworksUser(firebaseId);
+app.post("/api/artwork/user", verifyFirebaseToken, async (req, res) => {
+	console.log(`POST: /api/artwork/user`);
+	const { userId } = req.body;
+	const data: Artwork[] = await getArtworksUser(userId);
 	console.log(data);
 	res.status(200).json({ data: data });
 });
