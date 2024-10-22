@@ -11,6 +11,7 @@ import RouteEditor from "./routes/RouteEditor.tsx";
 import RouteAuth from "./routes/RouteAuth.tsx";
 import RouteProfile from "./routes/RouteProfile.tsx";
 import PrivateRoute from "./routes/PrivateRoute.tsx";
+import RouteSearch from "./routes/RouteSearch.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
 			{
 				path: "/profile/:userId",
 				element: <RouteProfile />,
+			},
+			{
+				path: "/search",
+				element: <RouteSearch />,
 			},
 		],
 	},

@@ -47,6 +47,9 @@ const Navbar = () => {
 					<button onClick={() => logOut()} className="p-2">
 						Logout
 					</button>
+					<button onClick={() => navigate("/search")} className="p-2">
+						Search
+					</button>
 					<button onClick={() => navigate("/editor")} className="p-2">
 						Editor
 					</button>
