@@ -30,7 +30,7 @@ app.listen(port, () => {
 // Routes
 
 // Get artworks array (all)
-app.get("/api/artwork/all", verifyFirebaseToken, async (req, res) => {
+app.get("/api/artwork/all", async (req, res) => {
 	console.log("GET: /api/artwork/all");
 	const data: Artwork[] = await getArtworks();
 	console.log(data);
