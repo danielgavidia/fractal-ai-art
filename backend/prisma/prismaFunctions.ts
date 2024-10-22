@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import type { Artwork, User } from "../types/types";
+import type { Artwork, Like, User } from "../types/types";
 
 // Get artworks (all)
 export async function getArtworks(): Promise<Artwork[]> {
@@ -45,5 +45,29 @@ export async function postArtwork(
 			yVelocity: yVelocity,
 		},
 	});
+	return res;
+}
+
+// Create like
+export async function postLike(firebaseId: string, artworkId: string): Promise<Like> {
+	const user: User | null = await prisma.user.findUnique({
+		where: { firebaseId: firebaseId },
+	});
+
+	const artwork: Artwork | null = await prisma.artwork.findUnique({
+		where: { id: artworkId },
+	});
+
+	if (!user || !artwork) {
+		throw new Error("User not found");
+	}
+
+	const res: Like = await prisma.like.create({
+		data: {
+			user: { connect: { id: user.id } },
+			artwork: { connect: { id: artwork.id } },
+		},
+	});
+
 	return res;
 }
