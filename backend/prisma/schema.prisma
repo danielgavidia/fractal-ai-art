@@ -11,13 +11,16 @@ datasource db {
 
 model User {
   // Defaults
-  id        String   @id @default(uuid()) // or cuid
+  id        String   @id @unique @default(uuid()) // or cuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Fields
-  firebaseId String @unique @default("")
-  email      String @default("")
+  firebaseId String @unique
+  email      String @unique
+
+  // Relationships
+  artworks Artwork[]
 }
 
 model Artwork {
@@ -31,4 +34,6 @@ model Artwork {
   yVelocity Int @default(0)
 
   // Relationships
+  user   User?   @relation(fields: [userid], references: [id])
+  userid String?
 }

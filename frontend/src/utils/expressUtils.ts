@@ -5,7 +5,7 @@ import { Artwork } from "../types/types";
 export async function getArtworks(): Promise<Artwork[]> {
 	const res = await axios({
 		method: "GET",
-		url: `${import.meta.env.VITE_BACKEND_URL}/api/artwork`,
+		url: `${import.meta.env.VITE_BACKEND_URL}/api/artwork/all`,
 	});
 	const data: Artwork[] = res.data.data;
 	return data;
