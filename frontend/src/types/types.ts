@@ -1,6 +1,10 @@
 export type Artwork = {
+	id: string;
+	createdAt: Date;
+	updatedAt: Date;
 	xVelocity: number;
 	yVelocity: number;
+	user?: User | null;
 };
 
 export type User = {

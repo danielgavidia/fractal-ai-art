@@ -20,7 +20,9 @@ const Feed = () => {
 			{artworkArray.map((artwork, key) => {
 				const { xVelocity, yVelocity } = artwork;
 				return (
-					<div key={key} className="w-full flex justify-center pb-2">
+					<div key={key} className="w-full flex flex-col justify-center items-center pb-2">
+						<p className="text-sm">{artwork.user?.email}</p>
+						<p className="text-sm">{artwork.createdAt.toString()}</p>
 						<BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} />
 					</div>
 				);

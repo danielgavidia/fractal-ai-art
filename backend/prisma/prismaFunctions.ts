@@ -3,7 +3,9 @@ import type { Artwork, User } from "../types/types";
 
 // Get artworks (all)
 export async function getArtworks(): Promise<Artwork[]> {
-	const res: Artwork[] = await prisma.artwork.findMany({});
+	const res: Artwork[] = await prisma.artwork.findMany({
+		include: { user: true },
+	});
 	return res;
 }
 
