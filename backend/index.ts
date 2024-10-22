@@ -5,6 +5,7 @@ import {
 	getArtworks,
 	getArtworksUser,
 	getUser,
+	getUsers,
 	postArtwork,
 	postLike,
 } from "./prisma/prismaFunctions";
@@ -40,6 +41,14 @@ app.post("/api/user/info", verifyFirebaseToken, async (req, res) => {
 	console.log("POST: /api/user/info");
 	const { userId } = req.body;
 	const data: User = await getUser({ userId: userId });
+	console.log(data);
+	res.status(200).json({ data: data });
+});
+
+// Get user info (all users)
+app.post("/api/user/info/all", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /api/user/info/all");
+	const data: User[] = await getUsers();
 	console.log(data);
 	res.status(200).json({ data: data });
 });

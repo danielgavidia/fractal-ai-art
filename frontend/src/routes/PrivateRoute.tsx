@@ -1,29 +1,20 @@
-import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../utils/AuthContext";
+import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 
 interface PrivateRouteProps {
-	element: JSX.Element;
-	isLoggedIn: boolean;
-	redirectPath: string;
+  element: JSX.Element;
+  isLoggedIn: boolean;
+  redirectPath: string;
 }
 
-const useAuth = () => {
-	const context = useContext(AuthContext);
-	if (!context) {
-		throw new Error("useAuth must be used within an AuthProvider");
-	}
-	return context;
-};
-
 const PrivateRoute = ({ element, isLoggedIn, redirectPath }: PrivateRouteProps) => {
-	const { user } = useAuth();
+  const { user } = useFirebaseAuth();
 
-	if (isLoggedIn) {
-		return user ? <Navigate to={redirectPath} /> : element;
-	} else {
-		return user ? element : <Navigate to={redirectPath} />;
-	}
+  if (isLoggedIn) {
+    return user ? <Navigate to={redirectPath} /> : element;
+  } else {
+    return user ? element : <Navigate to={redirectPath} />;
+  }
 };
 
 export default PrivateRoute;

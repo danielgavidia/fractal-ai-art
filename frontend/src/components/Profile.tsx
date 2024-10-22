@@ -27,7 +27,6 @@ const Profile = ({ userId }: ProfileProps) => {
 	return (
 		<div>
 			{/* User info section */}
-			<p className="w-full text-center">My Art!</p>
 			<p>{userInfo?.email}</p>
 			<p>Joined: {userInfo?.createdAt.toString()}</p>
 

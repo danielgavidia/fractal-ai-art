@@ -2,120 +2,136 @@ import prisma from "./prisma";
 import type { Artwork, Like, User } from "../types/types";
 import { userInfo } from "os";
 
-// Get user data
+// Get user data (single)
 interface GetUserProps {
-	firebaseId?: string;
-	userId?: string;
+  firebaseId?: string;
+  userId?: string;
 }
 export async function getUser({ firebaseId, userId }: GetUserProps): Promise<User> {
-	if (firebaseId) {
-		const res: User | null = await prisma.user.findUnique({
-			where: { firebaseId: firebaseId },
-		});
+  if (firebaseId) {
+    const res: User | null = await prisma.user.findUnique({
+      where: { firebaseId: firebaseId },
+    });
 
-		if (!res) {
-			throw new Error("User not found");
-		}
+    if (!res) {
+      throw new Error("User not found");
+    }
 
-		return res;
-	} else {
-		const res: User | null = await prisma.user.findUnique({
-			where: { id: userId },
-		});
+    return res;
+  } else {
+    const res: User | null = await prisma.user.findUnique({
+      where: { id: userId },
+    });
 
-		if (!res) {
-			throw new Error("User not found");
-		}
+    if (!res) {
+      throw new Error("User not found");
+    }
 
-		return res;
-	}
+    return res;
+  }
+}
+
+// Get user data (all users)
+export async function getUsers(): Promise<User[]> {
+  const res = await prisma.user.findMany({
+    include: {
+      _count: {
+        select: { likes: true },
+      },
+    },
+  });
+  const resMapped: User[] = res.map((user) => ({
+    ...user,
+    likesCount: user._count.likes,
+  }));
+  return resMapped;
 }
 
 // Get artworks (all)
 export async function getArtworks(): Promise<Artwork[]> {
-	const res = await prisma.artwork.findMany({
-		include: { user: true, _count: { select: { likes: true } } },
-	});
-	const resMapped: Artwork[] = res.map((artwork) => ({
-		...artwork,
-		likesCount: artwork._count.likes,
-	}));
-	return resMapped;
+  const res = await prisma.artwork.findMany({
+    include: { user: true, _count: { select: { likes: true } } },
+  });
+  const resMapped: Artwork[] = res.map((artwork) => ({
+    ...artwork,
+    likesCount: artwork._count.likes,
+  }));
+  return resMapped;
 }
 
 // Get artworks for single user
 export async function getArtworksUser(userId: string): Promise<Artwork[]> {
-	const user: User | null = await prisma.user.findUnique({
-		where: { id: userId },
-	});
-	if (!user) {
-		throw new Error("User not found");
-	}
+  const user: User | null = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-	const res = await prisma.artwork.findMany({
-		where: { userId: user.id },
-		include: { _count: { select: { likes: true } } },
-	});
+  const res = await prisma.artwork.findMany({
+    where: { userId: user.id },
+    include: { _count: { select: { likes: true } } },
+  });
 
-	const resMapped: Artwork[] = res.map((artwork) => ({
-		...artwork,
-		likesCount: artwork._count.likes,
-	}));
-	return resMapped;
+  const resMapped: Artwork[] = res.map((artwork) => ({
+    ...artwork,
+    likesCount: artwork._count.likes,
+  }));
+  return resMapped;
 }
 
 // Post artwork
 export async function postArtwork(
-	firebaseId: string,
-	xVelocity: number,
-	yVelocity: number
+  firebaseId: string,
+  xVelocity: number,
+  yVelocity: number
 ): Promise<Artwork> {
-	const user: User | null = await prisma.user.findUnique({
-		where: { firebaseId: firebaseId },
-	});
+  const user: User | null = await prisma.user.findUnique({
+    where: { firebaseId: firebaseId },
+  });
 
-	if (!user) {
-		throw new Error("User not found");
-	}
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-	const res: Artwork = await prisma.artwork.create({
-		data: {
-			user: { connect: { id: user.id } },
-			xVelocity: xVelocity,
-			yVelocity: yVelocity,
-		},
-	});
-	return res;
+  const res: Artwork = await prisma.artwork.create({
+    data: {
+      user: { connect: { id: user.id } },
+      xVelocity: xVelocity,
+      yVelocity: yVelocity,
+    },
+  });
+  return res;
 }
 
 // Create like
 export async function postLike(firebaseId: string, artworkId: string): Promise<Like> {
-	const user: User | null = await prisma.user.findUnique({
-		where: { firebaseId: firebaseId },
-	});
+  const user: User | null = await prisma.user.findUnique({
+    where: { firebaseId: firebaseId },
+  });
 
-	const artwork: Artwork | null = await prisma.artwork.findUnique({
-		where: { id: artworkId },
-	});
+  const artwork: Artwork | null = await prisma.artwork.findUnique({
+    where: { id: artworkId },
+  });
 
-	if (!user || !artwork) {
-		throw new Error("User/artwork not found");
-	}
+  if (!user || !artwork) {
+    throw new Error("User/artwork not found");
+  }
 
-	const res: Like = await prisma.like.upsert({
-		where: {
-			// Assuming you have a unique constraint on userId and artworkId
-			userId_artworkId: {
-				userId: user.id,
-				artworkId: artwork.id,
-			},
-		},
-		create: {
-			user: { connect: { id: user.id } },
-			artwork: { connect: { id: artwork.id } },
-		},
-		update: {}, // No fields to update since we just want to prevent duplicate likes
-	});
+  const res: Like = await prisma.like.upsert({
+    where: {
+      // Assuming you have a unique constraint on userId and artworkId
+      userId_artworkId: {
+        userId: user.id,
+        artworkId: artwork.id,
+      },
+    },
+    create: {
+      user: { connect: { id: user.id } },
+      artwork: { connect: { id: artwork.id } },
+    },
+    update: {}, // No fields to update since we just want to prevent duplicate likes
+  });
 
-	return res;
+  return res;
 }
