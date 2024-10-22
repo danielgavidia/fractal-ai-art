@@ -1,5 +1,35 @@
 import prisma from "./prisma";
 import type { Artwork, Like, User } from "../types/types";
+import { userInfo } from "os";
+
+// Get user data
+interface GetUserProps {
+	firebaseId?: string;
+	userId?: string;
+}
+export async function getUser({ firebaseId, userId }: GetUserProps): Promise<User> {
+	if (firebaseId) {
+		const res: User | null = await prisma.user.findUnique({
+			where: { firebaseId: firebaseId },
+		});
+
+		if (!res) {
+			throw new Error("User not found");
+		}
+
+		return res;
+	} else {
+		const res: User | null = await prisma.user.findUnique({
+			where: { id: userId },
+		});
+
+		if (!res) {
+			throw new Error("User not found");
+		}
+
+		return res;
+	}
+}
 
 // Get artworks (all)
 export async function getArtworks(): Promise<Artwork[]> {
@@ -14,9 +44,9 @@ export async function getArtworks(): Promise<Artwork[]> {
 }
 
 // Get artworks for single user
-export async function getArtworksUser(firebaseId: string): Promise<Artwork[]> {
+export async function getArtworksUser(userId: string): Promise<Artwork[]> {
 	const user: User | null = await prisma.user.findUnique({
-		where: { firebaseId: firebaseId },
+		where: { id: userId },
 	});
 	if (!user) {
 		throw new Error("User not found");
@@ -69,7 +99,7 @@ export async function postLike(firebaseId: string, artworkId: string): Promise<L
 	});
 
 	if (!user || !artwork) {
-		throw new Error("User not found");
+		throw new Error("User/artwork not found");
 	}
 
 	const res: Like = await prisma.like.upsert({
