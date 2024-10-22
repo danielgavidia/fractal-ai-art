@@ -21,11 +21,12 @@ model User {
 
   // Relationships
   artworks Artwork[]
+  likes    Like[]
 }
 
 model Artwork {
   // Defaults
-  id        String   @id @default(uuid()) // or cuid
+  id        String   @id @unique @default(uuid()) // or cuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -34,6 +35,22 @@ model Artwork {
   yVelocity Int @default(0)
 
   // Relationships
-  user   User?   @relation(fields: [userid], references: [id])
-  userid String?
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  likes  Like[]
+}
+
+model Like {
+  // Defaults
+  id        String   @id @unique @default(uuid()) // or cuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  artwork   Artwork @relation(fields: [artworkId], references: [id])
+  artworkId String
+
+  @@unique([userId, artworkId])
 }

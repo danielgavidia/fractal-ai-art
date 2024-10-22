@@ -54,8 +54,8 @@ services:
   database:
     image: postgres:13
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "10005:5432"
     healthcheck:
@@ -64,3 +64,5 @@ services:
       timeout: 5s
       retries: 5
     restart: always
+    env_file:
+      - .env

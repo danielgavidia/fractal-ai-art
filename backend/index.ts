@@ -1,10 +1,10 @@
 import express from "express";
 import { verifyFirebaseToken } from "./middleware";
 import { getUserLogin, getUserSignup } from "./prisma/prismaAuth";
-import { getArtworks, getArtworksUser, postArtwork } from "./prisma/prismaFunctions";
+import { getArtworks, getArtworksUser, postArtwork, postLike } from "./prisma/prismaFunctions";
 
 // Types
-import type { Artwork } from "./types/types";
+import type { Artwork, Like } from "./types/types";
 import type { User } from "@prisma/client";
 
 // Setup
@@ -52,6 +52,16 @@ app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
 	const firebaseId = req.body.firebaseId;
 	const { xVelocity, yVelocity } = req.body;
 	const data: Artwork = await postArtwork(firebaseId, xVelocity, yVelocity);
+	console.log(data);
+	res.status(200).json({ data: data });
+});
+
+// Create like
+app.post("/api/artwork/like/add", verifyFirebaseToken, async (req, res) => {
+	console.log("POST: /api/artwork/like/add");
+	const firebaseId = req.body.firebaseId;
+	const { artworkId } = req.body;
+	const data: Like = await postLike(firebaseId, artworkId);
 	console.log(data);
 	res.status(200).json({ data: data });
 });
