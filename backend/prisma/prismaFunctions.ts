@@ -19,7 +19,7 @@ export async function getArtworksUser(firebaseId: string): Promise<Artwork[]> {
 	}
 
 	const res: Artwork[] = await prisma.artwork.findMany({
-		where: { userid: user.id },
+		where: { userId: user.id },
 	});
 	return res;
 }
@@ -62,11 +62,19 @@ export async function postLike(firebaseId: string, artworkId: string): Promise<L
 		throw new Error("User not found");
 	}
 
-	const res: Like = await prisma.like.create({
-		data: {
+	const res: Like = await prisma.like.upsert({
+		where: {
+			// Assuming you have a unique constraint on userId and artworkId
+			userId_artworkId: {
+				userId: user.id,
+				artworkId: artwork.id,
+			},
+		},
+		create: {
 			user: { connect: { id: user.id } },
 			artwork: { connect: { id: artwork.id } },
 		},
+		update: {}, // No fields to update since we just want to prevent duplicate likes
 	});
 
 	return res;

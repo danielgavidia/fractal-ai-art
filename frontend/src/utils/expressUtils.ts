@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getAuth } from "firebase/auth";
-import { Artwork } from "../types/types";
+import { Artwork, Like } from "../types/types";
 
 // Aut instance
 const authInstance = getAuth();
@@ -49,5 +49,24 @@ export async function postArtwork(xVelocity: number, yVelocity: number): Promise
 	});
 
 	const data: Artwork[] = res.data.data;
+	return data;
+}
+
+// Post like
+export async function postLike(artworkId: string): Promise<Like> {
+	const idToken = await authInstance.currentUser?.getIdToken();
+
+	const res = await axios({
+		method: "POST",
+		url: `${import.meta.env.VITE_BACKEND_URL}/api/artwork/like/add`,
+		data: {
+			artworkId: artworkId,
+		},
+		headers: {
+			Authorization: `Bearer ${idToken}`,
+		},
+	});
+
+	const data: Like = res.data.data;
 	return data;
 }

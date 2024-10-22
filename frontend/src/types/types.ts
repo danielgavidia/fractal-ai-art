@@ -14,3 +14,11 @@ export type User = {
 	firebaseId: string;
 	email: string;
 };
+
+export type Like = {
+	id: string;
+	createdAt: Date;
+	updatedAt: Date;
+	user?: User;
+	artwork?: Artwork;
+};
