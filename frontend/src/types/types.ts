@@ -14,6 +14,7 @@ export type Artwork = {
   ballCount: number;
   randomnessFactor: number;
   randomColors: boolean;
+  borderRadius: number;
 };
 
 export type User = {

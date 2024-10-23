@@ -39,6 +39,7 @@ model Artwork {
   ballCount        Int     @default(1)
   randomnessFactor Int     @default(1)
   randomColors     Boolean @default(false)
+  borderRadius     Int     @default(50)
 
   // Relationships
   user   User   @relation(fields: [userId], references: [id])
