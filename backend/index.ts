@@ -92,6 +92,7 @@ app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
     backgroundColor,
     ballCount,
     randomnessFactor,
+    randomColors,
   } = req.body;
   const data: Artwork = await postArtwork(
     firebaseId,
@@ -101,7 +102,8 @@ app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
     ballColor,
     backgroundColor,
     ballCount,
-    randomnessFactor
+    randomnessFactor,
+    randomColors
   );
   console.log(data);
   res.status(200).json({ data: data });

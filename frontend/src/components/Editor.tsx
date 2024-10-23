@@ -4,6 +4,7 @@ import { postArtwork } from "../utils/expressUtils";
 import RainbowColorInput from "./RainbowColorInput";
 
 const Editor = () => {
+  // State
   const [xVelocity, setXVelocity] = useState<number>(2);
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
@@ -17,10 +18,7 @@ const Editor = () => {
   });
   const [ballCount, setBallCount] = useState<number>(1);
   const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
-
-  // Ball count constrains
-
-  //
+  const [randomColors, setRandomColors] = useState<boolean>(false);
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -142,6 +140,12 @@ const Editor = () => {
         <button onClick={() => handleSetRandomnessFactor(true)}>+</button>
       </div>
 
+      {/* Set random colors */}
+      <div className="flex justify-between">
+        <p>Random Colors</p>
+        <button onClick={() => setRandomColors((state) => !state)}>Random</button>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
         <BouncingBall
@@ -152,6 +156,7 @@ const Editor = () => {
           backgroundColor={backgroundColor.rgb}
           ballCount={ballCount}
           randomnessFactor={randomnessFactor}
+          randomColors={randomColors}
         />
       </div>
 
@@ -166,7 +171,8 @@ const Editor = () => {
               ballColor.rgb,
               backgroundColor.rgb,
               ballCount,
-              randomnessFactor
+              randomnessFactor,
+              randomColors
             )
           }
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"
