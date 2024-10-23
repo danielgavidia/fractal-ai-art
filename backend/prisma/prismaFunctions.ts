@@ -87,7 +87,8 @@ export async function postArtwork(
   yVelocity: number,
   ballSize: number,
   ballColor: string,
-  backgroundColor: string
+  backgroundColor: string,
+  ballCount: number
 ): Promise<Artwork> {
   const user: User | null = await prisma.user.findUnique({
     where: { firebaseId: firebaseId },
@@ -105,6 +106,7 @@ export async function postArtwork(
       ballSize: ballSize,
       ballColor: ballColor,
       backgroundColor: backgroundColor,
+      ballCount: ballCount,
     },
   });
   return res;

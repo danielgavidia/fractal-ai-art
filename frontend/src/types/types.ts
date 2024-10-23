@@ -11,6 +11,7 @@ export type Artwork = {
   ballSize: number;
   ballColor: string;
   backgroundColor: string;
+  ballCount: number;
 };
 
 export type User = {

@@ -36,6 +36,7 @@ model Artwork {
   ballSize        Int    @default(30)
   ballColor       String @default("rgb(0, 0, 0)")
   backgroundColor String @default("rgb(255, 255, 255)")
+  ballCount       Int    @default(1)
 
   // Relationships
   user   User   @relation(fields: [userId], references: [id])

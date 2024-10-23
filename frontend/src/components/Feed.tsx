@@ -42,6 +42,7 @@ const Feed = () => {
           ballSize,
           ballColor,
           backgroundColor,
+          ballCount,
         } = artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
@@ -58,6 +59,7 @@ const Feed = () => {
               ballSize={ballSize}
               ballColor={ballColor}
               backgroundColor={backgroundColor}
+              ballCount={ballCount}
             />
             <div className="flex space-x-2 pt-2">
               <button
