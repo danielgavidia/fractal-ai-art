@@ -5,12 +5,11 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "3005:3005"
     environment:
       - FRONTEND_URL=${FRONTEND_URL}
       - DATABASE_URL=${DATABASE_URL}
       - DIRECT_URL=${DIRECT_URL}
-      - BACKEND_PORT=${BACKEND_PORT}
       # Auth
       - FIREBASE_TYPE=${FIREBASE_TYPE}
       - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
