@@ -119,7 +119,11 @@ export async function getArtworksUser(userId: string): Promise<Artwork[]> {
 }
 
 // Post artwork
-export async function postArtwork(xVelocity: number, yVelocity: number): Promise<Artwork[]> {
+export async function postArtwork(
+  xVelocity: number,
+  yVelocity: number,
+  ballSize: number
+): Promise<Artwork[]> {
   const idToken = await getIdToken();
 
   const res = await axios({
@@ -128,6 +132,7 @@ export async function postArtwork(xVelocity: number, yVelocity: number): Promise
     data: {
       xVelocity: xVelocity,
       yVelocity: yVelocity,
+      ballSize: ballSize,
     },
     headers: {
       Authorization: `Bearer ${idToken}`,

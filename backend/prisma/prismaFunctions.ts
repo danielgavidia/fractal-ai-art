@@ -84,7 +84,8 @@ export async function getArtworksUser(userId: string): Promise<Artwork[]> {
 export async function postArtwork(
   firebaseId: string,
   xVelocity: number,
-  yVelocity: number
+  yVelocity: number,
+  ballSize: number
 ): Promise<Artwork> {
   const user: User | null = await prisma.user.findUnique({
     where: { firebaseId: firebaseId },
@@ -99,6 +100,7 @@ export async function postArtwork(
       user: { connect: { id: user.id } },
       xVelocity: xVelocity,
       yVelocity: yVelocity,
+      ballSize: ballSize,
     },
   });
   return res;
