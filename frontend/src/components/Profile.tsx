@@ -4,47 +4,47 @@ import BouncingBall from "./BouncingBall";
 import { getArtworksUser, getUser } from "../utils/expressUtils";
 
 interface ProfileProps {
-	userId: string;
+  userId: string;
 }
 
 const Profile = ({ userId }: ProfileProps) => {
-	const [artworks, setArtworks] = useState<Artwork[]>([]);
-	const [userInfo, setUserInfo] = useState<User>();
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [userInfo, setUserInfo] = useState<User>();
 
-	// Fetch user information and artworks
-	useEffect(() => {
-		const fetch = async () => {
-			const [resArtworks, resUserInfo] = await Promise.all([
-				getArtworksUser(userId),
-				getUser(userId),
-			]);
-			setArtworks(resArtworks);
-			setUserInfo(resUserInfo);
-		};
-		fetch();
-	}, []);
+  // Fetch user information and artworks
+  useEffect(() => {
+    const fetch = async () => {
+      const [resArtworks, resUserInfo] = await Promise.all([
+        getArtworksUser(userId),
+        getUser(userId),
+      ]);
+      setArtworks(resArtworks);
+      setUserInfo(resUserInfo);
+    };
+    fetch();
+  }, []);
 
-	return (
-		<div>
-			{/* User info section */}
-			<p>{userInfo?.email}</p>
-			<p>Joined: {userInfo?.createdAt.toString()}</p>
+  return (
+    <div>
+      {/* User info section */}
+      <p>{userInfo?.email}</p>
+      <p>Joined: {userInfo?.createdAt.toString()}</p>
 
-			{/* Artworks */}
-			{artworks.map((artwork, key) => {
-				const { xVelocity, yVelocity, createdAt, likesCount } = artwork;
-				return (
-					<div key={key} className="w-full flex flex-col justify-center items-center pb-2">
-						<p className="text-sm">{createdAt.toString()}</p>
-						<BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} />
-						<div className="flex space-x-2 pt-2">
-							<p className="p-2">{likesCount}</p>
-						</div>
-					</div>
-				);
-			})}
-		</div>
-	);
+      {/* Artworks */}
+      {artworks.map((artwork, key) => {
+        const { xVelocity, yVelocity, ballSize, createdAt, likesCount } = artwork;
+        return (
+          <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
+            <p className="text-sm">{createdAt.toString()}</p>
+            <BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} ballSize={ballSize} />
+            <div className="flex space-x-2 pt-2">
+              <p className="p-2">{likesCount}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default Profile;
