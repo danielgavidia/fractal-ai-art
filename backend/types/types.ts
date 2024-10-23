@@ -12,6 +12,7 @@ export type Artwork = {
   ballColor: string;
   backgroundColor: string;
   ballCount: number;
+  randomnessFactor: number;
 };
 
 export type User = {

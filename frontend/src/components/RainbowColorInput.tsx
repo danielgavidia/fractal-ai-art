@@ -55,18 +55,18 @@ const rgbToHex = (r: number, g: number, b: number) => {
 // Component
 
 interface RainbowColorInputProps {
+  defaultHue: number;
   onColorChange: (rgb: string, hex: string) => void;
 }
 
-const RainbowColorInput = ({ onColorChange }: RainbowColorInputProps) => {
-  const [hue, setHue] = useState(0);
+const RainbowColorInput = ({ onColorChange, defaultHue }: RainbowColorInputProps) => {
+  const [hue, setHue] = useState(defaultHue);
 
   // Pass rgb and hex values back to the parent
   useEffect(() => {
     const { r, g, b } = hslToRgb(hue, 100, 50);
     const rgb = `rgb(${r}, ${g}, ${b})`;
     const hex = rgbToHex(r, g, b);
-
     onColorChange(rgb, hex);
   }, [hue]);
 

@@ -8,17 +8,19 @@ const Editor = () => {
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
   const [ballColor, setBallColor] = useState({
-    rgb: "rgb(0, 0, 0)",
+    rgb: "rgb(100, 100, 100)",
     hex: "#000000",
   });
   const [backgroundColor, setBackgroundColor] = useState({
-    rgb: "rgb(255, 255, 255)",
+    rgb: "rgb(200, 200, 200)",
     hex: "#000000",
   });
   const [ballCount, setBallCount] = useState<number>(1);
+  const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
 
-  const minBallCount = 1;
-  const maxBallCount = 60;
+  // Ball count constrains
+
+  //
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -62,10 +64,23 @@ const Editor = () => {
 
   // Change ball count
   function handleSetBallCount(increase: boolean) {
+    const minBallCount = 1;
+    const maxBallCount = 60;
     if (increase && ballCount + 1 <= maxBallCount) {
       setBallCount((prev) => prev + 1);
     } else if (!increase && ballCount - 1 >= minBallCount) {
       setBallCount((prev) => prev - 1);
+    }
+  }
+
+  // Change randomness factor
+  function handleSetRandomnessFactor(increase: boolean) {
+    const maxRandomness = 5;
+    const minRandomness = 1;
+    if (increase && randomnessFactor + 1 <= maxRandomness) {
+      setRandomnessFactor((prev) => prev + 1);
+    } else if (!increase && randomnessFactor - 1 >= minRandomness) {
+      setRandomnessFactor((prev) => prev - 1);
     }
   }
 
@@ -99,7 +114,7 @@ const Editor = () => {
       <div className="flex justify-between items-center">
         <p>Ball Color</p>
         <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBallColorChange} />
+          <RainbowColorInput onColorChange={handleBallColorChange} defaultHue={0} />
         </div>
       </div>
 
@@ -107,7 +122,7 @@ const Editor = () => {
       <div className="flex justify-between items-center">
         <p>Background Color</p>
         <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBackgroundColorChange} />
+          <RainbowColorInput onColorChange={handleBackgroundColorChange} defaultHue={60} />
         </div>
       </div>
 
@@ -119,6 +134,14 @@ const Editor = () => {
         <button onClick={() => handleSetBallCount(true)}>+</button>
       </div>
 
+      {/* Edit randomness factor */}
+      <div className="flex justify-between">
+        <p>Randomness</p>
+        <button onClick={() => handleSetRandomnessFactor(false)}>-</button>
+        <p>{randomnessFactor}</p>
+        <button onClick={() => handleSetRandomnessFactor(true)}>+</button>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
         <BouncingBall
@@ -128,6 +151,7 @@ const Editor = () => {
           ballColor={ballColor.rgb}
           backgroundColor={backgroundColor.rgb}
           ballCount={ballCount}
+          randomnessFactor={randomnessFactor}
         />
       </div>
 
@@ -141,7 +165,8 @@ const Editor = () => {
               ballSize,
               ballColor.rgb,
               backgroundColor.rgb,
-              ballCount
+              ballCount,
+              randomnessFactor
             )
           }
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"
