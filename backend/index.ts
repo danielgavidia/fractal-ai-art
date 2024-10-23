@@ -21,11 +21,9 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: ["https://bouncy-art.com"], // Allow your frontend origins
+    origin: [process.env.FRONTEND_URL], // Allow your frontend origins
     methods: ["GET", "POST"],
     credentials: true,
-    // allowedHeaders: ["Content-Type", "Authorization"], // Explicitly allow Authorization header
-    // credentials: true,
   })
 );
 app.use(express.json());
