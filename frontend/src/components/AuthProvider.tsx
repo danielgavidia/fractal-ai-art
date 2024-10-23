@@ -12,28 +12,31 @@ interface AuthProviderProps {
 export interface AuthContextType {
   user: FirebaseUser | null;
   userInfo: User | null;
+  loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// THIS EXISTS TO PROVIDE AUTHENTICATION STATE ANYWHERE IN MY APPLICATION TREE!!
-// that's the whole reason it exists, so OTHER components can ask IT: "Hey AuthProvider, what is my current auth status btw??"
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<FirebaseUser | null>(null); // rename this to firebaseuser
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // EFFECT -- get userInfo for the firebaseuser
   useEffect(() => {
-    // if there is no firebase user, we aren't authenticated yet, so who cares!
     if (!user) {
       setUserInfo(null);
       return;
     }
-
-    // if there IS a firebase user, we want to go get the AI Art User (Our User) credentials and put them in the auth provider.
     const fetch = async () => {
-      const res = await getCurrentUser(user);
-      setUserInfo(res);
+      try {
+        const res = await getCurrentUser(user);
+        setUserInfo(res);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        setUserInfo(null);
+      } finally {
+        setLoading(false);
+      }
     };
     fetch();
   }, [user]);
@@ -41,10 +44,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (!currentUser) {
+        setLoading(false);
+      }
     });
     return () => unsubscribe();
   }, [auth]);
-  // do a tiny bit more work, to go actually get the user from the backend
 
-  return <AuthContext.Provider value={{ user, userInfo }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, userInfo, loading }}>{children}</AuthContext.Provider>
+  );
 };

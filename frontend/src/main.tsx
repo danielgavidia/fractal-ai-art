@@ -14,42 +14,42 @@ import PrivateRoute from "./routes/PrivateRoute.tsx";
 import RouteSearch from "./routes/RouteSearch.tsx";
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Root />,
-		children: [
-			{
-				path: "/",
-				element: <RouteFeed />,
-			},
-			{
-				path: "/feed",
-				element: <RouteFeed />,
-			},
-			{
-				path: "/editor",
-				element: (
-					<PrivateRoute element={<RouteEditor />} isLoggedIn={false} redirectPath="/auth/login" />
-				),
-			},
-			{
-				path: "/auth/:authOperation",
-				element: <PrivateRoute element={<RouteAuth />} isLoggedIn={true} redirectPath="/feed" />,
-			},
-			{
-				path: "/profile/:userId",
-				element: <RouteProfile />,
-			},
-			{
-				path: "/search",
-				element: <RouteSearch />,
-			},
-		],
-	},
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <RouteFeed />,
+      },
+      {
+        path: "/feed",
+        element: <RouteFeed />,
+      },
+      {
+        path: "/editor",
+        element: (
+          <PrivateRoute element={<RouteEditor />} requireAuth={true} redirectPath="/auth/login" />
+        ),
+      },
+      {
+        path: "/auth/:authOperation",
+        element: <PrivateRoute element={<RouteAuth />} requireAuth={false} redirectPath="/feed" />,
+      },
+      {
+        path: "/profile/:userId",
+        element: <RouteProfile />,
+      },
+      {
+        path: "/search",
+        element: <RouteSearch />,
+      },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(
-	<AuthProvider>
-		<RouterProvider router={router} />
-	</AuthProvider>
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>
 );
