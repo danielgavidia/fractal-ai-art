@@ -16,6 +16,17 @@ interface BouncingBallProps {
   backgroundColor: string;
   ballCount: number;
   randomnessFactor: number;
+  randomColors: boolean;
+}
+
+// Utils
+// Get random RGB
+function getRandomRGB(): string {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  const rgb = `rgb(${r}, ${g}, ${b})`;
+  return rgb;
 }
 
 const BouncingBall = ({
@@ -26,6 +37,7 @@ const BouncingBall = ({
   backgroundColor,
   ballCount,
   randomnessFactor,
+  randomColors,
 }: BouncingBallProps) => {
   // Fixed values
   const boxWidth = 300; // Width of the rectangular space
@@ -51,6 +63,7 @@ const BouncingBall = ({
   const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(200, 200, 200)");
   const [ballCountState, setBallCountState] = useState<number>(ballCount);
   const [randomnessFactorState, setRandomnessFactorState] = useState<number>(randomnessFactor);
+  const [randomColorState, setRandomColorState] = useState<boolean>(false);
 
   // console.log(ballColorState);
 
@@ -64,10 +77,20 @@ const BouncingBall = ({
     setBackgroundColorState(backgroundColor);
     setBallCountState(ballCount);
     setRandomnessFactorState(randomnessFactor);
+    setRandomColorState(randomColors);
 
     // Reset balls
     setBalls([]);
-  }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor, ballCount, randomnessFactor]);
+  }, [
+    xVelocity,
+    yVelocity,
+    ballSize,
+    ballColor,
+    backgroundColor,
+    ballCount,
+    randomnessFactor,
+    randomColors,
+  ]);
 
   // Interval for original ball
   useEffect(() => {
@@ -93,6 +116,11 @@ const BouncingBall = ({
       });
       // Update positions of all generated balls
       setBalls((prevBalls) => prevBalls.map(updateBallPosition));
+
+      // Update ball bg color
+      if (randomColorState) {
+        setBalls((prevBalls) => prevBalls.map(updateBallColorRandomly));
+      }
     }, 5);
 
     return () => clearInterval(interval);
@@ -133,6 +161,23 @@ const BouncingBall = ({
       ballColor: ballColorState,
     };
     setBalls((prevBalls) => [...prevBalls, newBall]);
+  }
+
+  // Update ball bg color
+  function updateBallColorRandomly(ball: Ball): Ball {
+    const { position, velocity, ballSize } = ball;
+    let newX = position.x + velocity.x;
+    let newY = position.y + velocity.y;
+
+    if (newX <= 0 || newX >= boxWidth - ballSize) {
+      velocity.x = -velocity.x;
+      return { ...ball, ballColor: getRandomRGB() };
+    }
+    if (newY <= 0 || newY >= boxHeight - ballSize) {
+      velocity.y = -velocity.y;
+      return { ...ball, ballColor: getRandomRGB() };
+    }
+    return ball;
   }
 
   return (

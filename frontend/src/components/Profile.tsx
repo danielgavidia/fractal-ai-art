@@ -44,6 +44,7 @@ const Profile = ({ userId }: ProfileProps) => {
           backgroundColor,
           ballCount,
           randomnessFactor,
+          randomColors,
         } = artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
@@ -56,6 +57,7 @@ const Profile = ({ userId }: ProfileProps) => {
               backgroundColor={backgroundColor}
               ballCount={ballCount}
               randomnessFactor={randomnessFactor}
+              randomColors={randomColors}
             />
             <div className="flex space-x-2 pt-2">
               <p className="p-2">{likesCount}</p>
