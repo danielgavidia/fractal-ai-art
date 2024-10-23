@@ -15,6 +15,10 @@ const Editor = () => {
     rgb: "rgb(255, 255, 255)",
     hex: "#000000",
   });
+  const [ballCount, setBallCount] = useState<number>(1);
+
+  const minBallCount = 1;
+  const maxBallCount = 60;
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -55,6 +59,15 @@ const Editor = () => {
   const handleBackgroundColorChange = (rgb: string, hex: string) => {
     setBackgroundColor({ rgb, hex });
   };
+
+  // Change ball count
+  function handleSetBallCount(increase: boolean) {
+    if (increase && ballCount + 1 <= maxBallCount) {
+      setBallCount((prev) => prev + 1);
+    } else if (!increase && ballCount - 1 >= minBallCount) {
+      setBallCount((prev) => prev - 1);
+    }
+  }
 
   return (
     <div className="w-full justify-center">
@@ -98,6 +111,14 @@ const Editor = () => {
         </div>
       </div>
 
+      {/* Edit ball count */}
+      <div className="flex justify-between">
+        <p>Ball Count</p>
+        <button onClick={() => handleSetBallCount(false)}>-</button>
+        <p>{ballCount}</p>
+        <button onClick={() => handleSetBallCount(true)}>+</button>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
         <BouncingBall
@@ -106,6 +127,7 @@ const Editor = () => {
           ballSize={ballSize}
           ballColor={ballColor.rgb}
           backgroundColor={backgroundColor.rgb}
+          ballCount={ballCount}
         />
       </div>
 

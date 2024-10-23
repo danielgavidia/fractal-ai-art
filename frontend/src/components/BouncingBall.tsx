@@ -14,6 +14,7 @@ interface BouncingBallProps {
   ballSize: number;
   ballColor: string;
   backgroundColor: string;
+  ballCount: number;
 }
 
 const BouncingBall = ({
@@ -22,11 +23,11 @@ const BouncingBall = ({
   ballSize,
   ballColor,
   backgroundColor,
+  ballCount,
 }: BouncingBallProps) => {
   // Fixed values
   const boxWidth = 300; // Width of the rectangular space
   const boxHeight = 300; // Height of the rectangular space
-  const maxBalls = 60;
 
   // Artwork configuration
   const [balls, setBalls] = useState<Ball[]>([]);
@@ -35,16 +36,20 @@ const BouncingBall = ({
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
   const [ballColorState, setBallColorState] = useState<string>("rgb(0, 0, 0)");
   const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(255, 255, 255)");
+  const [ballCountState, setBallCountState] = useState<number>(1);
 
   // Update original ball
   useEffect(() => {
     setPosition({ x: 0, y: 0 }); // Reset to starting position
-    setVelocity({ x: xVelocity, y: yVelocity });
+    setVelocity({ x: xVelocity + Math.random(), y: yVelocity + Math.random() });
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
     setBackgroundColorState(backgroundColor);
+    setBallCountState(ballCount);
+
+    // Reset balls
     setBalls([]);
-  }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor]);
+  }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor, ballCount]);
 
   // Interval for original ball
   useEffect(() => {
@@ -55,13 +60,13 @@ const BouncingBall = ({
 
         if (newX <= 0 || newX >= boxWidth - ballSize) {
           setVelocity((prevVel) => ({ ...prevVel, x: -prevVel.x }));
-          if (balls.length < maxBalls) {
+          if (balls.length + 2 <= ballCountState) {
             addNewBall();
           }
         }
         if (newY <= 0 || newY >= boxHeight - ballSize) {
           setVelocity((prevVel) => ({ ...prevVel, y: -prevVel.y }));
-          if (balls.length < maxBalls) {
+          if (balls.length + 2 <= ballCountState) {
             addNewBall();
           }
         }
@@ -83,15 +88,15 @@ const BouncingBall = ({
 
     if (newX <= 0 || newX >= boxWidth - ballSize) {
       velocity.x = -velocity.x;
-      // if (balls.length < maxBalls) {
-      //   addNewBall();
-      // }
+      if (balls.length + 2 <= ballCountState) {
+        addNewBall();
+      }
     }
     if (newY <= 0 || newY >= boxHeight - ballSize) {
       velocity.y = -velocity.y;
-      // if (balls.length < maxBalls) {
-      //   addNewBall();
-      // }
+      if (balls.length + 2 <= ballCountState) {
+        addNewBall();
+      }
     }
 
     return { ...ball, position: { x: newX, y: newY } };
