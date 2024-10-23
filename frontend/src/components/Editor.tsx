@@ -1,6 +1,7 @@
 import { useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
+import RainbowColorInput from "./RainbowColorInput";
 
 const Editor = () => {
   const [xVelocity, setXVelocity] = useState<number>(2);
@@ -62,6 +63,9 @@ const Editor = () => {
         <p>{ballSize}</p>
         <button onClick={() => handleSetBallSize(true)}>+</button>
       </div>
+
+      {/* Edit ball color */}
+      <RainbowColorInput />
 
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">

@@ -7,12 +7,14 @@ interface BouncingBallProps {
 }
 
 const BouncingBall = ({ xVelocity, yVelocity, ballSize }: BouncingBallProps) => {
+  // Fixed values
+  const boxWidth = 300; // Width of the rectangular space
+  const boxHeight = 300; // Height of the rectangular space
+
   // Artwork configuration
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
-  const boxWidth = 300; // Width of the rectangular space
-  const boxHeight = 300; // Height of the rectangular space
 
   useEffect(() => {
     setPosition({ x: 50, y: 50 }); // Reset to starting position
