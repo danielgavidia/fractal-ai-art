@@ -112,7 +112,9 @@ const Editor = () => {
       {/* Post button */}
       <div className="w-full flex justify-center">
         <button
-          onClick={() => postArtwork(xVelocity, yVelocity, ballSize, ballColor.rgb)}
+          onClick={() =>
+            postArtwork(xVelocity, yVelocity, ballSize, ballColor.rgb, backgroundColor.rgb)
+          }
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"
         >
           Post

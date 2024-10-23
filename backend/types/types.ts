@@ -10,6 +10,7 @@ export type Artwork = {
   yVelocity: number;
   ballSize: number;
   ballColor: string;
+  backgroundColor: string;
 };
 
 export type User = {
