@@ -11,8 +11,10 @@ const Editor = () => {
     rgb: "rgb(0, 0, 0)",
     hex: "#000000",
   });
-
-  console.log(ballColor);
+  const [backgroundColor, setBackgroundColor] = useState({
+    rgb: "rgb(255, 255, 255)",
+    hex: "#000000",
+  });
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -49,6 +51,11 @@ const Editor = () => {
     setBallColor({ rgb, hex });
   };
 
+  // Change background color
+  const handleBackgroundColorChange = (rgb: string, hex: string) => {
+    setBackgroundColor({ rgb, hex });
+  };
+
   return (
     <div className="w-full justify-center">
       {/* Edit X velocity */}
@@ -83,6 +90,14 @@ const Editor = () => {
         </div>
       </div>
 
+      {/* Edit background color */}
+      <div className="flex justify-between items-center">
+        <p>Background Color</p>
+        <div className="flex-1">
+          <RainbowColorInput onColorChange={handleBackgroundColorChange} />
+        </div>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
         <BouncingBall
@@ -90,6 +105,7 @@ const Editor = () => {
           yVelocity={yVelocity}
           ballSize={ballSize}
           ballColor={ballColor.rgb}
+          backgroundColor={backgroundColor.rgb}
         />
       </div>
 

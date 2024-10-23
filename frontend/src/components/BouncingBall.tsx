@@ -5,9 +5,16 @@ interface BouncingBallProps {
   yVelocity: number;
   ballSize: number;
   ballColor: string;
+  backgroundColor: string;
 }
 
-const BouncingBall = ({ xVelocity, yVelocity, ballSize, ballColor }: BouncingBallProps) => {
+const BouncingBall = ({
+  xVelocity,
+  yVelocity,
+  ballSize,
+  ballColor,
+  backgroundColor,
+}: BouncingBallProps) => {
   // Fixed values
   const boxWidth = 300; // Width of the rectangular space
   const boxHeight = 300; // Height of the rectangular space
@@ -17,13 +24,15 @@ const BouncingBall = ({ xVelocity, yVelocity, ballSize, ballColor }: BouncingBal
   const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
   const [ballColorState, setBallColorState] = useState<string>("rgb(0, 0, 0)");
+  const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(255, 255, 255)");
 
   useEffect(() => {
     setPosition({ x: 50, y: 50 }); // Reset to starting position
     setVelocity({ x: xVelocity, y: yVelocity }); // Update velocity
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
-  }, [xVelocity, yVelocity, ballSize, ballColor]);
+    setBackgroundColorState(backgroundColor);
+  }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,6 +63,7 @@ const BouncingBall = ({ xVelocity, yVelocity, ballSize, ballColor }: BouncingBal
         position: "relative",
         border: "2px solid black",
         overflow: "hidden",
+        backgroundColor: backgroundColorState,
       }}
     >
       <div
