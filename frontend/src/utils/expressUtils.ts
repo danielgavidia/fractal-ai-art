@@ -125,7 +125,8 @@ export async function postArtwork(
   ballSize: number,
   ballColor: string,
   backgroundColor: string,
-  ballCount: number
+  ballCount: number,
+  randomnessFactor: number
 ): Promise<Artwork[]> {
   const idToken = await getIdToken();
 
@@ -139,6 +140,7 @@ export async function postArtwork(
       ballColor: ballColor,
       backgroundColor: backgroundColor,
       ballCount: ballCount,
+      randomnessFactor: randomnessFactor,
     },
     headers: {
       Authorization: `Bearer ${idToken}`,

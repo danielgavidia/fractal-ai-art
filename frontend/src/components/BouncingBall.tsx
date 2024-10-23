@@ -15,6 +15,7 @@ interface BouncingBallProps {
   ballColor: string;
   backgroundColor: string;
   ballCount: number;
+  randomnessFactor: number;
 }
 
 const BouncingBall = ({
@@ -24,10 +25,22 @@ const BouncingBall = ({
   ballColor,
   backgroundColor,
   ballCount,
+  randomnessFactor,
 }: BouncingBallProps) => {
   // Fixed values
   const boxWidth = 300; // Width of the rectangular space
   const boxHeight = 300; // Height of the rectangular space
+
+  // Get random velocity
+  function getRandomVelocity(
+    velocity: { x: number; y: number },
+    factor: number
+  ): { x: number; y: number } {
+    return {
+      x: velocity.x + (Math.random() * 2 - 1) * factor,
+      y: velocity.y + (Math.random() * 2 - 1) * factor,
+    };
+  }
 
   // Artwork configuration
   const [balls, setBalls] = useState<Ball[]>([]);
@@ -37,21 +50,24 @@ const BouncingBall = ({
   const [ballColorState, setBallColorState] = useState<string>("rgb(100, 100, 100)");
   const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(200, 200, 200)");
   const [ballCountState, setBallCountState] = useState<number>(ballCount);
+  const [randomnessFactorState, setRandomnessFactorState] = useState<number>(randomnessFactor);
 
   // console.log(ballColorState);
 
   // Update original ball
   useEffect(() => {
     setPosition({ x: 0, y: 0 }); // Reset to starting position
-    setVelocity({ x: xVelocity + Math.random(), y: yVelocity + Math.random() });
+    // setVelocity({ x: xVelocity + Math.random(), y: yVelocity + Math.random() });
+    setVelocity({ x: xVelocity, y: yVelocity });
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
     setBackgroundColorState(backgroundColor);
     setBallCountState(ballCount);
+    setRandomnessFactorState(randomnessFactor);
 
     // Reset balls
     setBalls([]);
-  }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor, ballCount]);
+  }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor, ballCount, randomnessFactor]);
 
   // Interval for original ball
   useEffect(() => {
@@ -112,7 +128,7 @@ const BouncingBall = ({
         x: position.x,
         y: position.y,
       },
-      velocity: { x: velocity.x + Math.random(), y: velocity.y + Math.random() },
+      velocity: getRandomVelocity(velocity, randomnessFactorState),
       ballSize: ballSizeState,
       ballColor: ballColorState,
     };
