@@ -32,7 +32,17 @@ const Profile = ({ userId }: ProfileProps) => {
 
       {/* Artworks */}
       {artworks.map((artwork, key) => {
-        const { xVelocity, yVelocity, ballSize, ballColor, createdAt, likesCount } = artwork;
+        const {
+          createdAt,
+          likesCount,
+
+          // Artwork config
+          xVelocity,
+          yVelocity,
+          ballSize,
+          ballColor,
+          backgroundColor,
+        } = artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
             <p className="text-sm">{createdAt.toString()}</p>
@@ -41,6 +51,7 @@ const Profile = ({ userId }: ProfileProps) => {
               yVelocity={yVelocity}
               ballSize={ballSize}
               ballColor={ballColor}
+              backgroundColor={backgroundColor}
             />
             <div className="flex space-x-2 pt-2">
               <p className="p-2">{likesCount}</p>

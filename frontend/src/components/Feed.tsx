@@ -30,8 +30,19 @@ const Feed = () => {
   return (
     <div>
       {artworks.map((artwork, key) => {
-        const { id, xVelocity, yVelocity, ballSize, ballColor, user, createdAt, likesCount } =
-          artwork;
+        const {
+          id,
+          user,
+          createdAt,
+          likesCount,
+
+          // Artwork config
+          xVelocity,
+          yVelocity,
+          ballSize,
+          ballColor,
+          backgroundColor,
+        } = artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
             <button
@@ -46,6 +57,7 @@ const Feed = () => {
               yVelocity={yVelocity}
               ballSize={ballSize}
               ballColor={ballColor}
+              backgroundColor={backgroundColor}
             />
             <div className="flex space-x-2 pt-2">
               <button
