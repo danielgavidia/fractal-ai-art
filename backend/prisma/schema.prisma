@@ -40,6 +40,8 @@ model Artwork {
   randomnessFactor Int     @default(1)
   randomColors     Boolean @default(false)
   borderRadius     Int     @default(50)
+  borderWidth      Int     @default(0)
+  borderColor      String  @default("rgb(0, 0, 0)")
 
   // Relationships
   user   User   @relation(fields: [userId], references: [id])

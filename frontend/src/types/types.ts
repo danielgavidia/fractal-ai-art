@@ -15,6 +15,8 @@ export type Artwork = {
   randomnessFactor: number;
   randomColors: boolean;
   borderRadius: number;
+  borderWidth: number;
+  borderColor: string;
 };
 
 export type User = {

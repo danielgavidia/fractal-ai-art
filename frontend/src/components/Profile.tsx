@@ -46,6 +46,8 @@ const Profile = ({ userId }: ProfileProps) => {
           randomnessFactor,
           randomColors,
           borderRadius,
+          borderWidth,
+          borderColor,
         } = artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
@@ -60,6 +62,8 @@ const Profile = ({ userId }: ProfileProps) => {
               randomnessFactor={randomnessFactor}
               randomColors={randomColors}
               borderRadius={borderRadius}
+              borderWidth={borderWidth}
+              borderColor={borderColor}
             />
             <div className="flex space-x-2 pt-2">
               <p className="p-2">{likesCount}</p>

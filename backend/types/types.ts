@@ -1,3 +1,5 @@
+import type { NumberLiteralType } from "typescript";
+
 export type Artwork = {
   id: string;
   createdAt: Date;
@@ -15,6 +17,8 @@ export type Artwork = {
   randomnessFactor: number;
   randomColors: boolean;
   borderRadius: number;
+  borderWidth: number;
+  borderColor: string;
 };
 
 export type User = {
