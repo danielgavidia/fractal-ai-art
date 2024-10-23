@@ -2,8 +2,16 @@ import { useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import RainbowColorInput from "./RainbowColorInput";
+import { useNavigate } from "react-router-dom";
+import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 
 const Editor = () => {
+  // Navigate
+  const navigate = useNavigate();
+
+  // Context
+  const { userInfo } = useFirebaseAuth();
+
   // State
   const [xVelocity, setXVelocity] = useState<number>(2);
   const [yVelocity, setYVelocity] = useState<number>(2);
@@ -224,8 +232,8 @@ const Editor = () => {
       {/* Post button */}
       <div className="w-full flex justify-center">
         <button
-          onClick={() =>
-            postArtwork(
+          onClick={async () => {
+            await postArtwork(
               xVelocity,
               yVelocity,
               ballSize,
@@ -237,8 +245,9 @@ const Editor = () => {
               borderRadius,
               borderWidth,
               borderColor.rgb
-            )
-          }
+            );
+            navigate(`/profile/${userInfo?.id}`);
+          }}
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"
         >
           Post

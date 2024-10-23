@@ -3,18 +3,25 @@ import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 
 interface PrivateRouteProps {
   element: JSX.Element;
-  isLoggedIn: boolean;
+  requireAuth: boolean;
   redirectPath: string;
 }
 
-const PrivateRoute = ({ element, isLoggedIn, redirectPath }: PrivateRouteProps) => {
-  const { user } = useFirebaseAuth();
+const PrivateRoute = ({ element, requireAuth, redirectPath }: PrivateRouteProps) => {
+  const { user, loading } = useFirebaseAuth();
 
-  if (isLoggedIn) {
-    return user ? <Navigate to={redirectPath} /> : element;
-  } else {
-    return user ? element : <Navigate to={redirectPath} />;
+  if (loading) {
+    return <div>Loading...</div>;
   }
+
+  if (requireAuth && !user) {
+    return <Navigate to={redirectPath} />;
+  }
+  if (!requireAuth && user) {
+    return <Navigate to={redirectPath} />;
+  }
+
+  return element;
 };
 
 export default PrivateRoute;

@@ -31,46 +31,48 @@ const Profile = ({ userId }: ProfileProps) => {
       <p>Joined: {userInfo?.createdAt.toString()}</p>
 
       {/* Artworks */}
-      {artworks.map((artwork, key) => {
-        const {
-          createdAt,
-          likesCount,
+      {artworks
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map((artwork, key) => {
+          const {
+            createdAt,
+            likesCount,
 
-          // Artwork config
-          xVelocity,
-          yVelocity,
-          ballSize,
-          ballColor,
-          backgroundColor,
-          ballCount,
-          randomnessFactor,
-          randomColors,
-          borderRadius,
-          borderWidth,
-          borderColor,
-        } = artwork;
-        return (
-          <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
-            <p className="text-sm">{createdAt.toString()}</p>
-            <BouncingBall
-              xVelocity={xVelocity}
-              yVelocity={yVelocity}
-              ballSize={ballSize}
-              ballColor={ballColor}
-              backgroundColor={backgroundColor}
-              ballCount={ballCount}
-              randomnessFactor={randomnessFactor}
-              randomColors={randomColors}
-              borderRadius={borderRadius}
-              borderWidth={borderWidth}
-              borderColor={borderColor}
-            />
-            <div className="flex space-x-2 pt-2">
-              <p className="p-2">{likesCount}</p>
+            // Artwork config
+            xVelocity,
+            yVelocity,
+            ballSize,
+            ballColor,
+            backgroundColor,
+            ballCount,
+            randomnessFactor,
+            randomColors,
+            borderRadius,
+            borderWidth,
+            borderColor,
+          } = artwork;
+          return (
+            <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
+              <p className="text-sm">{createdAt.toString()}</p>
+              <BouncingBall
+                xVelocity={xVelocity}
+                yVelocity={yVelocity}
+                ballSize={ballSize}
+                ballColor={ballColor}
+                backgroundColor={backgroundColor}
+                ballCount={ballCount}
+                randomnessFactor={randomnessFactor}
+                randomColors={randomColors}
+                borderRadius={borderRadius}
+                borderWidth={borderWidth}
+                borderColor={borderColor}
+              />
+              <div className="flex space-x-2 pt-2">
+                <p className="p-2">{likesCount}</p>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 };
