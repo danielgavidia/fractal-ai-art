@@ -23,8 +23,8 @@ app.use(
   cors({
     origin: ["https://bouncy-art.com", "https://www.bouncy-art.com"], // Allow your frontend origins
     methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: ["Content-Type", "Authorization"], // Explicitly allow Authorization header
-    credentials: true,
+    // allowedHeaders: ["Content-Type", "Authorization"], // Explicitly allow Authorization header
+    // credentials: true,
   })
 );
 app.use(express.json());
