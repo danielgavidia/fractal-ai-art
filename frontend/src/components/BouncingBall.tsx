@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
 
+type Ball = {
+  id: number;
+  position: { x: number; y: number };
+  velocity: { x: number; y: number };
+  ballSize: number;
+  ballColor: string;
+};
+
 interface BouncingBallProps {
   xVelocity: number;
   yVelocity: number;
@@ -18,42 +26,91 @@ const BouncingBall = ({
   // Fixed values
   const boxWidth = 300; // Width of the rectangular space
   const boxHeight = 300; // Height of the rectangular space
+  const maxBalls = 60;
 
   // Artwork configuration
-  const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [balls, setBalls] = useState<Ball[]>([]);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
   const [ballColorState, setBallColorState] = useState<string>("rgb(0, 0, 0)");
   const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(255, 255, 255)");
 
+  // Update original ball
   useEffect(() => {
-    setPosition({ x: 50, y: 50 }); // Reset to starting position
-    setVelocity({ x: xVelocity, y: yVelocity }); // Update velocity
+    setPosition({ x: 0, y: 0 }); // Reset to starting position
+    setVelocity({ x: xVelocity, y: yVelocity });
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
     setBackgroundColorState(backgroundColor);
+    setBalls([]);
   }, [xVelocity, yVelocity, ballSize, ballColor, backgroundColor]);
 
+  // Interval for original ball
   useEffect(() => {
     const interval = setInterval(() => {
       setPosition((prev) => {
         let newX = prev.x + velocity.x;
         let newY = prev.y + velocity.y;
 
-        // Reverse the velocity if it hits the boundaries
         if (newX <= 0 || newX >= boxWidth - ballSize) {
           setVelocity((prevVel) => ({ ...prevVel, x: -prevVel.x }));
+          if (balls.length < maxBalls) {
+            addNewBall();
+          }
         }
         if (newY <= 0 || newY >= boxHeight - ballSize) {
           setVelocity((prevVel) => ({ ...prevVel, y: -prevVel.y }));
+          if (balls.length < maxBalls) {
+            addNewBall();
+          }
         }
 
         return { x: newX, y: newY };
       });
-    }, 16); // Update every 16ms (approximately 60fps)
+      // Update positions of all generated balls
+      setBalls((prevBalls) => prevBalls.map(updateBallPosition));
+    }, 5);
 
     return () => clearInterval(interval);
-  }, [velocity]);
+  }, [velocity, balls]);
+
+  // Update ball position
+  function updateBallPosition(ball: Ball): Ball {
+    const { position, velocity, ballSize } = ball;
+    let newX = position.x + velocity.x;
+    let newY = position.y + velocity.y;
+
+    if (newX <= 0 || newX >= boxWidth - ballSize) {
+      velocity.x = -velocity.x;
+      // if (balls.length < maxBalls) {
+      //   addNewBall();
+      // }
+    }
+    if (newY <= 0 || newY >= boxHeight - ballSize) {
+      velocity.y = -velocity.y;
+      // if (balls.length < maxBalls) {
+      //   addNewBall();
+      // }
+    }
+
+    return { ...ball, position: { x: newX, y: newY } };
+  }
+
+  // Add new ball
+  function addNewBall(): void {
+    const newBall: Ball = {
+      id: Date.now(),
+      position: {
+        x: position.x,
+        y: position.y,
+      },
+      velocity: { x: velocity.x + Math.random(), y: velocity.y + Math.random() },
+      ballSize: ballSizeState,
+      ballColor: ballColorState,
+    };
+    setBalls((prevBalls) => [...prevBalls, newBall]);
+  }
 
   return (
     <div
@@ -77,6 +134,20 @@ const BouncingBall = ({
           top: `${position.y}px`,
         }}
       />
+      {balls.map((ball, index) => (
+        <div
+          key={index} // Add unique key for each ball
+          style={{
+            width: `${ball.ballSize}px`,
+            height: `${ball.ballSize}px`,
+            borderRadius: "50%",
+            backgroundColor: ball.ballColor,
+            position: "absolute",
+            left: `${ball.position.x}px`,
+            top: `${ball.position.y}px`,
+          }}
+        />
+      ))}
     </div>
   );
 };
