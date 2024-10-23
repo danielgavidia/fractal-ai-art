@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import "../styles/rainbox-color-input.css";
 
 // Helper function to convert HSL to RGB
 const hslToRgb = (h: number, s: number, l: number) => {
@@ -51,44 +52,44 @@ const rgbToHex = (r: number, g: number, b: number) => {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
-const RainbowColorInput = () => {
+// Component
+
+interface RainbowColorInputProps {
+  onColorChange: (rgb: string, hex: string) => void;
+}
+
+const RainbowColorInput = ({ onColorChange }: RainbowColorInputProps) => {
   const [hue, setHue] = useState(0);
+
+  // Pass rgb and hex values back to the parent
+  useEffect(() => {
+    const { r, g, b } = hslToRgb(hue, 100, 50);
+    const rgb = `rgb(${r}, ${g}, ${b})`;
+    const hex = rgbToHex(r, g, b);
+
+    onColorChange(rgb, hex);
+  }, [hue]);
 
   const handleHueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHue(parseInt(e.target.value));
   };
 
-  // Convert hue to RGB and HEX
-  const { r, g, b } = hslToRgb(hue, 100, 50); // Saturation 100%, Lightness 50% for vibrant colors
-  const hex = rgbToHex(r, g, b);
+  const { r, g, b } = hslToRgb(hue, 100, 50);
+  const rgb = `rgb(${r}, ${g}, ${b})`;
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Pick a Rainbow Color</h1>
-      <div
-        style={{
-          background: `hsl(${hue}, 100%, 50%)`,
-          width: "200px",
-          height: "200px",
-          margin: "0 auto",
-          borderRadius: "50%",
-          border: "2px solid black",
-        }}
-      />
+    <div className="flex p-2">
       <input
         type="range"
         min="0"
         max="360"
         value={hue}
         onChange={handleHueChange}
+        className="flex-1 h-2 p-2 mr-2 appearance-none"
         style={{
-          width: "100%",
-          marginTop: "20px",
+          background: rgb,
         }}
       />
-      <p>Hue: {hue}°</p>
-      <p>RGB: {`rgb(${r}, ${g}, ${b})`}</p>
-      <p>HEX: {hex}</p>
     </div>
   );
 };

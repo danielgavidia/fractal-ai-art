@@ -7,6 +7,12 @@ const Editor = () => {
   const [xVelocity, setXVelocity] = useState<number>(2);
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
+  const [ballColor, setBallColor] = useState({
+    rgb: "rgb(0, 0, 0)",
+    hex: "#000000",
+  });
+
+  console.log(ballColor);
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -38,6 +44,11 @@ const Editor = () => {
     }
   }
 
+  // Change ball color
+  const handleBallColorChange = (rgb: string, hex: string) => {
+    setBallColor({ rgb, hex });
+  };
+
   return (
     <div className="w-full justify-center">
       {/* Edit X velocity */}
@@ -65,11 +76,16 @@ const Editor = () => {
       </div>
 
       {/* Edit ball color */}
-      <RainbowColorInput />
+      <RainbowColorInput onColorChange={handleBallColorChange} />
 
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
-        <BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} ballSize={ballSize} />
+        <BouncingBall
+          xVelocity={xVelocity}
+          yVelocity={yVelocity}
+          ballSize={ballSize}
+          ballColor={ballColor.rgb}
+        />
       </div>
 
       {/* Post button */}
