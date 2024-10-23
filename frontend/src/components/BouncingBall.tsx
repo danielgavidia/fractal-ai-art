@@ -6,6 +6,7 @@ type Ball = {
   velocity: { x: number; y: number };
   ballSize: number;
   ballColor: string;
+  borderRadius: number;
 };
 
 interface BouncingBallProps {
@@ -17,6 +18,7 @@ interface BouncingBallProps {
   ballCount: number;
   randomnessFactor: number;
   randomColors: boolean;
+  borderRadius: number;
 }
 
 // Utils
@@ -38,6 +40,7 @@ const BouncingBall = ({
   ballCount,
   randomnessFactor,
   randomColors,
+  borderRadius,
 }: BouncingBallProps) => {
   // Fixed values
   const boxWidth = 300; // Width of the rectangular space
@@ -59,18 +62,16 @@ const BouncingBall = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
-  const [ballColorState, setBallColorState] = useState<string>("rgb(100, 100, 100)");
-  const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(200, 200, 200)");
+  const [ballColorState, setBallColorState] = useState<string>(ballColor);
+  const [backgroundColorState, setBackgroundColorState] = useState<string>(backgroundColor);
   const [ballCountState, setBallCountState] = useState<number>(ballCount);
   const [randomnessFactorState, setRandomnessFactorState] = useState<number>(randomnessFactor);
-  const [randomColorState, setRandomColorState] = useState<boolean>(false);
-
-  // console.log(ballColorState);
+  const [randomColorState, setRandomColorState] = useState<boolean>(randomColors);
+  const [borderRadiusState, setBorderRadiusState] = useState<number>(borderRadius);
 
   // Update original ball
   useEffect(() => {
     setPosition({ x: 0, y: 0 }); // Reset to starting position
-    // setVelocity({ x: xVelocity + Math.random(), y: yVelocity + Math.random() });
     setVelocity({ x: xVelocity, y: yVelocity });
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
@@ -78,6 +79,7 @@ const BouncingBall = ({
     setBallCountState(ballCount);
     setRandomnessFactorState(randomnessFactor);
     setRandomColorState(randomColors);
+    setBorderRadiusState(borderRadius);
 
     // Reset balls
     setBalls([]);
@@ -90,6 +92,7 @@ const BouncingBall = ({
     ballCount,
     randomnessFactor,
     randomColors,
+    borderRadius,
   ]);
 
   // Interval for original ball
@@ -159,6 +162,7 @@ const BouncingBall = ({
       velocity: getRandomVelocity(velocity, randomnessFactorState),
       ballSize: ballSizeState,
       ballColor: ballColorState,
+      borderRadius: borderRadiusState,
     };
     setBalls((prevBalls) => [...prevBalls, newBall]);
   }
@@ -195,7 +199,7 @@ const BouncingBall = ({
         style={{
           width: `${ballSizeState}px`,
           height: `${ballSizeState}px`,
-          borderRadius: "50%",
+          borderRadius: `${borderRadiusState}%`,
           backgroundColor: ballColorState,
           position: "absolute",
           left: `${position.x}px`,
@@ -208,7 +212,7 @@ const BouncingBall = ({
           style={{
             width: `${ball.ballSize}px`,
             height: `${ball.ballSize}px`,
-            borderRadius: "50%",
+            borderRadius: `${borderRadiusState}%`,
             backgroundColor: ball.ballColor,
             position: "absolute",
             left: `${ball.position.x}px`,

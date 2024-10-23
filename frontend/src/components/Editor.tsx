@@ -19,6 +19,7 @@ const Editor = () => {
   const [ballCount, setBallCount] = useState<number>(1);
   const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
   const [randomColors, setRandomColors] = useState<boolean>(false);
+  const [borderRadius, setBorderRadius] = useState<number>(50);
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -79,6 +80,19 @@ const Editor = () => {
       setRandomnessFactor((prev) => prev + 1);
     } else if (!increase && randomnessFactor - 1 >= minRandomness) {
       setRandomnessFactor((prev) => prev - 1);
+    }
+  }
+
+  // Change border radius
+  function handleSetBorderRadius(increase: boolean): void {
+    const interval = 5;
+    const lowerBound = 0;
+    const upperBound = 55;
+
+    if (increase && borderRadius + interval < upperBound) {
+      setBorderRadius((prev) => prev + interval);
+    } else if (!increase && borderRadius - interval > lowerBound) {
+      setBorderRadius((prev) => prev - interval);
     }
   }
 
@@ -146,6 +160,14 @@ const Editor = () => {
         <button onClick={() => setRandomColors((state) => !state)}>Random</button>
       </div>
 
+      {/* Set border radius */}
+      <div className="flex justify-between">
+        <p>Border Radius</p>
+        <button onClick={() => handleSetBorderRadius(false)}>-</button>
+        <p>{borderRadius}</p>
+        <button onClick={() => handleSetBorderRadius(true)}>+</button>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
         <BouncingBall
@@ -157,6 +179,7 @@ const Editor = () => {
           ballCount={ballCount}
           randomnessFactor={randomnessFactor}
           randomColors={randomColors}
+          borderRadius={borderRadius}
         />
       </div>
 
