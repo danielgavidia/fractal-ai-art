@@ -16,7 +16,7 @@ const Editor = () => {
     hex: "#000000",
   });
   const [ballCount, setBallCount] = useState<number>(1);
-  const [randomnessFactor, setRandomnessFactor] = useState<number>(0);
+  const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
 
   // Ball count constrains
 
