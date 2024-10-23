@@ -8,17 +8,19 @@ const Editor = () => {
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
   const [ballColor, setBallColor] = useState({
-    rgb: "rgb(0, 0, 0)",
+    rgb: "rgb(100, 100, 100)",
     hex: "#000000",
   });
   const [backgroundColor, setBackgroundColor] = useState({
-    rgb: "rgb(255, 255, 255)",
+    rgb: "rgb(200, 200, 200)",
     hex: "#000000",
   });
   const [ballCount, setBallCount] = useState<number>(1);
 
   const minBallCount = 1;
   const maxBallCount = 60;
+
+  console.log(ballColor.rgb);
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -99,7 +101,7 @@ const Editor = () => {
       <div className="flex justify-between items-center">
         <p>Ball Color</p>
         <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBallColorChange} />
+          <RainbowColorInput onColorChange={handleBallColorChange} defaultHue={0} />
         </div>
       </div>
 
@@ -107,7 +109,7 @@ const Editor = () => {
       <div className="flex justify-between items-center">
         <p>Background Color</p>
         <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBackgroundColorChange} />
+          <RainbowColorInput onColorChange={handleBackgroundColorChange} defaultHue={60} />
         </div>
       </div>
 
