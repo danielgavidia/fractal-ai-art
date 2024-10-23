@@ -20,6 +20,8 @@ const Editor = () => {
   const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
   const [randomColors, setRandomColors] = useState<boolean>(false);
   const [borderRadius, setBorderRadius] = useState<number>(50);
+  const [borderWidth, setBorderWidth] = useState<number>(0);
+  const [borderColor, setBorderColor] = useState({ rgb: "rgb(100, 100, 100)", hex: "#000000" });
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -96,6 +98,24 @@ const Editor = () => {
     }
   }
 
+  // Change border width
+  function handleSetBorderWidth(increase: boolean): void {
+    const interval = 1;
+    const lowerBound = 0;
+    const upperBound = 10;
+
+    if (increase && borderWidth + interval < upperBound) {
+      setBorderWidth((prev) => prev + interval);
+    } else if (!increase && borderWidth - interval > lowerBound) {
+      setBorderWidth((prev) => prev - interval);
+    }
+  }
+
+  // Change border color
+  const handleBorderColorChange = (rgb: string, hex: string) => {
+    setBorderColor({ rgb, hex });
+  };
+
   return (
     <div className="w-full justify-center">
       {/* Edit X velocity */}
@@ -168,6 +188,22 @@ const Editor = () => {
         <button onClick={() => handleSetBorderRadius(true)}>+</button>
       </div>
 
+      {/* Edit border width */}
+      <div className="flex justify-between">
+        <p>Border Width</p>
+        <button onClick={() => handleSetBorderWidth(false)}>-</button>
+        <p>{borderWidth}</p>
+        <button onClick={() => handleSetBorderWidth(true)}>+</button>
+      </div>
+
+      {/* Edit border color */}
+      <div className="flex justify-between items-center">
+        <p>Border Color</p>
+        <div className="flex-1">
+          <RainbowColorInput onColorChange={handleBorderColorChange} defaultHue={60} />
+        </div>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
         <BouncingBall
@@ -180,6 +216,8 @@ const Editor = () => {
           randomnessFactor={randomnessFactor}
           randomColors={randomColors}
           borderRadius={borderRadius}
+          borderWidth={borderWidth}
+          borderColor={borderColor.rgb}
         />
       </div>
 
@@ -195,7 +233,10 @@ const Editor = () => {
               backgroundColor.rgb,
               ballCount,
               randomnessFactor,
-              randomColors
+              randomColors,
+              borderRadius,
+              borderWidth,
+              borderColor.rgb
             )
           }
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"

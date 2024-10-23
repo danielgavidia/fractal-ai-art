@@ -28,57 +28,64 @@ const Feed = () => {
   console.log(artworks);
 
   return (
-    <div>
-      {artworks.map((artwork, key) => {
-        const {
-          id,
-          user,
-          createdAt,
-          likesCount,
+    <div className="overflow-y-auto">
+      {artworks
+        .sort()
+        .reverse()
+        .map((artwork, key) => {
+          const {
+            id,
+            user,
+            createdAt,
+            likesCount,
 
-          // Artwork config
-          xVelocity,
-          yVelocity,
-          ballSize,
-          ballColor,
-          backgroundColor,
-          ballCount,
-          randomnessFactor,
-          randomColors,
-          borderRadius,
-        } = artwork;
-        return (
-          <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
-            <button
-              onClick={() => navigate(`/profile/${user?.id}`)}
-              className="text-sm border-[0.5px] border-black rounded-lg p-1"
-            >
-              {user?.email}
-            </button>
-            <p className="text-sm">{createdAt.toString()}</p>
-            <BouncingBall
-              xVelocity={xVelocity}
-              yVelocity={yVelocity}
-              ballSize={ballSize}
-              ballColor={ballColor}
-              backgroundColor={backgroundColor}
-              ballCount={ballCount}
-              randomnessFactor={randomnessFactor}
-              randomColors={randomColors}
-              borderRadius={borderRadius}
-            />
-            <div className="flex space-x-2 pt-2">
+            // Artwork config
+            xVelocity,
+            yVelocity,
+            ballSize,
+            ballColor,
+            backgroundColor,
+            ballCount,
+            randomnessFactor,
+            randomColors,
+            borderRadius,
+            borderWidth,
+            borderColor,
+          } = artwork;
+          return (
+            <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
               <button
-                onClick={() => handleLike(id)}
-                className="border-2 border-black rounded-lg p-2"
+                onClick={() => navigate(`/profile/${user?.id}`)}
+                className="text-sm border-[0.5px] border-black rounded-lg p-1"
               >
-                Like
+                {user?.email}
               </button>
-              <p className="p-2">{likesCount}</p>
+              <p className="text-sm">{createdAt.toString()}</p>
+              <BouncingBall
+                xVelocity={xVelocity}
+                yVelocity={yVelocity}
+                ballSize={ballSize}
+                ballColor={ballColor}
+                backgroundColor={backgroundColor}
+                ballCount={ballCount}
+                randomnessFactor={randomnessFactor}
+                randomColors={randomColors}
+                borderRadius={borderRadius}
+                borderWidth={borderWidth}
+                borderColor={borderColor}
+              />
+              <div className="flex space-x-2 pt-2">
+                <button
+                  onClick={() => handleLike(id)}
+                  className="border-2 border-black rounded-lg p-2"
+                >
+                  Like
+                </button>
+                <p className="p-2">{likesCount}</p>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 };
