@@ -36,7 +36,7 @@ const BouncingBall = ({
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
   const [ballColorState, setBallColorState] = useState<string>("rgb(0, 0, 0)");
   const [backgroundColorState, setBackgroundColorState] = useState<string>("rgb(255, 255, 255)");
-  const [ballCountState, setBallCountState] = useState<number>(1);
+  const [ballCountState, setBallCountState] = useState<number>(ballCount);
 
   // Update original ball
   useEffect(() => {

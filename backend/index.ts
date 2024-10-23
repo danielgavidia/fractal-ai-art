@@ -84,14 +84,15 @@ app.post("/api/artwork/user", verifyFirebaseToken, async (req, res) => {
 app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
   console.log("POST: /api/artwork");
   const firebaseId = req.body.firebaseId;
-  const { xVelocity, yVelocity, ballSize, ballColor, backgroundColor } = req.body;
+  const { xVelocity, yVelocity, ballSize, ballColor, backgroundColor, ballCount } = req.body;
   const data: Artwork = await postArtwork(
     firebaseId,
     xVelocity,
     yVelocity,
     ballSize,
     ballColor,
-    backgroundColor
+    backgroundColor,
+    ballCount
   );
   console.log(data);
   res.status(200).json({ data: data });

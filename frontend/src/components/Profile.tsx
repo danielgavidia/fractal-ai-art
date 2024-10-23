@@ -42,6 +42,7 @@ const Profile = ({ userId }: ProfileProps) => {
           ballSize,
           ballColor,
           backgroundColor,
+          ballCount,
         } = artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
@@ -52,6 +53,7 @@ const Profile = ({ userId }: ProfileProps) => {
               ballSize={ballSize}
               ballColor={ballColor}
               backgroundColor={backgroundColor}
+              ballCount={ballCount}
             />
             <div className="flex space-x-2 pt-2">
               <p className="p-2">{likesCount}</p>
