@@ -25,10 +25,13 @@ const Feed = () => {
     setLiked(true);
   }
 
+  console.log(artworks);
+
   return (
     <div>
       {artworks.map((artwork, key) => {
-        const { id, xVelocity, yVelocity, ballSize, user, createdAt, likesCount } = artwork;
+        const { id, xVelocity, yVelocity, ballSize, ballColor, user, createdAt, likesCount } =
+          artwork;
         return (
           <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
             <button
@@ -38,7 +41,12 @@ const Feed = () => {
               {user?.email}
             </button>
             <p className="text-sm">{createdAt.toString()}</p>
-            <BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} ballSize={ballSize} />
+            <BouncingBall
+              xVelocity={xVelocity}
+              yVelocity={yVelocity}
+              ballSize={ballSize}
+              ballColor={ballColor}
+            />
             <div className="flex space-x-2 pt-2">
               <button
                 onClick={() => handleLike(id)}

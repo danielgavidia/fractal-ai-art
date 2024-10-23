@@ -1,11 +1,18 @@
 import { useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
+import RainbowColorInput from "./RainbowColorInput";
 
 const Editor = () => {
   const [xVelocity, setXVelocity] = useState<number>(2);
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
+  const [ballColor, setBallColor] = useState({
+    rgb: "rgb(0, 0, 0)",
+    hex: "#000000",
+  });
+
+  console.log(ballColor);
 
   // Change velocity
   function handleSetVelocity(type: string, increase: boolean): void {
@@ -37,6 +44,11 @@ const Editor = () => {
     }
   }
 
+  // Change ball color
+  const handleBallColorChange = (rgb: string, hex: string) => {
+    setBallColor({ rgb, hex });
+  };
+
   return (
     <div className="w-full justify-center">
       {/* Edit X velocity */}
@@ -63,15 +75,28 @@ const Editor = () => {
         <button onClick={() => handleSetBallSize(true)}>+</button>
       </div>
 
+      {/* Edit ball color */}
+      <div className="flex justify-between items-center">
+        <p>Ball Color</p>
+        <div className="flex-1">
+          <RainbowColorInput onColorChange={handleBallColorChange} />
+        </div>
+      </div>
+
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
-        <BouncingBall xVelocity={xVelocity} yVelocity={yVelocity} ballSize={ballSize} />
+        <BouncingBall
+          xVelocity={xVelocity}
+          yVelocity={yVelocity}
+          ballSize={ballSize}
+          ballColor={ballColor.rgb}
+        />
       </div>
 
       {/* Post button */}
       <div className="w-full flex justify-center">
         <button
-          onClick={() => postArtwork(xVelocity, yVelocity, ballSize)}
+          onClick={() => postArtwork(xVelocity, yVelocity, ballSize, ballColor.rgb)}
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"
         >
           Post
