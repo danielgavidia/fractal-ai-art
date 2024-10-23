@@ -30,8 +30,7 @@ const Feed = () => {
   return (
     <div className="overflow-y-auto">
       {artworks
-        .sort()
-        .reverse()
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .map((artwork, key) => {
           const {
             id,
