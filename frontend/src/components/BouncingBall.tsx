@@ -16,14 +16,14 @@ const BouncingBall = ({ xVelocity, yVelocity, ballSize, ballColor }: BouncingBal
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [velocity, setVelocity] = useState({ x: xVelocity, y: yVelocity });
   const [ballSizeState, setBallSizeState] = useState<number>(ballSize);
-  // const [ballColorState, setBallColorState] = useState<string>("rgb(0, 0, 0)");
+  const [ballColorState, setBallColorState] = useState<string>("rgb(0, 0, 0)");
 
   useEffect(() => {
     setPosition({ x: 50, y: 50 }); // Reset to starting position
     setVelocity({ x: xVelocity, y: yVelocity }); // Update velocity
     setBallSizeState(ballSize);
-    // setBallColorState(ballColor);
-  }, [xVelocity, yVelocity, ballSize]);
+    setBallColorState(ballColor);
+  }, [xVelocity, yVelocity, ballSize, ballColor]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -61,7 +61,7 @@ const BouncingBall = ({ xVelocity, yVelocity, ballSize, ballColor }: BouncingBal
           width: `${ballSizeState}px`,
           height: `${ballSizeState}px`,
           borderRadius: "50%",
-          backgroundColor: ballColor,
+          backgroundColor: ballColorState,
           position: "absolute",
           left: `${position.x}px`,
           top: `${position.y}px`,

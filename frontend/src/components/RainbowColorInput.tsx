@@ -78,19 +78,17 @@ const RainbowColorInput = ({ onColorChange }: RainbowColorInputProps) => {
   const rgb = `rgb(${r}, ${g}, ${b})`;
 
   return (
-    <div className="flex p-2">
-      <input
-        type="range"
-        min="0"
-        max="360"
-        value={hue}
-        onChange={handleHueChange}
-        className="flex-1 h-2 p-2 mr-2 appearance-none"
-        style={{
-          background: rgb,
-        }}
-      />
-    </div>
+    <input
+      type="range"
+      min="0"
+      max="360"
+      value={hue}
+      onChange={handleHueChange}
+      className="appearance-none"
+      style={{
+        background: rgb,
+      }}
+    />
   );
 };
 

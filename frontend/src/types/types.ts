@@ -9,6 +9,7 @@ export type Artwork = {
   xVelocity: number;
   yVelocity: number;
   ballSize: number;
+  ballColor: string;
 };
 
 export type User = {

@@ -31,9 +31,10 @@ model Artwork {
   updatedAt DateTime @updatedAt
 
   // Fields
-  xVelocity Int @default(2)
-  yVelocity Int @default(2)
-  ballSize  Int @default(30)
+  xVelocity Int    @default(2)
+  yVelocity Int    @default(2)
+  ballSize  Int    @default(30)
+  ballColor String @default("rgb(0, 0, 0)")
 
   // Relationships
   user   User   @relation(fields: [userId], references: [id])

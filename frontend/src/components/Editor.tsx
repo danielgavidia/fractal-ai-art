@@ -76,7 +76,12 @@ const Editor = () => {
       </div>
 
       {/* Edit ball color */}
-      <RainbowColorInput onColorChange={handleBallColorChange} />
+      <div className="flex justify-between items-center">
+        <p>Ball Color</p>
+        <div className="flex-1">
+          <RainbowColorInput onColorChange={handleBallColorChange} />
+        </div>
+      </div>
 
       {/* Bouncing Ball viewer */}
       <div className="w-full flex justify-center pb-2">
@@ -91,7 +96,7 @@ const Editor = () => {
       {/* Post button */}
       <div className="w-full flex justify-center">
         <button
-          onClick={() => postArtwork(xVelocity, yVelocity, ballSize)}
+          onClick={() => postArtwork(xVelocity, yVelocity, ballSize, ballColor.rgb)}
           className="w-40 h-12 bg-sky-700 text-white rounded-lg"
         >
           Post
