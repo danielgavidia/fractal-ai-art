@@ -3,12 +3,12 @@ import Navbar from "../components/Navbar";
 
 const Root = () => {
   return (
-    <div className="w-full bg-neutral-950 text-white">
+    <div className="w-full bg-stone-200 h-screen">
       {/* Navbar */}
       <Navbar />
 
       {/* Outlet */}
-      <div className="p-2 w-full">
+      <div className="w-full">
         <Outlet />
       </div>
     </div>
