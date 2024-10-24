@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Artwork, User } from "../types/types";
-import BouncingBall from "./BouncingBall";
 import { getArtworksUser, getUser } from "../utils/expressUtils";
+import ArtCard from "./ArtCard";
 
 interface ProfileProps {
   userId: string;
@@ -25,54 +25,30 @@ const Profile = ({ userId }: ProfileProps) => {
   }, []);
 
   return (
-    <div>
-      {/* User info section */}
-      <p>{userInfo?.email}</p>
-      <p>Joined: {userInfo?.createdAt.toString()}</p>
+    <div className="p-6">
+      {userInfo && (
+        <div>
+          {/* User info section */}
+          <p className="font-bold">{userInfo?.email}</p>
+          <p className="text-sm">
+            Joined:{" "}
+            {new Date(userInfo?.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </p>
 
-      {/* Artworks */}
-      {artworks
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .map((artwork, key) => {
-          const {
-            createdAt,
-            likesCount,
-
-            // Artwork config
-            xVelocity,
-            yVelocity,
-            ballSize,
-            ballColor,
-            backgroundColor,
-            ballCount,
-            randomnessFactor,
-            randomColors,
-            borderRadius,
-            borderWidth,
-            borderColor,
-          } = artwork;
-          return (
-            <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
-              <p className="text-sm">{createdAt.toString()}</p>
-              <BouncingBall
-                xVelocity={xVelocity}
-                yVelocity={yVelocity}
-                ballSize={ballSize}
-                ballColor={ballColor}
-                backgroundColor={backgroundColor}
-                ballCount={ballCount}
-                randomnessFactor={randomnessFactor}
-                randomColors={randomColors}
-                borderRadius={borderRadius}
-                borderWidth={borderWidth}
-                borderColor={borderColor}
-              />
-              <div className="flex space-x-2 pt-2">
-                <p className="p-2">{likesCount}</p>
-              </div>
-            </div>
-          );
-        })}
+          {/* Artworks */}
+          <div className="bg-stone-200 overflow-y-scroll space-y-4 flex flex-col justify-center items-center h-full py-6">
+            {artworks
+              .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+              .map((artwork, key) => (
+                <ArtCard key={key} artwork={artwork} userFeed={true} />
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

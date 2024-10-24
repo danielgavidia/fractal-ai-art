@@ -23,8 +23,6 @@ const Feed = () => {
     setLiked(true);
   }
 
-  console.log(artworks);
-
   return (
     <div className="bg-stone-200 overflow-y-scroll space-y-4 flex flex-col justify-center items-center h-full py-6">
       {artworks
