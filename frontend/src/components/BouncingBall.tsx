@@ -174,7 +174,6 @@ const BouncingBall = ({
         width: `${boxWidth}px`,
         height: `${boxHeight}px`,
         position: "relative",
-        border: `1px solid black`,
         overflow: "hidden",
         backgroundColor: backgroundColorState,
       }}

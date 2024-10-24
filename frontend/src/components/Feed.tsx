@@ -3,6 +3,9 @@ import BouncingBall from "./BouncingBall";
 import { getArtworks, postLike } from "../utils/expressUtils";
 import { Artwork } from "../types/types";
 import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "./ui/card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 const Feed = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -28,7 +31,7 @@ const Feed = () => {
   console.log(artworks);
 
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto space-y-4 flex flex-col justify-center items-center">
       {artworks
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .map((artwork, key) => {
@@ -52,37 +55,53 @@ const Feed = () => {
             borderColor,
           } = artwork;
           return (
-            <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
-              <button
-                onClick={() => navigate(`/profile/${user?.id}`)}
-                className="text-sm border-[0.5px] border-black rounded-lg p-1"
-              >
-                {user?.email}
-              </button>
-              <p className="text-sm">{createdAt.toString()}</p>
-              <BouncingBall
-                xVelocity={xVelocity}
-                yVelocity={yVelocity}
-                ballSize={ballSize}
-                ballColor={ballColor}
-                backgroundColor={backgroundColor}
-                ballCount={ballCount}
-                randomnessFactor={randomnessFactor}
-                randomColors={randomColors}
-                borderRadius={borderRadius}
-                borderWidth={borderWidth}
-                borderColor={borderColor}
-              />
-              <div className="flex space-x-2 pt-2">
-                <button
-                  onClick={() => handleLike(id)}
-                  className="border-2 border-black rounded-lg p-2"
-                >
-                  Like
+            <Card
+              key={key}
+              className="bg-neutral-950 flex flex-col border-[0.5px] border-neutral-500"
+            >
+              <CardHeader>
+                <CardDescription className="flex items-center space-x-2">
+                  <button onClick={() => navigate(`/profile/${user?.id}`)} className="text-xs">
+                    {user?.email}
+                  </button>
+                  {/* <div className="flex items-center text-xs"> */}
+                  <p className="test-xs">·</p>
+                  {/* </div> */}
+                  <p className="text-xs">
+                    {new Date(createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="border-[0.5px] border-neutral-500">
+                  <BouncingBall
+                    xVelocity={xVelocity}
+                    yVelocity={yVelocity}
+                    ballSize={ballSize}
+                    ballColor={ballColor}
+                    backgroundColor={backgroundColor}
+                    ballCount={ballCount}
+                    randomnessFactor={randomnessFactor}
+                    randomColors={randomColors}
+                    borderRadius={borderRadius}
+                    borderWidth={borderWidth}
+                    borderColor={borderColor}
+                  />
+                </div>
+              </CardContent>
+
+              <CardFooter className="flex space-x-2 pt-2 justify-center">
+                <button onClick={() => handleLike(id)} className="text-neutral-500">
+                  <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
                 </button>
-                <p className="p-2">{likesCount}</p>
-              </div>
-            </div>
+
+                <p className="p-2 text-neutral-500">{likesCount}</p>
+              </CardFooter>
+            </Card>
           );
         })}
     </div>
