@@ -31,7 +31,7 @@ const Feed = () => {
   console.log(artworks);
 
   return (
-    <div className="overflow-y-auto space-y-4 flex flex-col justify-center items-center">
+    <div className="bg-stone-200 overflow-y-scroll space-y-4 flex flex-col justify-center items-center h-full py-6">
       {artworks
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .map((artwork, key) => {
@@ -57,17 +57,15 @@ const Feed = () => {
           return (
             <Card
               key={key}
-              className="bg-neutral-950 flex flex-col border-[0.5px] border-neutral-500"
+              className="bg-neutral-400 flex flex-col border-[0.5px] border-neutral-400 shadow-lg bg-stone-50"
             >
               <CardHeader>
-                <CardDescription className="flex items-center space-x-2">
-                  <button onClick={() => navigate(`/profile/${user?.id}`)} className="text-xs">
+                <CardDescription className="flex items-center space-x-2 text-neutral-400">
+                  <button onClick={() => navigate(`/profile/${user?.id}`)} className="text-sm">
                     {user?.email}
                   </button>
-                  {/* <div className="flex items-center text-xs"> */}
-                  <p className="test-xs">·</p>
-                  {/* </div> */}
-                  <p className="text-xs">
+                  <p className="test-sm">·</p>
+                  <p className="text-sm">
                     {new Date(createdAt).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
@@ -77,7 +75,7 @@ const Feed = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="border-[0.5px] border-neutral-500">
+                <div className="border-[0.5px] border-black">
                   <BouncingBall
                     xVelocity={xVelocity}
                     yVelocity={yVelocity}
@@ -95,11 +93,11 @@ const Feed = () => {
               </CardContent>
 
               <CardFooter className="flex space-x-2 pt-2 justify-center">
-                <button onClick={() => handleLike(id)} className="text-neutral-500">
+                <button onClick={() => handleLike(id)} className="text-neutral-400">
                   <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
                 </button>
 
-                <p className="p-2 text-neutral-500">{likesCount}</p>
+                <p className="p-2 text-neutral-400">{likesCount}</p>
               </CardFooter>
             </Card>
           );
