@@ -35,3 +35,14 @@ export type Like = {
   user?: User;
   artwork?: Artwork;
 };
+
+export type Ball = {
+  id: number;
+  position: { x: number; y: number };
+  velocity: { x: number; y: number };
+  ballSize: number;
+  ballColor: string;
+  borderRadius: number;
+  borderWidth: number;
+  borderColor: string;
+};

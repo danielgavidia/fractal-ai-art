@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
-
-type Ball = {
-  id: number;
-  position: { x: number; y: number };
-  velocity: { x: number; y: number };
-  ballSize: number;
-  ballColor: string;
-  borderRadius: number;
-  borderWidth: number;
-  borderColor: string;
-};
+import type { Ball } from "../types/types";
+import { getRandomRGB, getRandomVelocity } from "../utils/bouncingBallUtils";
 
 interface BouncingBallProps {
   xVelocity: number;
@@ -23,27 +14,6 @@ interface BouncingBallProps {
   borderRadius: number;
   borderWidth: number;
   borderColor: string;
-}
-
-// Utils
-// Get random RGB
-function getRandomRGB(): string {
-  const r = Math.floor(Math.random() * 255);
-  const g = Math.floor(Math.random() * 255);
-  const b = Math.floor(Math.random() * 255);
-  const rgb = `rgb(${r}, ${g}, ${b})`;
-  return rgb;
-}
-
-// Get random velocity
-function getRandomVelocity(
-  velocity: { x: number; y: number },
-  factor: number
-): { x: number; y: number } {
-  return {
-    x: velocity.x + (Math.random() * 2 - 1) * factor,
-    y: velocity.y + (Math.random() * 2 - 1) * factor,
-  };
 }
 
 const BouncingBall = ({
