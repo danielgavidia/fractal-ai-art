@@ -3,6 +3,7 @@ import BouncingBall from "./BouncingBall";
 import { getArtworks, postLike } from "../utils/expressUtils";
 import { Artwork } from "../types/types";
 import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
 const Feed = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -53,12 +54,12 @@ const Feed = () => {
           } = artwork;
           return (
             <div key={key} className="w-full flex flex-col justify-center items-center pb-2">
-              <button
+              <Button
                 onClick={() => navigate(`/profile/${user?.id}`)}
                 className="text-sm border-[0.5px] border-black rounded-lg p-1"
               >
                 {user?.email}
-              </button>
+              </Button>
               <p className="text-sm">{createdAt.toString()}</p>
               <BouncingBall
                 xVelocity={xVelocity}
