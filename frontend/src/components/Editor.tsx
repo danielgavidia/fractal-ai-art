@@ -4,6 +4,7 @@ import { postArtwork } from "../utils/expressUtils";
 import RainbowColorInput from "./RainbowColorInput";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
+import EditorControlNumerical from "./EditorControlNumerical";
 
 const Editor = () => {
   // Navigate
@@ -31,19 +32,26 @@ const Editor = () => {
   const [borderWidth, setBorderWidth] = useState<number>(0);
   const [borderColor, setBorderColor] = useState({ rgb: "rgb(100, 100, 100)", hex: "#000000" });
 
-  // Change velocity
-  function handleSetVelocity(type: string, increase: boolean): void {
+  // Set X Velocity
+  function handleSetXVelocity(increase: boolean): void {
     const interval = 2;
-    const xBounds = { upper: 20, lower: 0 };
-    const yBounds = { upper: 20, lower: 0 };
+    const bounds = { upper: 20, lower: 0 };
 
-    if (type === "x" && increase && xVelocity < xBounds.upper) {
+    if (increase && xVelocity + interval <= bounds.upper) {
       setXVelocity((prev) => prev + interval);
-    } else if (type === "x" && !increase && xVelocity > xBounds.lower) {
+    } else if (!increase && xVelocity - interval >= bounds.lower) {
       setXVelocity((prev) => prev - interval);
-    } else if (type === "y" && increase && yVelocity < yBounds.upper) {
+    }
+  }
+
+  // Set Y Velocity
+  function handleSetYVelocity(increase: boolean): void {
+    const interval = 2;
+    const bounds = { upper: 20, lower: 0 };
+
+    if (increase && yVelocity + interval <= bounds.upper) {
       setYVelocity((prev) => prev + interval);
-    } else if (type === "y" && !increase && yVelocity > yBounds.lower) {
+    } else if (!increase && yVelocity - interval >= bounds.lower) {
       setYVelocity((prev) => prev - interval);
     }
   }
@@ -124,30 +132,61 @@ const Editor = () => {
     setBorderColor({ rgb, hex });
   };
 
+  const numericalControlArray = [
+    {
+      title: "X Velocity",
+      value: xVelocity,
+      handler: handleSetXVelocity,
+    },
+    {
+      title: "Y Velocity",
+      value: yVelocity,
+      handler: handleSetYVelocity,
+    },
+    {
+      title: "Ball Size",
+      value: ballSize,
+      handler: handleSetBallSize,
+    },
+    {
+      title: "Ball Count",
+      value: ballCount,
+      handler: handleSetBallCount,
+    },
+    {
+      title: "Randomness",
+      value: randomnessFactor,
+      handler: handleSetRandomnessFactor,
+    },
+    {
+      title: "Border Radius",
+      value: borderRadius,
+      handler: handleSetBorderRadius,
+    },
+    {
+      title: "Border Width",
+      value: borderWidth,
+      handler: handleSetBorderWidth,
+    },
+  ];
+
   return (
     <div className="w-full justify-center">
-      {/* Edit X velocity */}
-      <div className="flex justify-between">
-        <p>X Velocity</p>
-        <button onClick={() => handleSetVelocity("x", false)}>-</button>
-        <p>{xVelocity}</p>
-        <button onClick={() => handleSetVelocity("x", true)}>+</button>
+      <div>
+        {numericalControlArray.map((control, key) => (
+          <EditorControlNumerical
+            key={key}
+            title={control.title}
+            value={control.value}
+            handler={control.handler}
+          />
+        ))}
       </div>
 
-      {/* Edit Y velocity */}
+      {/* Set random colors */}
       <div className="flex justify-between">
-        <p>Y Velocity</p>
-        <button onClick={() => handleSetVelocity("y", false)}>-</button>
-        <p>{yVelocity}</p>
-        <button onClick={() => handleSetVelocity("y", true)}>+</button>
-      </div>
-
-      {/* Edit ball size */}
-      <div className="flex justify-between">
-        <p>Ball Size</p>
-        <button onClick={() => handleSetBallSize(false)}>-</button>
-        <p>{ballSize}</p>
-        <button onClick={() => handleSetBallSize(true)}>+</button>
+        <p>Random Colors</p>
+        <button onClick={() => setRandomColors((state) => !state)}>Random</button>
       </div>
 
       {/* Edit ball color */}
@@ -164,44 +203,6 @@ const Editor = () => {
         <div className="flex-1">
           <RainbowColorInput onColorChange={handleBackgroundColorChange} defaultHue={60} />
         </div>
-      </div>
-
-      {/* Edit ball count */}
-      <div className="flex justify-between">
-        <p>Ball Count</p>
-        <button onClick={() => handleSetBallCount(false)}>-</button>
-        <p>{ballCount}</p>
-        <button onClick={() => handleSetBallCount(true)}>+</button>
-      </div>
-
-      {/* Edit randomness factor */}
-      <div className="flex justify-between">
-        <p>Randomness</p>
-        <button onClick={() => handleSetRandomnessFactor(false)}>-</button>
-        <p>{randomnessFactor}</p>
-        <button onClick={() => handleSetRandomnessFactor(true)}>+</button>
-      </div>
-
-      {/* Set random colors */}
-      <div className="flex justify-between">
-        <p>Random Colors</p>
-        <button onClick={() => setRandomColors((state) => !state)}>Random</button>
-      </div>
-
-      {/* Set border radius */}
-      <div className="flex justify-between">
-        <p>Border Radius</p>
-        <button onClick={() => handleSetBorderRadius(false)}>-</button>
-        <p>{borderRadius}</p>
-        <button onClick={() => handleSetBorderRadius(true)}>+</button>
-      </div>
-
-      {/* Edit border width */}
-      <div className="flex justify-between">
-        <p>Border Width</p>
-        <button onClick={() => handleSetBorderWidth(false)}>-</button>
-        <p>{borderWidth}</p>
-        <button onClick={() => handleSetBorderWidth(true)}>+</button>
       </div>
 
       {/* Edit border color */}
