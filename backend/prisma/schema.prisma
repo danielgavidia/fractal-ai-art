@@ -18,6 +18,7 @@ model User {
   // Fields
   firebaseId String @unique
   email      String @unique
+  username   String @unique
 
   // Relationships
   artworks Artwork[]

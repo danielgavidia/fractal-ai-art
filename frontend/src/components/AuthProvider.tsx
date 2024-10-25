@@ -23,31 +23,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      setUserInfo(null);
-      return;
-    }
-    const fetch = async () => {
-      try {
-        const res = await getCurrentUser(user);
-        setUserInfo(res);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        setUserInfo(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, [user]);
-
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
       if (!currentUser) {
+        setUserInfo(null);
         setLoading(false);
+        return;
       }
+
+      const fetchUserInfo = async (user: FirebaseUser) => {
+        try {
+          const res = await getCurrentUser(user);
+          setUserInfo(res);
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+          setUserInfo(null);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchUserInfo(currentUser);
     });
+
     return () => {
       unsubscribe();
     };

@@ -171,7 +171,7 @@ const Editor = ({ config, artworkId }: EditorProps) => {
           handler: handleSetRandomColors,
           min: 0,
           max: 1,
-          defaultValue: randomColors ? 0 : 1,
+          defaultValue: randomColors ? 1 : 0,
         },
         {
           title: "Ball Color",

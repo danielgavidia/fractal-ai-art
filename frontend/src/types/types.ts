@@ -25,6 +25,7 @@ export type User = {
   updatedAt: Date;
   firebaseId: string;
   email: string;
+  username: string;
   likesCount?: number | null;
 };
 
