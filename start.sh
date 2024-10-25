@@ -1,10 +1,16 @@
 #!/bin/sh
-# Prisma migration
-cd backend
-npx prisma migrate deploy
 
-# Start frontend and backend containers
-cd ..
-docker container prune -f
-docker image prune -f
-docker compose up -d --build
+# Backend
+cd backend
+bun install
+npx prisma migrate dev
+bun run --watch index.ts & # Run backend in the background
+
+# Frontend
+cd ../frontend
+bun install
+
+# Open a new terminal for frontend
+gnome-terminal -- bash -c "bun run dev; exec bash"
+
+
