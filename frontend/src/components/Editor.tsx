@@ -119,14 +119,14 @@ const Editor = ({ config, artworkId }: EditorProps) => {
           title: "X Velocity",
           handler: handleSetXVelocity,
           min: 0,
-          max: 20,
+          max: 10,
           defaultValue: xVelocity,
         },
         {
           title: "Y Velocity",
           handler: handleSetYVelocity,
           min: 0,
-          max: 20,
+          max: 10,
           defaultValue: yVelocity,
         },
 
