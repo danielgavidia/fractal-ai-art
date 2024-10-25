@@ -99,51 +99,51 @@ const Editor = () => {
     {
       title: "X Velocity",
       handler: handleSetXVelocity,
-      min: 1,
-      max: 10,
+      min: 0,
+      max: 20,
       defaultValue: 1,
     },
     {
       title: "Y Velocity",
       handler: handleSetYVelocity,
-      min: 1,
-      max: 10,
+      min: 0,
+      max: 20,
       defaultValue: 1,
     },
     {
       title: "Ball Size",
       handler: handleSetBallSize,
       min: 1,
-      max: 10,
-      defaultValue: 1,
+      max: 100,
+      defaultValue: 20,
     },
     {
       title: "Ball Count",
       handler: handleSetBallCount,
       min: 1,
-      max: 10,
+      max: 60,
       defaultValue: 1,
     },
     {
       title: "Randomness",
       handler: handleSetRandomnessFactor,
       min: 1,
-      max: 10,
+      max: 50,
       defaultValue: 1,
     },
     {
       title: "Border Radius",
       handler: handleSetBorderRadius,
-      min: 1,
-      max: 10,
-      defaultValue: 1,
+      min: 0,
+      max: 50,
+      defaultValue: 50,
     },
     {
       title: "Border Width",
       handler: handleSetBorderWidth,
-      min: 1,
-      max: 10,
-      defaultValue: 1,
+      min: 0,
+      max: 50,
+      defaultValue: 0,
     },
     // Color
     {
@@ -159,7 +159,7 @@ const Editor = () => {
       handler: handleSetBackgroundColor,
       min: 0,
       max: 360,
-      defaultValue: 0,
+      defaultValue: 360,
       colorEditor: true,
     },
     {
@@ -180,7 +180,7 @@ const Editor = () => {
   ];
 
   return (
-    <div className="w-full justify-center p-6">
+    <div className="w-full flex flex-col justify-center p-6 items-center">
       <div className="pb-6">
         {controls.map((control, key) => (
           <EditorControl
@@ -196,7 +196,7 @@ const Editor = () => {
       </div>
 
       {/* Bouncing Ball viewer */}
-      <div className="w-full flex justify-center pb-6">
+      <div className="mb-6 border-[1px] border-black">
         <BouncingBall
           xVelocity={xVelocity}
           yVelocity={yVelocity}
@@ -231,7 +231,7 @@ const Editor = () => {
             );
             navigate(`/profile/${userInfo?.id}`);
           }}
-          className="w-40 h-12 bg-sky-700 text-white rounded-lg"
+          className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
         >
           Post
         </button>
