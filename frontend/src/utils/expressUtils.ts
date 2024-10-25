@@ -123,14 +123,14 @@ export async function postArtwork(
   xVelocity: number,
   yVelocity: number,
   ballSize: number,
-  ballColor: string,
-  backgroundColor: string,
+  ballColor: number,
+  backgroundColor: number,
   ballCount: number,
   randomnessFactor: number,
   randomColors: boolean,
   borderRadius: number,
   borderWidth: number,
-  borderColor: string
+  borderColor: number
 ): Promise<Artwork[]> {
   const idToken = await getIdToken();
 

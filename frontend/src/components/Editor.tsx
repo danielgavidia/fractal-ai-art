@@ -3,7 +3,6 @@ import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
-import { valueToColor } from "@/utils/colorUtils";
 import "../styles/rainbox-color-input.css";
 import { ControlGroup } from "../types/types";
 import EditorControlDashboard from "./EditorControlDashboard";
@@ -19,20 +18,14 @@ const Editor = () => {
   const [xVelocity, setXVelocity] = useState<number>(2);
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
-  const [ballColor, setBallColor] = useState({
-    rgb: "rgb(100, 100, 100)",
-    hex: "#000000",
-  });
-  const [backgroundColor, setBackgroundColor] = useState({
-    rgb: "rgb(200, 200, 200)",
-    hex: "#000000",
-  });
+  const [ballColor, setBallColor] = useState<number>(0);
+  const [backgroundColor, setBackgroundColor] = useState<number>(360);
   const [ballCount, setBallCount] = useState<number>(1);
   const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
   const [randomColors, setRandomColors] = useState<boolean>(false);
   const [borderRadius, setBorderRadius] = useState<number>(50);
   const [borderWidth, setBorderWidth] = useState<number>(0);
-  const [borderColor, setBorderColor] = useState({ rgb: "rgb(100, 100, 100)", hex: "#000000" });
+  const [borderColor, setBorderColor] = useState<number>(360);
 
   // Set X Velocity
   function handleSetXVelocity(value: number): void {
@@ -72,17 +65,17 @@ const Editor = () => {
   // Colors
   // Change ball color
   function handleSetBallColor(value: number): void {
-    setBallColor(valueToColor(value));
+    setBallColor(value);
   }
 
   // Change background color
   function handleSetBackgroundColor(value: number): void {
-    setBackgroundColor(valueToColor(value));
+    setBackgroundColor(value);
   }
 
   // Change border color
   function handleSetBorderColor(value: number): void {
-    setBorderColor(valueToColor(value));
+    setBorderColor(value);
   }
 
   // Add random colors
@@ -212,14 +205,14 @@ const Editor = () => {
           xVelocity={xVelocity}
           yVelocity={yVelocity}
           ballSize={ballSize}
-          ballColor={ballColor.rgb}
-          backgroundColor={backgroundColor.rgb}
+          ballColor={ballColor}
+          backgroundColor={backgroundColor}
           ballCount={ballCount}
           randomnessFactor={randomnessFactor}
           randomColors={randomColors}
           borderRadius={borderRadius}
           borderWidth={borderWidth}
-          borderColor={borderColor.rgb}
+          borderColor={borderColor}
         />
       </div>
 
@@ -231,14 +224,14 @@ const Editor = () => {
               xVelocity,
               yVelocity,
               ballSize,
-              ballColor.rgb,
-              backgroundColor.rgb,
+              ballColor,
+              backgroundColor,
               ballCount,
               randomnessFactor,
               randomColors,
               borderRadius,
               borderWidth,
-              borderColor.rgb
+              borderColor
             );
             navigate(`/profile/${userInfo?.id}`);
           }}
