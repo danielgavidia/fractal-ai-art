@@ -80,6 +80,19 @@ export async function getArtworksUser(userId: string): Promise<Artwork[]> {
   return resMapped;
 }
 
+// Get single artwork for a single user
+export async function getArtworkUser(artworkId: string): Promise<Artwork> {
+  const res: Artwork | null = await prisma.artwork.findUnique({
+    where: { id: artworkId },
+  });
+
+  if (!res) {
+    throw new Error("Artwork id not found");
+  }
+
+  return res;
+}
+
 // Post artwork
 export async function postArtwork(
   firebaseId: string,

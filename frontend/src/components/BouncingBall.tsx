@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Ball } from "../types/types";
-import { getRandomRGB, getRandomVelocity } from "../utils/bouncingBallUtils";
-import { valueToColor } from "@/utils/colorUtils";
+import { getRandomRGB, getRandomVelocity } from "../utils/generalUtils";
+import { valueToColor } from "@/utils/generalUtils";
 
 interface BouncingBallProps {
   xVelocity: number;

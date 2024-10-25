@@ -5,6 +5,7 @@ import {
   deleteArtwork,
   getArtworks,
   getArtworksUser,
+  getArtworkUser,
   getUser,
   getUsers,
   postArtwork,
@@ -77,6 +78,15 @@ app.post("/api/artwork/user", verifyFirebaseToken, async (req, res) => {
   console.log(`POST: /api/artwork/user`);
   const { userId } = req.body;
   const data: Artwork[] = await getArtworksUser(userId);
+  console.log(data);
+  res.status(200).json({ data: data });
+});
+
+// Get single artwork for a single user
+app.post("/api/artwork/user/single", verifyFirebaseToken, async (req, res) => {
+  console.log(`POST: /api/artwork/user/single`);
+  const { artworkId } = req.body;
+  const data: Artwork = await getArtworkUser(artworkId);
   console.log(data);
   res.status(200).json({ data: data });
 });

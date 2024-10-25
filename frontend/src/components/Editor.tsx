@@ -4,10 +4,14 @@ import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 import "../styles/rainbox-color-input.css";
-import { ControlGroup } from "../types/types";
+import { Artwork, ControlGroup } from "../types/types";
 import EditorControlDashboard from "./EditorControlDashboard";
 
-const Editor = () => {
+interface EditorProps {
+  customConfig?: Artwork;
+}
+
+const Editor = ({ customConfig }: EditorProps) => {
   // Navigate
   const navigate = useNavigate();
 
@@ -99,14 +103,14 @@ const Editor = () => {
           handler: handleSetXVelocity,
           min: 0,
           max: 20,
-          defaultValue: 1,
+          defaultValue: customConfig ? customConfig.xVelocity : 1,
         },
         {
           title: "Y Velocity",
           handler: handleSetYVelocity,
           min: 0,
           max: 20,
-          defaultValue: 1,
+          defaultValue: customConfig ? customConfig.yVelocity : 1,
         },
 
         {
@@ -114,14 +118,14 @@ const Editor = () => {
           handler: handleSetRandomnessFactor,
           min: 1,
           max: 50,
-          defaultValue: 1,
+          defaultValue: customConfig ? customConfig.randomnessFactor : 1,
         },
         {
           title: "Bg Color",
           handler: handleSetBackgroundColor,
           min: 0,
           max: 360,
-          defaultValue: 360,
+          defaultValue: customConfig ? customConfig.backgroundColor : 360,
           colorEditor: true,
         },
       ],
@@ -136,28 +140,28 @@ const Editor = () => {
           handler: handleSetBallSize,
           min: 1,
           max: 100,
-          defaultValue: 20,
+          defaultValue: customConfig ? customConfig.ballSize : 20,
         },
         {
           title: "Ball Count",
           handler: handleSetBallCount,
           min: 1,
           max: 60,
-          defaultValue: 1,
+          defaultValue: customConfig ? customConfig.ballCount : 1,
         },
         {
           title: "Random Colors",
           handler: handleSetRandomColors,
           min: 0,
           max: 1,
-          defaultValue: 0,
+          defaultValue: customConfig ? (customConfig.randomColors === true ? 1 : 0) : 0,
         },
         {
           title: "Ball Color",
           handler: handleSetBallColor,
           min: 0,
           max: 360,
-          defaultValue: 0,
+          defaultValue: customConfig ? customConfig.ballColor : 0,
           colorEditor: true,
         },
       ],
@@ -172,21 +176,21 @@ const Editor = () => {
           handler: handleSetBorderWidth,
           min: 0,
           max: 50,
-          defaultValue: 0,
+          defaultValue: customConfig ? customConfig.borderWidth : 0,
         },
         {
           title: "Border Radius",
           handler: handleSetBorderRadius,
           min: 0,
           max: 50,
-          defaultValue: 50,
+          defaultValue: customConfig ? customConfig.borderRadius : 50,
         },
         {
           title: "Border Color",
           handler: handleSetBorderColor,
           min: 0,
           max: 360,
-          defaultValue: 0,
+          defaultValue: customConfig ? customConfig.borderColor : 360,
           colorEditor: true,
         },
       ],
