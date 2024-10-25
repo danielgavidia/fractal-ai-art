@@ -122,6 +122,16 @@ export async function postArtwork(
   return res;
 }
 
+// Delete post
+export async function deleteArtwork(artworkId: string): Promise<Artwork> {
+  const deleteArtwork: Artwork = await prisma.artwork.delete({
+    where: {
+      id: artworkId,
+    },
+  });
+  return deleteArtwork;
+}
+
 // Create like
 export async function postLike(firebaseId: string, artworkId: string): Promise<Like> {
   const user: User | null = await prisma.user.findUnique({
