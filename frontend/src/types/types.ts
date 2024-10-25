@@ -46,3 +46,12 @@ export type Ball = {
   borderWidth: number;
   borderColor: string;
 };
+
+export type Control = {
+  title: string;
+  handler: (value: number) => void;
+  min: number;
+  max: number;
+  defaultValue: number;
+  colorEditor?: boolean;
+};

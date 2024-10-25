@@ -3,9 +3,10 @@ import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
-import EditorControl from "./EditorControl";
 import { valueToColor } from "@/utils/colorUtils";
 import "../styles/rainbox-color-input.css";
+import { Control } from "../types/types";
+import EditorControlGroup from "./EditorControlGroup";
 
 const Editor = () => {
   // Navigate
@@ -94,7 +95,7 @@ const Editor = () => {
     }
   }
 
-  const controls = [
+  const controls: Control[] = [
     // Numerical
     {
       title: "X Velocity",
@@ -181,19 +182,7 @@ const Editor = () => {
 
   return (
     <div className="w-full flex flex-col justify-center p-6 items-center">
-      <div className="pb-6">
-        {controls.map((control, key) => (
-          <EditorControl
-            key={key}
-            title={control.title}
-            handler={control.handler}
-            min={control.min}
-            max={control.max}
-            defaultValue={control.defaultValue}
-            colorEditor={control.colorEditor}
-          />
-        ))}
-      </div>
+      <EditorControlGroup title="Physics" controls={controls} />
 
       {/* Bouncing Ball viewer */}
       <div className="mb-6 border-[1px] border-black">
