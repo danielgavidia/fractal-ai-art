@@ -40,7 +40,7 @@ const Profile = ({ userId }: ProfileProps) => {
         <div>
           {/* User info section */}
           <div className="border-b border-neutral-300 p-4 sticky top-0 z-20 bg-neutral-200">
-            <p className="font-bold">{profileInfo?.email}</p>
+            <p className="font-bold">@{profileInfo?.username}</p>
             <p className="text-sm">
               Joined:{" "}
               {new Date(profileInfo?.createdAt).toLocaleDateString("en-US", {

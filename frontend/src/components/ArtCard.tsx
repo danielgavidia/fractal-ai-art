@@ -43,7 +43,7 @@ const ArtCard = ({ artwork, userFeed, handleLike, handleDelete }: ArtCardProps) 
           {!userFeed && (
             <>
               <button onClick={() => navigate(`/profile/${user?.id}`)} className="text-sm">
-                {user?.email}
+                @{user?.username}
               </button>
               <span className="test-sm">·</span>
             </>

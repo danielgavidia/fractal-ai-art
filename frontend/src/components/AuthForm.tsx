@@ -24,7 +24,7 @@ const AuthForm = ({ authOperation }: AuthProps) => {
 
   const handleFirebaseAuth = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    const res = await firebaseAuth(email, password, authOperation);
+    const res = await firebaseAuth(email, password, authOperation, username);
     if (res.success) {
       console.log(`SUCCESS: Login/Signup for email: ${res.email}`);
       navigate("/feed");

@@ -159,7 +159,7 @@ app.post("/authenticate", verifyFirebaseToken, (req, res) => {
 // Login
 app.post("/user/login", verifyFirebaseToken, async (req, res) => {
   console.log("POST: /user/login");
-  const { firebaseId, email } = req.body;
+  const { firebaseId } = req.body;
   const user: User = await getUserLogin(firebaseId);
   console.log(user);
   res.status(200).json({ user: user });

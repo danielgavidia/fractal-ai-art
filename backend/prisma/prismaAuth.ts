@@ -24,7 +24,7 @@ export const getUserSignup = async (
     data: {
       firebaseId: firebaseId,
       email: email,
-      username,
+      username: username,
     },
   });
   return userNew;
