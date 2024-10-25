@@ -1,4 +1,4 @@
-import { hslToRgb } from "@/utils/colorUtils";
+import { hslToRgb } from "@/utils/generalUtils";
 import { useEffect, useState } from "react";
 import type { Control } from "../types/types";
 

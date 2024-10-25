@@ -5,6 +5,7 @@ import {
   deleteArtwork,
   getArtworks,
   getArtworksUser,
+  getArtworkUser,
   getUser,
   getUsers,
   postArtwork,
@@ -81,6 +82,15 @@ app.post("/api/artwork/user", verifyFirebaseToken, async (req, res) => {
   res.status(200).json({ data: data });
 });
 
+// Get single artwork for a single user
+app.post("/api/artwork/user/single", verifyFirebaseToken, async (req, res) => {
+  console.log(`POST: /api/artwork/user/single`);
+  const { artworkId } = req.body;
+  const data: Artwork = await getArtworkUser(artworkId);
+  console.log(data);
+  res.status(200).json({ data: data });
+});
+
 // Post to artwork array
 app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
   console.log("POST: /api/artwork");
@@ -97,6 +107,7 @@ app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
     borderRadius,
     borderWidth,
     borderColor,
+    artworkId,
   } = req.body;
   const data: Artwork = await postArtwork(
     firebaseId,
@@ -110,7 +121,8 @@ app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
     randomColors,
     borderRadius,
     borderWidth,
-    borderColor
+    borderColor,
+    artworkId
   );
   console.log(data);
   res.status(200).json({ data: data });

@@ -9,14 +9,14 @@ export type Artwork = {
   xVelocity: number;
   yVelocity: number;
   ballSize: number;
-  ballColor: string;
-  backgroundColor: string;
+  ballColor: number;
+  backgroundColor: number;
   ballCount: number;
   randomnessFactor: number;
   randomColors: boolean;
   borderRadius: number;
   borderWidth: number;
-  borderColor: string;
+  borderColor: number;
 };
 
 export type User = {

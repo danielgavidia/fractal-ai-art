@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
-import { valueToColor } from "@/utils/colorUtils";
 import "../styles/rainbox-color-input.css";
-import { ControlGroup } from "../types/types";
+import { Artwork, ControlGroup } from "../types/types";
 import EditorControlDashboard from "./EditorControlDashboard";
 
-const Editor = () => {
+interface EditorProps {
+  config: Artwork;
+  artworkId?: string;
+}
+
+const Editor = ({ config, artworkId }: EditorProps) => {
   // Navigate
   const navigate = useNavigate();
 
@@ -19,20 +23,30 @@ const Editor = () => {
   const [xVelocity, setXVelocity] = useState<number>(2);
   const [yVelocity, setYVelocity] = useState<number>(2);
   const [ballSize, setBallSize] = useState<number>(30);
-  const [ballColor, setBallColor] = useState({
-    rgb: "rgb(100, 100, 100)",
-    hex: "#000000",
-  });
-  const [backgroundColor, setBackgroundColor] = useState({
-    rgb: "rgb(200, 200, 200)",
-    hex: "#000000",
-  });
+  const [ballColor, setBallColor] = useState<number>(0);
+  const [backgroundColor, setBackgroundColor] = useState<number>(360);
   const [ballCount, setBallCount] = useState<number>(1);
   const [randomnessFactor, setRandomnessFactor] = useState<number>(1);
   const [randomColors, setRandomColors] = useState<boolean>(false);
   const [borderRadius, setBorderRadius] = useState<number>(50);
   const [borderWidth, setBorderWidth] = useState<number>(0);
-  const [borderColor, setBorderColor] = useState({ rgb: "rgb(100, 100, 100)", hex: "#000000" });
+  const [borderColor, setBorderColor] = useState<number>(360);
+
+  useEffect(() => {
+    if (config) {
+      setXVelocity(config.xVelocity);
+      setYVelocity(config.yVelocity);
+      setBallSize(config.ballSize);
+      setBallColor(config.ballColor);
+      setBackgroundColor(config.backgroundColor);
+      setBallCount(config.ballCount);
+      setRandomnessFactor(config.randomnessFactor);
+      setRandomColors(config.randomColors);
+      setBorderRadius(config.borderRadius);
+      setBorderWidth(config.borderWidth);
+      setBorderColor(config.borderColor);
+    }
+  }, [config]);
 
   // Set X Velocity
   function handleSetXVelocity(value: number): void {
@@ -72,17 +86,17 @@ const Editor = () => {
   // Colors
   // Change ball color
   function handleSetBallColor(value: number): void {
-    setBallColor(valueToColor(value));
+    setBallColor(value);
   }
 
   // Change background color
   function handleSetBackgroundColor(value: number): void {
-    setBackgroundColor(valueToColor(value));
+    setBackgroundColor(value);
   }
 
   // Change border color
   function handleSetBorderColor(value: number): void {
-    setBorderColor(valueToColor(value));
+    setBorderColor(value);
   }
 
   // Add random colors
@@ -106,14 +120,14 @@ const Editor = () => {
           handler: handleSetXVelocity,
           min: 0,
           max: 20,
-          defaultValue: 1,
+          defaultValue: xVelocity,
         },
         {
           title: "Y Velocity",
           handler: handleSetYVelocity,
           min: 0,
           max: 20,
-          defaultValue: 1,
+          defaultValue: yVelocity,
         },
 
         {
@@ -121,14 +135,14 @@ const Editor = () => {
           handler: handleSetRandomnessFactor,
           min: 1,
           max: 50,
-          defaultValue: 1,
+          defaultValue: randomnessFactor,
         },
         {
           title: "Bg Color",
           handler: handleSetBackgroundColor,
           min: 0,
           max: 360,
-          defaultValue: 360,
+          defaultValue: backgroundColor,
           colorEditor: true,
         },
       ],
@@ -143,28 +157,28 @@ const Editor = () => {
           handler: handleSetBallSize,
           min: 1,
           max: 100,
-          defaultValue: 20,
+          defaultValue: ballSize,
         },
         {
           title: "Ball Count",
           handler: handleSetBallCount,
           min: 1,
           max: 60,
-          defaultValue: 1,
+          defaultValue: ballCount,
         },
         {
           title: "Random Colors",
           handler: handleSetRandomColors,
           min: 0,
           max: 1,
-          defaultValue: 0,
+          defaultValue: randomColors ? 0 : 1,
         },
         {
           title: "Ball Color",
           handler: handleSetBallColor,
           min: 0,
           max: 360,
-          defaultValue: 0,
+          defaultValue: ballColor,
           colorEditor: true,
         },
       ],
@@ -179,21 +193,21 @@ const Editor = () => {
           handler: handleSetBorderWidth,
           min: 0,
           max: 50,
-          defaultValue: 0,
+          defaultValue: borderWidth,
         },
         {
           title: "Border Radius",
           handler: handleSetBorderRadius,
           min: 0,
           max: 50,
-          defaultValue: 50,
+          defaultValue: borderRadius,
         },
         {
           title: "Border Color",
           handler: handleSetBorderColor,
           min: 0,
           max: 360,
-          defaultValue: 0,
+          defaultValue: borderColor,
           colorEditor: true,
         },
       ],
@@ -212,40 +226,66 @@ const Editor = () => {
           xVelocity={xVelocity}
           yVelocity={yVelocity}
           ballSize={ballSize}
-          ballColor={ballColor.rgb}
-          backgroundColor={backgroundColor.rgb}
+          ballColor={ballColor}
+          backgroundColor={backgroundColor}
           ballCount={ballCount}
           randomnessFactor={randomnessFactor}
           randomColors={randomColors}
           borderRadius={borderRadius}
           borderWidth={borderWidth}
-          borderColor={borderColor.rgb}
+          borderColor={borderColor}
         />
       </div>
 
       {/* Post button */}
       <div className="w-full flex justify-center">
-        <button
-          onClick={async () => {
-            await postArtwork(
-              xVelocity,
-              yVelocity,
-              ballSize,
-              ballColor.rgb,
-              backgroundColor.rgb,
-              ballCount,
-              randomnessFactor,
-              randomColors,
-              borderRadius,
-              borderWidth,
-              borderColor.rgb
-            );
-            navigate(`/profile/${userInfo?.id}`);
-          }}
-          className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
-        >
-          Post
-        </button>
+        {artworkId ? (
+          <button
+            onClick={async () => {
+              await postArtwork(
+                xVelocity,
+                yVelocity,
+                ballSize,
+                ballColor,
+                backgroundColor,
+                ballCount,
+                randomnessFactor,
+                randomColors,
+                borderRadius,
+                borderWidth,
+                borderColor,
+                artworkId
+              );
+              navigate(`/profile/${userInfo?.id}`);
+            }}
+            className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            onClick={async () => {
+              await postArtwork(
+                xVelocity,
+                yVelocity,
+                ballSize,
+                ballColor,
+                backgroundColor,
+                ballCount,
+                randomnessFactor,
+                randomColors,
+                borderRadius,
+                borderWidth,
+                borderColor,
+                artworkId
+              );
+              navigate(`/profile/${userInfo?.id}`);
+            }}
+            className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
+          >
+            Post
+          </button>
+        )}
       </div>
     </div>
   );

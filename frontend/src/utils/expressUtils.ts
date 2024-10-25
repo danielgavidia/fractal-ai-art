@@ -21,7 +21,7 @@ async function getIdToken(): Promise<string> {
   });
 }
 
-// test this
+// Get current user
 export async function getCurrentUser(user: FirebaseUser): Promise<User> {
   const idToken = await user.getIdToken();
 
@@ -118,19 +118,39 @@ export async function getArtworksUser(userId: string): Promise<Artwork[]> {
   return data;
 }
 
+// Get single artwork for a single user
+export async function getArtworkUser(artworkId: string): Promise<Artwork> {
+  const idToken = await getIdToken();
+
+  const res = await axios({
+    method: "POST",
+    url: `${import.meta.env.VITE_BACKEND_URL}/api/artwork/user/single`,
+    data: {
+      artworkId: artworkId,
+    },
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+    },
+  });
+
+  const data: Artwork = res.data.data;
+  return data;
+}
+
 // Post artwork
 export async function postArtwork(
   xVelocity: number,
   yVelocity: number,
   ballSize: number,
-  ballColor: string,
-  backgroundColor: string,
+  ballColor: number,
+  backgroundColor: number,
   ballCount: number,
   randomnessFactor: number,
   randomColors: boolean,
   borderRadius: number,
   borderWidth: number,
-  borderColor: string
+  borderColor: number,
+  artworkId?: string
 ): Promise<Artwork[]> {
   const idToken = await getIdToken();
 
@@ -149,6 +169,7 @@ export async function postArtwork(
       borderRadius: borderRadius,
       borderWidth: borderWidth,
       borderColor: borderColor,
+      artworkId: artworkId,
     },
     headers: {
       Authorization: `Bearer ${idToken}`,

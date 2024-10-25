@@ -45,16 +45,29 @@ export function hslToRgb(h: number, s: number, l: number) {
   return { r, g, b };
 }
 
-// Helper function to convert RGB to HEX
-export function rgbToHex(r: number, g: number, b: number) {
-  const toHex = (n: number) => n.toString(16).padStart(2, "0");
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-}
-
 // Helper function to get RGB and HEX
-export function valueToColor(value: number): { rgb: string; hex: string } {
+export function valueToColor(value: number): string {
   const { r, g, b } = hslToRgb(value, 100, 50);
   const rgb = `rgb(${r}, ${g}, ${b})`;
-  const hex = rgbToHex(r, g, b);
-  return { rgb: rgb, hex: hex };
+  return rgb;
+}
+
+// Get random RGB
+export function getRandomRGB(): string {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  const rgb = `rgb(${r}, ${g}, ${b})`;
+  return rgb;
+}
+
+// Get random velocity
+export function getRandomVelocity(
+  velocity: { x: number; y: number },
+  factor: number
+): { x: number; y: number } {
+  return {
+    x: velocity.x + ((Math.random() * 2 - 1) * factor) / 10,
+    y: velocity.y + ((Math.random() * 2 - 1) * factor) / 10,
+  };
 }
