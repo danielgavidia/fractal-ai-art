@@ -1,9 +1,11 @@
 import { useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
-import RainbowColorInput from "./RainbowColorInput";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
+import EditorControl from "./EditorControl";
+import { valueToColor } from "@/utils/colorUtils";
+import "../styles/rainbox-color-input.css";
 
 const Editor = () => {
   // Navigate
@@ -31,189 +33,170 @@ const Editor = () => {
   const [borderWidth, setBorderWidth] = useState<number>(0);
   const [borderColor, setBorderColor] = useState({ rgb: "rgb(100, 100, 100)", hex: "#000000" });
 
-  // Change velocity
-  function handleSetVelocity(type: string, increase: boolean): void {
-    const interval = 2;
-    const xBounds = { upper: 20, lower: 0 };
-    const yBounds = { upper: 20, lower: 0 };
+  // Set X Velocity
+  function handleSetXVelocity(value: number): void {
+    setXVelocity(value);
+  }
 
-    if (type === "x" && increase && xVelocity < xBounds.upper) {
-      setXVelocity((prev) => prev + interval);
-    } else if (type === "x" && !increase && xVelocity > xBounds.lower) {
-      setXVelocity((prev) => prev - interval);
-    } else if (type === "y" && increase && yVelocity < yBounds.upper) {
-      setYVelocity((prev) => prev + interval);
-    } else if (type === "y" && !increase && yVelocity > yBounds.lower) {
-      setYVelocity((prev) => prev - interval);
-    }
+  // Set Y Velocity
+  function handleSetYVelocity(value: number): void {
+    setYVelocity(value);
   }
 
   // Change ball size
-  function handleSetBallSize(increase: boolean): void {
-    const interval = 10;
-    const lowerBound = 0;
-    const upperBound = 110;
-
-    if (increase && ballSize + interval < upperBound) {
-      setBallSize((prev) => prev + interval);
-    } else if (!increase && ballSize - interval > lowerBound) {
-      setBallSize((prev) => prev - interval);
-    }
+  function handleSetBallSize(value: number): void {
+    setBallSize(value);
   }
 
-  // Change ball color
-  const handleBallColorChange = (rgb: string, hex: string) => {
-    setBallColor({ rgb, hex });
-  };
-
-  // Change background color
-  const handleBackgroundColorChange = (rgb: string, hex: string) => {
-    setBackgroundColor({ rgb, hex });
-  };
-
   // Change ball count
-  function handleSetBallCount(increase: boolean) {
-    const minBallCount = 1;
-    const maxBallCount = 60;
-    if (increase && ballCount + 1 <= maxBallCount) {
-      setBallCount((prev) => prev + 1);
-    } else if (!increase && ballCount - 1 >= minBallCount) {
-      setBallCount((prev) => prev - 1);
-    }
+  function handleSetBallCount(value: number) {
+    setBallCount(value);
   }
 
   // Change randomness factor
-  function handleSetRandomnessFactor(increase: boolean) {
-    const maxRandomness = 5;
-    const minRandomness = 1;
-    if (increase && randomnessFactor + 1 <= maxRandomness) {
-      setRandomnessFactor((prev) => prev + 1);
-    } else if (!increase && randomnessFactor - 1 >= minRandomness) {
-      setRandomnessFactor((prev) => prev - 1);
-    }
+  function handleSetRandomnessFactor(value: number) {
+    setRandomnessFactor(value);
   }
 
   // Change border radius
-  function handleSetBorderRadius(increase: boolean): void {
-    const interval = 5;
-    const lowerBound = 0;
-    const upperBound = 55;
-
-    if (increase && borderRadius + interval < upperBound) {
-      setBorderRadius((prev) => prev + interval);
-    } else if (!increase && borderRadius - interval > lowerBound) {
-      setBorderRadius((prev) => prev - interval);
-    }
+  function handleSetBorderRadius(value: number): void {
+    setBorderRadius(value);
   }
 
   // Change border width
-  function handleSetBorderWidth(increase: boolean): void {
-    const interval = 1;
-    const lowerBound = 0;
-    const upperBound = 10;
+  function handleSetBorderWidth(value: number): void {
+    setBorderWidth(value);
+  }
 
-    if (increase && borderWidth + interval < upperBound) {
-      setBorderWidth((prev) => prev + interval);
-    } else if (!increase && borderWidth - interval > lowerBound) {
-      setBorderWidth((prev) => prev - interval);
-    }
+  // Colors
+  // Change ball color
+  function handleSetBallColor(value: number): void {
+    setBallColor(valueToColor(value));
+  }
+
+  // Change background color
+  function handleSetBackgroundColor(value: number): void {
+    setBackgroundColor(valueToColor(value));
   }
 
   // Change border color
-  const handleBorderColorChange = (rgb: string, hex: string) => {
-    setBorderColor({ rgb, hex });
-  };
+  function handleSetBorderColor(value: number): void {
+    setBorderColor(valueToColor(value));
+  }
+
+  // Add random colors
+  function handleSetRandomColors(value: number): void {
+    if (value === 0) {
+      setRandomColors(false);
+    }
+    if (value === 1) {
+      setRandomColors(true);
+    }
+  }
+
+  const controls = [
+    // Numerical
+    {
+      title: "X Velocity",
+      handler: handleSetXVelocity,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    {
+      title: "Y Velocity",
+      handler: handleSetYVelocity,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    {
+      title: "Ball Size",
+      handler: handleSetBallSize,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    {
+      title: "Ball Count",
+      handler: handleSetBallCount,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    {
+      title: "Randomness",
+      handler: handleSetRandomnessFactor,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    {
+      title: "Border Radius",
+      handler: handleSetBorderRadius,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    {
+      title: "Border Width",
+      handler: handleSetBorderWidth,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    // Color
+    {
+      title: "Ball Color",
+      handler: handleSetBallColor,
+      min: 0,
+      max: 360,
+      defaultValue: 0,
+      colorEditor: true,
+    },
+    {
+      title: "Bg Color",
+      handler: handleSetBackgroundColor,
+      min: 0,
+      max: 360,
+      defaultValue: 0,
+      colorEditor: true,
+    },
+    {
+      title: "Border Color",
+      handler: handleSetBorderColor,
+      min: 0,
+      max: 360,
+      defaultValue: 0,
+      colorEditor: true,
+    },
+    {
+      title: "Random Colors",
+      handler: handleSetRandomColors,
+      min: 0,
+      max: 1,
+      defaultValue: 0,
+    },
+  ];
 
   return (
-    <div className="w-full justify-center">
-      {/* Edit X velocity */}
-      <div className="flex justify-between">
-        <p>X Velocity</p>
-        <button onClick={() => handleSetVelocity("x", false)}>-</button>
-        <p>{xVelocity}</p>
-        <button onClick={() => handleSetVelocity("x", true)}>+</button>
-      </div>
-
-      {/* Edit Y velocity */}
-      <div className="flex justify-between">
-        <p>Y Velocity</p>
-        <button onClick={() => handleSetVelocity("y", false)}>-</button>
-        <p>{yVelocity}</p>
-        <button onClick={() => handleSetVelocity("y", true)}>+</button>
-      </div>
-
-      {/* Edit ball size */}
-      <div className="flex justify-between">
-        <p>Ball Size</p>
-        <button onClick={() => handleSetBallSize(false)}>-</button>
-        <p>{ballSize}</p>
-        <button onClick={() => handleSetBallSize(true)}>+</button>
-      </div>
-
-      {/* Edit ball color */}
-      <div className="flex justify-between items-center">
-        <p>Ball Color</p>
-        <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBallColorChange} defaultHue={0} />
-        </div>
-      </div>
-
-      {/* Edit background color */}
-      <div className="flex justify-between items-center">
-        <p>Background Color</p>
-        <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBackgroundColorChange} defaultHue={60} />
-        </div>
-      </div>
-
-      {/* Edit ball count */}
-      <div className="flex justify-between">
-        <p>Ball Count</p>
-        <button onClick={() => handleSetBallCount(false)}>-</button>
-        <p>{ballCount}</p>
-        <button onClick={() => handleSetBallCount(true)}>+</button>
-      </div>
-
-      {/* Edit randomness factor */}
-      <div className="flex justify-between">
-        <p>Randomness</p>
-        <button onClick={() => handleSetRandomnessFactor(false)}>-</button>
-        <p>{randomnessFactor}</p>
-        <button onClick={() => handleSetRandomnessFactor(true)}>+</button>
-      </div>
-
-      {/* Set random colors */}
-      <div className="flex justify-between">
-        <p>Random Colors</p>
-        <button onClick={() => setRandomColors((state) => !state)}>Random</button>
-      </div>
-
-      {/* Set border radius */}
-      <div className="flex justify-between">
-        <p>Border Radius</p>
-        <button onClick={() => handleSetBorderRadius(false)}>-</button>
-        <p>{borderRadius}</p>
-        <button onClick={() => handleSetBorderRadius(true)}>+</button>
-      </div>
-
-      {/* Edit border width */}
-      <div className="flex justify-between">
-        <p>Border Width</p>
-        <button onClick={() => handleSetBorderWidth(false)}>-</button>
-        <p>{borderWidth}</p>
-        <button onClick={() => handleSetBorderWidth(true)}>+</button>
-      </div>
-
-      {/* Edit border color */}
-      <div className="flex justify-between items-center">
-        <p>Border Color</p>
-        <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBorderColorChange} defaultHue={60} />
-        </div>
+    <div className="w-full justify-center p-6">
+      <div className="pb-6">
+        {controls.map((control, key) => (
+          <EditorControl
+            key={key}
+            title={control.title}
+            handler={control.handler}
+            min={control.min}
+            max={control.max}
+            defaultValue={control.defaultValue}
+            colorEditor={control.colorEditor}
+          />
+        ))}
       </div>
 
       {/* Bouncing Ball viewer */}
-      <div className="w-full flex justify-center pb-2">
+      <div className="w-full flex justify-center pb-6">
         <BouncingBall
           xVelocity={xVelocity}
           yVelocity={yVelocity}

@@ -50,7 +50,7 @@ const BouncingBall = ({
   // Update original ball
   useEffect(() => {
     setPosition({ x: 0, y: 0 }); // Reset to starting position
-    setVelocity({ x: xVelocity, y: yVelocity });
+    setVelocity({ x: xVelocity + 0.1, y: yVelocity + 0.1 });
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
     setBackgroundColorState(backgroundColor);
@@ -77,6 +77,8 @@ const BouncingBall = ({
     borderColor,
   ]);
 
+  // console.log(balls.length);
+
   // Interval for original ball
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,15 +88,12 @@ const BouncingBall = ({
 
         if (newX <= 0 || newX >= boxWidth - ballSize) {
           setVelocity((prevVel) => ({ ...prevVel, x: -prevVel.x }));
-          if (balls.length + 2 <= ballCountState) {
-            addNewBall();
-          }
         }
         if (newY <= 0 || newY >= boxHeight - ballSize) {
           setVelocity((prevVel) => ({ ...prevVel, y: -prevVel.y }));
-          if (balls.length + 2 <= ballCountState) {
-            addNewBall();
-          }
+        }
+        if (newX <= 0 || newX >= boxWidth - ballSize || newY <= 0 || newY >= boxHeight - ballSize) {
+          addNewBall();
         }
 
         return { x: newX, y: newY };
@@ -119,15 +118,12 @@ const BouncingBall = ({
 
     if (newX <= 0 || newX >= boxWidth - ballSize) {
       velocity.x = -velocity.x;
-      if (balls.length + 2 <= ballCountState) {
-        addNewBall();
-      }
     }
     if (newY <= 0 || newY >= boxHeight - ballSize) {
       velocity.y = -velocity.y;
-      if (balls.length + 2 <= ballCountState) {
-        addNewBall();
-      }
+    }
+    if (newX <= 0 || newX >= boxWidth - ballSize || newY <= 0 || newY >= boxHeight - ballSize) {
+      addNewBall();
     }
 
     return { ...ball, position: { x: newX, y: newY } };
@@ -135,20 +131,24 @@ const BouncingBall = ({
 
   // Add new ball
   function addNewBall(): void {
-    const newBall: Ball = {
-      id: Date.now(),
-      position: {
-        x: position.x,
-        y: position.y,
-      },
-      velocity: getRandomVelocity(velocity, randomnessFactorState),
-      ballSize: ballSizeState,
-      ballColor: ballColorState,
-      borderRadius: borderRadiusState,
-      borderWidth: borderWidthState,
-      borderColor: borderColorState,
-    };
-    setBalls((prevBalls) => [...prevBalls, newBall]);
+    if (balls.length + 1 < ballCountState) {
+      console.log("balls length", balls.length);
+      console.log("ballCountState", ballCountState);
+      const newBall: Ball = {
+        id: Date.now(),
+        position: {
+          x: position.x,
+          y: position.y,
+        },
+        velocity: getRandomVelocity(velocity, randomnessFactorState),
+        ballSize: ballSizeState,
+        ballColor: ballColorState,
+        borderRadius: borderRadiusState,
+        borderWidth: borderWidthState,
+        borderColor: borderColorState,
+      };
+      setBalls((prevBalls) => [...prevBalls, newBall]);
+    }
   }
 
   // Update ball bg color
