@@ -138,7 +138,7 @@ const Editor = ({ config, artworkId }: EditorProps) => {
           defaultValue: randomnessFactor,
         },
         {
-          title: "Bg Color",
+          title: "Background",
           handler: handleSetBackgroundColor,
           min: 0,
           max: 360,
@@ -167,19 +167,19 @@ const Editor = ({ config, artworkId }: EditorProps) => {
           defaultValue: ballCount,
         },
         {
-          title: "Random Colors",
-          handler: handleSetRandomColors,
-          min: 0,
-          max: 1,
-          defaultValue: randomColors ? 1 : 0,
-        },
-        {
           title: "Ball Color",
           handler: handleSetBallColor,
           min: 0,
           max: 360,
           defaultValue: ballColor,
           colorEditor: true,
+        },
+        {
+          title: "Random Colors",
+          handler: handleSetRandomColors,
+          min: 0,
+          max: 1,
+          defaultValue: randomColors ? 1 : 0,
         },
       ],
       isOpen: false,
@@ -216,25 +216,27 @@ const Editor = ({ config, artworkId }: EditorProps) => {
   ];
 
   return (
-    <div className="w-full flex flex-col justify-center p-6 items-center space-y-4">
+    <div className="w-full flex flex-col justify-center p-6 items-center space-y-2">
       {/* Editor controls */}
       <EditorControlDashboard controlGroups={controlGroups} />
 
       {/* Bouncing Ball viewer */}
-      <div className="border-[1px] border-black">
-        <BouncingBall
-          xVelocity={xVelocity}
-          yVelocity={yVelocity}
-          ballSize={ballSize}
-          ballColor={ballColor}
-          backgroundColor={backgroundColor}
-          ballCount={ballCount}
-          randomnessFactor={randomnessFactor}
-          randomColors={randomColors}
-          borderRadius={borderRadius}
-          borderWidth={borderWidth}
-          borderColor={borderColor}
-        />
+      <div className="border-[1px] border-neutral-400 bg-white p-2">
+        <div className="border-[0.5px] border-neutral-400">
+          <BouncingBall
+            xVelocity={xVelocity}
+            yVelocity={yVelocity}
+            ballSize={ballSize}
+            ballColor={ballColor}
+            backgroundColor={backgroundColor}
+            ballCount={ballCount}
+            randomnessFactor={randomnessFactor}
+            randomColors={randomColors}
+            borderRadius={borderRadius}
+            borderWidth={borderWidth}
+            borderColor={borderColor}
+          />
+        </div>
       </div>
 
       {/* Post button */}
