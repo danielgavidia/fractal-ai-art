@@ -23,7 +23,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL], // Allow your frontend origins
+    origin: process.env.FRONTEND_URL, // Allow your frontend origins
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+  console.log(`CORS: ${process.env.FRONTEND_URL}`);
 });
 
 // Routes
