@@ -119,14 +119,14 @@ export async function getArtworksUser(userId: string): Promise<Artwork[]> {
 }
 
 // Get single artwork for a single user
-export async function getArtworkUser(userId: string): Promise<Artwork> {
+export async function getArtworkUser(artworkId: string): Promise<Artwork> {
   const idToken = await getIdToken();
 
   const res = await axios({
     method: "POST",
     url: `${import.meta.env.VITE_BACKEND_URL}/api/artwork/user/single`,
     data: {
-      userId: userId,
+      artworkId: artworkId,
     },
     headers: {
       Authorization: `Bearer ${idToken}`,

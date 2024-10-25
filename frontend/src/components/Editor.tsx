@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,10 @@ import { Artwork, ControlGroup } from "../types/types";
 import EditorControlDashboard from "./EditorControlDashboard";
 
 interface EditorProps {
-  customConfig?: Artwork;
+  config: Artwork;
 }
 
-const Editor = ({ customConfig }: EditorProps) => {
+const Editor = ({ config }: EditorProps) => {
   // Navigate
   const navigate = useNavigate();
 
@@ -30,6 +30,22 @@ const Editor = ({ customConfig }: EditorProps) => {
   const [borderRadius, setBorderRadius] = useState<number>(50);
   const [borderWidth, setBorderWidth] = useState<number>(0);
   const [borderColor, setBorderColor] = useState<number>(360);
+
+  useEffect(() => {
+    if (config) {
+      setXVelocity(config.xVelocity);
+      setYVelocity(config.yVelocity);
+      setBallSize(config.ballSize);
+      setBallColor(config.ballColor);
+      setBackgroundColor(config.backgroundColor);
+      setBallCount(config.ballCount);
+      setRandomnessFactor(config.randomnessFactor);
+      setRandomColors(config.randomColors);
+      setBorderRadius(config.borderRadius);
+      setBorderWidth(config.borderWidth);
+      setBorderColor(config.borderColor);
+    }
+  }, [config]);
 
   // Set X Velocity
   function handleSetXVelocity(value: number): void {
@@ -103,14 +119,14 @@ const Editor = ({ customConfig }: EditorProps) => {
           handler: handleSetXVelocity,
           min: 0,
           max: 20,
-          defaultValue: customConfig ? customConfig.xVelocity : 1,
+          defaultValue: xVelocity,
         },
         {
           title: "Y Velocity",
           handler: handleSetYVelocity,
           min: 0,
           max: 20,
-          defaultValue: customConfig ? customConfig.yVelocity : 1,
+          defaultValue: yVelocity,
         },
 
         {
@@ -118,14 +134,14 @@ const Editor = ({ customConfig }: EditorProps) => {
           handler: handleSetRandomnessFactor,
           min: 1,
           max: 50,
-          defaultValue: customConfig ? customConfig.randomnessFactor : 1,
+          defaultValue: randomnessFactor,
         },
         {
           title: "Bg Color",
           handler: handleSetBackgroundColor,
           min: 0,
           max: 360,
-          defaultValue: customConfig ? customConfig.backgroundColor : 360,
+          defaultValue: backgroundColor,
           colorEditor: true,
         },
       ],
@@ -140,28 +156,28 @@ const Editor = ({ customConfig }: EditorProps) => {
           handler: handleSetBallSize,
           min: 1,
           max: 100,
-          defaultValue: customConfig ? customConfig.ballSize : 20,
+          defaultValue: ballSize,
         },
         {
           title: "Ball Count",
           handler: handleSetBallCount,
           min: 1,
           max: 60,
-          defaultValue: customConfig ? customConfig.ballCount : 1,
+          defaultValue: ballCount,
         },
         {
           title: "Random Colors",
           handler: handleSetRandomColors,
           min: 0,
           max: 1,
-          defaultValue: customConfig ? (customConfig.randomColors === true ? 1 : 0) : 0,
+          defaultValue: randomColors ? 0 : 1,
         },
         {
           title: "Ball Color",
           handler: handleSetBallColor,
           min: 0,
           max: 360,
-          defaultValue: customConfig ? customConfig.ballColor : 0,
+          defaultValue: ballColor,
           colorEditor: true,
         },
       ],
@@ -176,21 +192,21 @@ const Editor = ({ customConfig }: EditorProps) => {
           handler: handleSetBorderWidth,
           min: 0,
           max: 50,
-          defaultValue: customConfig ? customConfig.borderWidth : 0,
+          defaultValue: borderWidth,
         },
         {
           title: "Border Radius",
           handler: handleSetBorderRadius,
           min: 0,
           max: 50,
-          defaultValue: customConfig ? customConfig.borderRadius : 50,
+          defaultValue: borderRadius,
         },
         {
           title: "Border Color",
           handler: handleSetBorderColor,
           min: 0,
           max: 360,
-          defaultValue: customConfig ? customConfig.borderColor : 360,
+          defaultValue: borderColor,
           colorEditor: true,
         },
       ],

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "./ui
 import { Artwork } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface ArtCardProps {
   artwork: Artwork;
@@ -74,7 +74,7 @@ const ArtCard = ({ artwork, userFeed, handleLike, handleDelete }: ArtCardProps) 
           />
         </div>
       </CardContent>
-      <CardFooter className="flex space-x-2 pt-2 justify-center">
+      <CardFooter className="flex space-x-4 pt-2 justify-center">
         {handleLike && !userFeed ? (
           <button
             onClick={() => handleLike(id)}
@@ -87,14 +87,22 @@ const ArtCard = ({ artwork, userFeed, handleLike, handleDelete }: ArtCardProps) 
             <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
           </div>
         )}
-        <p className="p-2 text-neutral-400">{likesCount}</p>
+        <p className="text-neutral-400">{likesCount}</p>
         {handleDelete && userFeed ? (
-          <button
-            onClick={() => handleDelete(id)}
-            className="text-neutral-400 transition-transform transform hover:scale-150"
-          >
-            <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-          </button>
+          <>
+            <button
+              onClick={() => handleDelete(id)}
+              className="text-neutral-400 transition-transform transform hover:scale-150"
+            >
+              <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+            </button>
+            <button
+              onClick={() => navigate(`/editor/${id}`)}
+              className="text-neutral-400 transition-transform transform hover:scale-150"
+            >
+              <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+            </button>
+          </>
         ) : (
           <></>
         )}

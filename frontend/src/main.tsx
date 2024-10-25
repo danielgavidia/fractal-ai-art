@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         element: <RouteFeed />,
       },
       {
-        path: "/editor",
+        path: "/editor/:artworkId",
         element: (
           <PrivateRoute element={<RouteEditor />} requireAuth={true} redirectPath="/auth/login" />
         ),

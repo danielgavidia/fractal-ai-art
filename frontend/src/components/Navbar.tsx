@@ -40,7 +40,7 @@ const Navbar = () => {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
           <button
-            onClick={() => navigate("/editor")}
+            onClick={() => navigate(`/editor/new`)}
             className="p-2 transition-transform transform hover:scale-150"
           >
             <FontAwesomeIcon icon={faPenToSquare} />
