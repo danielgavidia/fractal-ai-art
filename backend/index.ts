@@ -2,6 +2,7 @@ import express from "express";
 import { verifyFirebaseToken } from "./middleware";
 import { getUserLogin, getUserSignup } from "./prisma/prismaAuth";
 import {
+  deleteArtwork,
   getArtworks,
   getArtworksUser,
   getUser,
@@ -111,6 +112,15 @@ app.post("/api/artwork", verifyFirebaseToken, async (req, res) => {
     borderWidth,
     borderColor
   );
+  console.log(data);
+  res.status(200).json({ data: data });
+});
+
+// Delete artwork
+app.post("/api/artwork/delete", verifyFirebaseToken, async (req, res) => {
+  console.log("POST: /api/artwork/delete");
+  const { artworkId } = req.body;
+  const data: Artwork = await deleteArtwork(artworkId);
   console.log(data);
   res.status(200).json({ data: data });
 });

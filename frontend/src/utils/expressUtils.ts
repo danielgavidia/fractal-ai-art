@@ -159,6 +159,24 @@ export async function postArtwork(
   return data;
 }
 
+export async function deleteArtwork(artworkId: string): Promise<Artwork> {
+  const idToken = await getIdToken();
+
+  const res = await axios({
+    method: "POST",
+    url: `${import.meta.env.VITE_BACKEND_URL}/api/artwork/delete`,
+    data: {
+      artworkId: artworkId,
+    },
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+    },
+  });
+
+  const data: Artwork = res.data.data;
+  return data;
+}
+
 // Post like
 export async function postLike(artworkId: string): Promise<Like> {
   const idToken = await getIdToken();

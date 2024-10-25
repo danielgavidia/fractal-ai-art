@@ -77,8 +77,6 @@ const BouncingBall = ({
     borderColor,
   ]);
 
-  // console.log(balls.length);
-
   // Interval for original ball
   useEffect(() => {
     const interval = setInterval(() => {
@@ -132,8 +130,6 @@ const BouncingBall = ({
   // Add new ball
   function addNewBall(): void {
     if (balls.length + 1 < ballCountState) {
-      console.log("balls length", balls.length);
-      console.log("ballCountState", ballCountState);
       const newBall: Ball = {
         id: Date.now(),
         position: {

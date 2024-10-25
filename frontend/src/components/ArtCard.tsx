@@ -4,14 +4,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "./ui
 import { Artwork } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface ArtCardProps {
   artwork: Artwork;
   userFeed: boolean;
-  handleLike?: (id: string) => void;
+  handleLike?: (artworkId: string) => void;
+  handleDelete?: (artworkId: string) => void;
 }
 
-const ArtCard = ({ artwork, userFeed, handleLike }: ArtCardProps) => {
+const ArtCard = ({ artwork, userFeed, handleLike, handleDelete }: ArtCardProps) => {
   const navigate = useNavigate();
   const {
     // General config
@@ -86,6 +88,16 @@ const ArtCard = ({ artwork, userFeed, handleLike }: ArtCardProps) => {
           </div>
         )}
         <p className="p-2 text-neutral-400">{likesCount}</p>
+        {handleDelete && userFeed ? (
+          <button
+            onClick={() => handleDelete(id)}
+            className="text-neutral-400 transition-transform transform hover:scale-150"
+          >
+            <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+          </button>
+        ) : (
+          <></>
+        )}
       </CardFooter>
     </Card>
   );
