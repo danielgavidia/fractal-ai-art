@@ -13,7 +13,7 @@ export function getRandomVelocity(
   factor: number
 ): { x: number; y: number } {
   return {
-    x: velocity.x + (Math.random() * 2 - 1) * factor,
-    y: velocity.y + (Math.random() * 2 - 1) * factor,
+    x: velocity.x + ((Math.random() * 2 - 1) * factor) / 10,
+    y: velocity.y + ((Math.random() * 2 - 1) * factor) / 10,
   };
 }

@@ -24,24 +24,39 @@ const Navbar = () => {
       <button onClick={() => navigate("/feed")} className="p-2 border-b border-neutral-300 m-2">
         bouncy art
       </button>
-      <button onClick={() => navigate("/feed")} className="p-2">
+      <button
+        onClick={() => navigate("/feed")}
+        className="p-2 transition-transform transform hover:scale-150"
+      >
         <FontAwesomeIcon icon={faHouse} />
       </button>
       {user ? (
         // User is logged in
         <>
-          <button onClick={() => navigate("/search")} className="p-2">
+          <button
+            onClick={() => navigate("/search")}
+            className="p-2 transition-transform transform hover:scale-150"
+          >
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
-          <button onClick={() => navigate("/editor")} className="p-2">
+          <button
+            onClick={() => navigate("/editor")}
+            className="p-2 transition-transform transform hover:scale-150"
+          >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
           {userInfo && (
             <>
-              <button onClick={() => navigate(`/profile/${userInfo.id}`)} className="p-2">
+              <button
+                onClick={() => navigate(`/profile/${userInfo.id}`)}
+                className="p-2 transition-transform transform hover:scale-150"
+              >
                 <FontAwesomeIcon icon={faUser} />
               </button>
-              <button onClick={() => logOut()} className="p-2">
+              <button
+                onClick={() => logOut()}
+                className="p-2 transition-transform transform hover:scale-110"
+              >
                 Logout
               </button>
             </>
@@ -50,10 +65,16 @@ const Navbar = () => {
       ) : (
         // User is logged out / not signed up
         <>
-          <button onClick={() => navigate("/auth/login")} className="p-2">
+          <button
+            onClick={() => navigate("/auth/login")}
+            className="p-2 transition-transform transform hover:scale-110"
+          >
             Login
           </button>
-          <button onClick={() => navigate("/auth/signup")} className="p-2">
+          <button
+            onClick={() => navigate("/auth/signup")}
+            className="p-2 transition-transform transform hover:scale-110"
+          >
             Signup
           </button>
         </>

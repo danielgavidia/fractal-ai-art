@@ -50,7 +50,7 @@ const BouncingBall = ({
   // Update original ball
   useEffect(() => {
     setPosition({ x: 0, y: 0 }); // Reset to starting position
-    setVelocity({ x: xVelocity + 0.1, y: yVelocity + 0.1 });
+    setVelocity({ x: xVelocity, y: yVelocity });
     setBallSizeState(ballSize);
     setBallColorState(ballColor);
     setBackgroundColorState(backgroundColor);

@@ -1,5 +1,7 @@
 // Helper function to convert HSL to RGB
 export function hslToRgb(h: number, s: number, l: number) {
+  if (h === 0) return { r: 255, g: 255, b: 255 };
+
   s /= 100;
   l /= 100;
 

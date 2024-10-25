@@ -74,7 +74,10 @@ const ArtCard = ({ artwork, userFeed, handleLike }: ArtCardProps) => {
       </CardContent>
       <CardFooter className="flex space-x-2 pt-2 justify-center">
         {handleLike && !userFeed ? (
-          <button onClick={() => handleLike(id)} className="text-neutral-400">
+          <button
+            onClick={() => handleLike(id)}
+            className="text-neutral-400 transition-transform transform hover:scale-150"
+          >
             <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
           </button>
         ) : (
