@@ -2,6 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/firebaseConfig";
 
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+  faPenToSquare,
+  faUser,
+  faHouse,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -13,29 +20,31 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="w-full sticky top-0 z-10 flex border-b-2 border-black bg-sky-800 text-white">
-      <button onClick={() => navigate("/feed")} className="flex-1 text-left p-2">
-        AI Art
+    <nav className="w-40 h-screen sticky top-0 left-0 z-10 flex flex-col border-r-2 border-black justify-center">
+      <button onClick={() => navigate("/feed")} className="p-2 border-b border-neutral-300 m-2">
+        bouncy art
       </button>
       <button onClick={() => navigate("/feed")} className="p-2">
-        Feed
+        <FontAwesomeIcon icon={faHouse} />
       </button>
       {user ? (
         // User is logged in
         <>
-          <button onClick={() => logOut()} className="p-2">
-            Logout
-          </button>
           <button onClick={() => navigate("/search")} className="p-2">
-            Search
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
           <button onClick={() => navigate("/editor")} className="p-2">
-            Editor
+            <FontAwesomeIcon icon={faPenToSquare} />
           </button>
           {userInfo && (
-            <button onClick={() => navigate(`/profile/${userInfo.id}`)} className="p-2">
-              Profile
-            </button>
+            <>
+              <button onClick={() => navigate(`/profile/${userInfo.id}`)} className="p-2">
+                <FontAwesomeIcon icon={faUser} />
+              </button>
+              <button onClick={() => logOut()} className="p-2">
+                Logout
+              </button>
+            </>
           )}
         </>
       ) : (
