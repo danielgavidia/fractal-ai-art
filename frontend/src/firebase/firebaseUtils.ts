@@ -1,11 +1,11 @@
 import axios from "axios";
-import type { User } from "../types/types";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 
 type AuthRes = {
-  success: boolean;
   email: string;
+  success: boolean;
+  message: string;
 };
 
 export async function firebaseAuth(
@@ -15,31 +15,29 @@ export async function firebaseAuth(
   username?: string
 ): Promise<AuthRes> {
   const authInstance = getAuth();
-  let idToken: string | undefined;
 
-  if (authOperation === "login") {
-    try {
+  try {
+    if (authOperation === "login") {
       await signInWithEmailAndPassword(auth, email, password);
-      idToken = await authInstance.currentUser?.getIdToken();
-      const res = await axios({
+      const idToken = await authInstance.currentUser?.getIdToken();
+
+      const prismaRes = await axios({
         method: "POST",
         url: `${import.meta.env.VITE_BACKEND_URL}/user/login`,
         headers: {
           Authorization: `Bearer ${idToken}`,
         },
       });
-      const data: User = res.data.user;
-      console.log(data);
-      return { success: true, email: email };
-    } catch (e) {
-      console.log(e);
-      return { success: false, email: email };
-    }
-  } else {
-    try {
+
+      if (!prismaRes) {
+        return { email: email, success: false, message: "User does not exist" };
+      }
+      return { email: email, success: true, message: "Login successful" };
+    } else {
       await createUserWithEmailAndPassword(auth, email, password);
-      idToken = await authInstance.currentUser?.getIdToken();
-      const res = await axios({
+      const idToken = await authInstance.currentUser?.getIdToken();
+
+      const prismaRes = await axios({
         method: "POST",
         url: `${import.meta.env.VITE_BACKEND_URL}/user/signup`,
         headers: {
@@ -49,12 +47,15 @@ export async function firebaseAuth(
           username: username,
         },
       });
-      const data: User = res.data.user;
-      console.log(data);
-      return { success: true, email: email };
-    } catch (e) {
-      console.log(e);
-      return { success: false, email: email };
+
+      if (!prismaRes) {
+        return { email: email, success: false, message: "Prisma error: user already exists" };
+      }
+      return { email: email, success: true, message: "Signup successful" };
     }
+  } catch (error) {
+    await auth.signOut();
+    console.log(error);
+    return { email, success: false, message: "Authentication error" };
   }
 }
