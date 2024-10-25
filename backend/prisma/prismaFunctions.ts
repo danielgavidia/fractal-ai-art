@@ -106,7 +106,8 @@ export async function postArtwork(
   randomColors: boolean,
   borderRadius: number,
   borderWidth: number,
-  borderColor: number
+  borderColor: number,
+  artworkId?: string
 ): Promise<Artwork> {
   const user: User | null = await prisma.user.findUnique({
     where: { firebaseId: firebaseId },
@@ -116,24 +117,71 @@ export async function postArtwork(
     throw new Error("User not found");
   }
 
-  const res: Artwork = await prisma.artwork.create({
-    data: {
-      user: { connect: { id: user.id } },
-      xVelocity: xVelocity,
-      yVelocity: yVelocity,
-      ballSize: ballSize,
-      ballColor: ballColor,
-      backgroundColor: backgroundColor,
-      ballCount: ballCount,
-      randomnessFactor: randomnessFactor,
-      randomColors: randomColors,
-      borderRadius: borderRadius,
-      borderWidth: borderWidth,
-      borderColor: borderColor,
+  const data = {
+    user: { connect: { id: user.id } },
+    xVelocity: xVelocity,
+    yVelocity: yVelocity,
+    ballSize: ballSize,
+    ballColor: ballColor,
+    backgroundColor: backgroundColor,
+    ballCount: ballCount,
+    randomnessFactor: randomnessFactor,
+    randomColors: randomColors,
+    borderRadius: borderRadius,
+    borderWidth: borderWidth,
+    borderColor: borderColor,
+  };
+
+  const res: Artwork = await prisma.artwork.upsert({
+    where: {
+      id: artworkId,
     },
+    update: data,
+    create: data,
   });
   return res;
 }
+
+// export async function postArtwork(
+//   firebaseId: string,
+//   xVelocity: number,
+//   yVelocity: number,
+//   ballSize: number,
+//   ballColor: number,
+//   backgroundColor: number,
+//   ballCount: number,
+//   randomnessFactor: number,
+//   randomColors: boolean,
+//   borderRadius: number,
+//   borderWidth: number,
+//   borderColor: number
+// ): Promise<Artwork> {
+//   const user: User | null = await prisma.user.findUnique({
+//     where: { firebaseId: firebaseId },
+//   });
+
+//   if (!user) {
+//     throw new Error("User not found");
+//   }
+
+//   const res: Artwork = await prisma.artwork.create({
+//     data: {
+//       user: { connect: { id: user.id } },
+//       xVelocity: xVelocity,
+//       yVelocity: yVelocity,
+//       ballSize: ballSize,
+//       ballColor: ballColor,
+//       backgroundColor: backgroundColor,
+//       ballCount: ballCount,
+//       randomnessFactor: randomnessFactor,
+//       randomColors: randomColors,
+//       borderRadius: borderRadius,
+//       borderWidth: borderWidth,
+//       borderColor: borderColor,
+//     },
+//   });
+//   return res;
+// }
 
 // Delete post
 export async function deleteArtwork(artworkId: string): Promise<Artwork> {

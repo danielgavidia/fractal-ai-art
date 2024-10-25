@@ -38,7 +38,7 @@ const RouteEditor = () => {
   return (
     <div>
       {artworkId === "new" && <Editor config={defaultConfig} />}
-      {artworkId !== "new" && artwork ? <Editor config={artwork} /> : <></>}
+      {artworkId !== "new" && artwork ? <Editor config={artwork} artworkId={artworkId} /> : <></>}
     </div>
   );
 };

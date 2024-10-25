@@ -54,7 +54,7 @@ const Profile = ({ userId }: ProfileProps) => {
           {/* Artworks */}
           <div className="bg-stone-200 overflow-y-scroll space-y-4 flex flex-col justify-center items-center h-full py-6">
             {artworks
-              .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+              .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
               .map((artwork, key) =>
                 profileInfo.id === userInfo.id ? (
                   <ArtCard

@@ -9,9 +9,10 @@ import EditorControlDashboard from "./EditorControlDashboard";
 
 interface EditorProps {
   config: Artwork;
+  artworkId?: string;
 }
 
-const Editor = ({ config }: EditorProps) => {
+const Editor = ({ config, artworkId }: EditorProps) => {
   // Navigate
   const navigate = useNavigate();
 
@@ -238,27 +239,53 @@ const Editor = ({ config }: EditorProps) => {
 
       {/* Post button */}
       <div className="w-full flex justify-center">
-        <button
-          onClick={async () => {
-            await postArtwork(
-              xVelocity,
-              yVelocity,
-              ballSize,
-              ballColor,
-              backgroundColor,
-              ballCount,
-              randomnessFactor,
-              randomColors,
-              borderRadius,
-              borderWidth,
-              borderColor
-            );
-            navigate(`/profile/${userInfo?.id}`);
-          }}
-          className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
-        >
-          Post
-        </button>
+        {artworkId ? (
+          <button
+            onClick={async () => {
+              await postArtwork(
+                xVelocity,
+                yVelocity,
+                ballSize,
+                ballColor,
+                backgroundColor,
+                ballCount,
+                randomnessFactor,
+                randomColors,
+                borderRadius,
+                borderWidth,
+                borderColor,
+                artworkId
+              );
+              navigate(`/profile/${userInfo?.id}`);
+            }}
+            className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            onClick={async () => {
+              await postArtwork(
+                xVelocity,
+                yVelocity,
+                ballSize,
+                ballColor,
+                backgroundColor,
+                ballCount,
+                randomnessFactor,
+                randomColors,
+                borderRadius,
+                borderWidth,
+                borderColor,
+                artworkId
+              );
+              navigate(`/profile/${userInfo?.id}`);
+            }}
+            className="w-40 h-12 bg-black text-white rounded-lg transition-transform transform hover:scale-105"
+          >
+            Post
+          </button>
+        )}
       </div>
     </div>
   );
