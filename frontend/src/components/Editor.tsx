@@ -1,10 +1,11 @@
 import { useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
-import RainbowColorInput from "./RainbowColorInput";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
-import EditorControlNumerical from "./EditorControlNumerical";
+import EditorControl from "./EditorControl";
+import { valueToColor } from "@/utils/colorUtils";
+import "../styles/rainbox-color-input.css";
 
 const Editor = () => {
   // Navigate
@@ -33,188 +34,169 @@ const Editor = () => {
   const [borderColor, setBorderColor] = useState({ rgb: "rgb(100, 100, 100)", hex: "#000000" });
 
   // Set X Velocity
-  function handleSetXVelocity(increase: boolean): void {
-    const interval = 2;
-    const bounds = { upper: 20, lower: 0 };
-
-    if (increase && xVelocity + interval <= bounds.upper) {
-      setXVelocity((prev) => prev + interval);
-    } else if (!increase && xVelocity - interval >= bounds.lower) {
-      setXVelocity((prev) => prev - interval);
-    }
+  function handleSetXVelocity(value: number): void {
+    setXVelocity(value);
   }
 
   // Set Y Velocity
-  function handleSetYVelocity(increase: boolean): void {
-    const interval = 2;
-    const bounds = { upper: 20, lower: 0 };
-
-    if (increase && yVelocity + interval <= bounds.upper) {
-      setYVelocity((prev) => prev + interval);
-    } else if (!increase && yVelocity - interval >= bounds.lower) {
-      setYVelocity((prev) => prev - interval);
-    }
+  function handleSetYVelocity(value: number): void {
+    setYVelocity(value);
   }
 
   // Change ball size
-  function handleSetBallSize(increase: boolean): void {
-    const interval = 10;
-    const lowerBound = 0;
-    const upperBound = 110;
-
-    if (increase && ballSize + interval < upperBound) {
-      setBallSize((prev) => prev + interval);
-    } else if (!increase && ballSize - interval > lowerBound) {
-      setBallSize((prev) => prev - interval);
-    }
+  function handleSetBallSize(value: number): void {
+    setBallSize(value);
   }
 
-  // Change ball color
-  const handleBallColorChange = (rgb: string, hex: string) => {
-    setBallColor({ rgb, hex });
-  };
-
-  // Change background color
-  const handleBackgroundColorChange = (rgb: string, hex: string) => {
-    setBackgroundColor({ rgb, hex });
-  };
-
   // Change ball count
-  function handleSetBallCount(increase: boolean) {
-    const minBallCount = 1;
-    const maxBallCount = 60;
-    if (increase && ballCount + 1 <= maxBallCount) {
-      setBallCount((prev) => prev + 1);
-    } else if (!increase && ballCount - 1 >= minBallCount) {
-      setBallCount((prev) => prev - 1);
-    }
+  function handleSetBallCount(value: number) {
+    setBallCount(value);
   }
 
   // Change randomness factor
-  function handleSetRandomnessFactor(increase: boolean) {
-    const maxRandomness = 5;
-    const minRandomness = 1;
-    if (increase && randomnessFactor + 1 <= maxRandomness) {
-      setRandomnessFactor((prev) => prev + 1);
-    } else if (!increase && randomnessFactor - 1 >= minRandomness) {
-      setRandomnessFactor((prev) => prev - 1);
-    }
+  function handleSetRandomnessFactor(value: number) {
+    setRandomnessFactor(value);
   }
 
   // Change border radius
-  function handleSetBorderRadius(increase: boolean): void {
-    const interval = 5;
-    const lowerBound = 0;
-    const upperBound = 55;
-
-    if (increase && borderRadius + interval < upperBound) {
-      setBorderRadius((prev) => prev + interval);
-    } else if (!increase && borderRadius - interval > lowerBound) {
-      setBorderRadius((prev) => prev - interval);
-    }
+  function handleSetBorderRadius(value: number): void {
+    setBorderRadius(value);
   }
 
   // Change border width
-  function handleSetBorderWidth(increase: boolean): void {
-    const interval = 1;
-    const lowerBound = 0;
-    const upperBound = 10;
+  function handleSetBorderWidth(value: number): void {
+    setBorderWidth(value);
+  }
 
-    if (increase && borderWidth + interval < upperBound) {
-      setBorderWidth((prev) => prev + interval);
-    } else if (!increase && borderWidth - interval > lowerBound) {
-      setBorderWidth((prev) => prev - interval);
-    }
+  // Colors
+  // Change ball color
+  function handleSetBallColor(value: number): void {
+    setBallColor(valueToColor(value));
+  }
+
+  // Change background color
+  function handleSetBackgroundColor(value: number): void {
+    setBackgroundColor(valueToColor(value));
   }
 
   // Change border color
-  const handleBorderColorChange = (rgb: string, hex: string) => {
-    setBorderColor({ rgb, hex });
-  };
+  function handleSetBorderColor(value: number): void {
+    setBorderColor(valueToColor(value));
+  }
 
-  const numericalControlArray = [
+  // Add random colors
+  function handleSetRandomColors(value: number): void {
+    if (value === 0) {
+      setRandomColors(false);
+    }
+    if (value === 1) {
+      setRandomColors(true);
+    }
+  }
+
+  const controls = [
+    // Numerical
     {
       title: "X Velocity",
-      value: xVelocity,
       handler: handleSetXVelocity,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
     },
     {
       title: "Y Velocity",
-      value: yVelocity,
       handler: handleSetYVelocity,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
     },
     {
       title: "Ball Size",
-      value: ballSize,
       handler: handleSetBallSize,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
     },
     {
       title: "Ball Count",
-      value: ballCount,
       handler: handleSetBallCount,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
     },
     {
       title: "Randomness",
-      value: randomnessFactor,
       handler: handleSetRandomnessFactor,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
     },
     {
       title: "Border Radius",
-      value: borderRadius,
       handler: handleSetBorderRadius,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
     },
     {
       title: "Border Width",
-      value: borderWidth,
       handler: handleSetBorderWidth,
+      min: 1,
+      max: 10,
+      defaultValue: 1,
+    },
+    // Color
+    {
+      title: "Ball Color",
+      handler: handleSetBallColor,
+      min: 0,
+      max: 360,
+      defaultValue: 0,
+      colorEditor: true,
+    },
+    {
+      title: "Bg Color",
+      handler: handleSetBackgroundColor,
+      min: 0,
+      max: 360,
+      defaultValue: 0,
+      colorEditor: true,
+    },
+    {
+      title: "Border Color",
+      handler: handleSetBorderColor,
+      min: 0,
+      max: 360,
+      defaultValue: 0,
+      colorEditor: true,
+    },
+    {
+      title: "Random Colors",
+      handler: handleSetRandomColors,
+      min: 0,
+      max: 1,
+      defaultValue: 0,
     },
   ];
 
   return (
-    <div className="w-full justify-center">
-      <div>
-        {numericalControlArray.map((control, key) => (
-          <EditorControlNumerical
+    <div className="w-full justify-center p-6">
+      <div className="pb-6">
+        {controls.map((control, key) => (
+          <EditorControl
             key={key}
             title={control.title}
-            value={control.value}
             handler={control.handler}
+            min={control.min}
+            max={control.max}
+            defaultValue={control.defaultValue}
+            colorEditor={control.colorEditor}
           />
         ))}
       </div>
 
-      {/* Set random colors */}
-      <div className="flex justify-between">
-        <p>Random Colors</p>
-        <button onClick={() => setRandomColors((state) => !state)}>Random</button>
-      </div>
-
-      {/* Edit ball color */}
-      <div className="flex justify-between items-center">
-        <p>Ball Color</p>
-        <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBallColorChange} defaultHue={0} />
-        </div>
-      </div>
-
-      {/* Edit background color */}
-      <div className="flex justify-between items-center">
-        <p>Background Color</p>
-        <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBackgroundColorChange} defaultHue={60} />
-        </div>
-      </div>
-
-      {/* Edit border color */}
-      <div className="flex justify-between items-center">
-        <p>Border Color</p>
-        <div className="flex-1">
-          <RainbowColorInput onColorChange={handleBorderColorChange} defaultHue={60} />
-        </div>
-      </div>
-
       {/* Bouncing Ball viewer */}
-      <div className="w-full flex justify-center pb-2">
+      <div className="w-full flex justify-center pb-6">
         <BouncingBall
           xVelocity={xVelocity}
           yVelocity={yVelocity}

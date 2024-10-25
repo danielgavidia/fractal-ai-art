@@ -28,7 +28,7 @@ const Feed = () => {
       {artworks
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .map((artwork, key) => (
-          <ArtCard key={key} artwork={artwork} handleLike={handleLike} />
+          <ArtCard key={key} artwork={artwork} userFeed={false} handleLike={handleLike} />
         ))}
     </div>
   );
