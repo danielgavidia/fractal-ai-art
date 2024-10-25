@@ -3,7 +3,9 @@ import BouncingBall from "./BouncingBall";
 import { Artwork } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faExpand, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import FullscreenModal from "./FullscreenModal";
 
 interface ArtCardProps {
   artwork: Artwork;
@@ -34,6 +36,12 @@ const ArtCard = ({ artwork, userFeed, handleLike, handleDelete }: ArtCardProps) 
     borderWidth,
     borderColor,
   } = artwork;
+
+  // Modal logic
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="bg-neutral-400 flex flex-col border-[0.5px] border-neutral-400 shadow-lg bg-stone-50 p-2 items-center">
@@ -117,11 +125,48 @@ const ArtCard = ({ artwork, userFeed, handleLike, handleDelete }: ArtCardProps) 
             >
               <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
             </button>
+
+            {/* Fullscreen */}
+            <button
+              onClick={() => openModal()}
+              className="text-neutral-400 transition-transform transform hover:scale-150"
+            >
+              <FontAwesomeIcon icon={faExpand}></FontAwesomeIcon>
+            </button>
           </div>
         ) : (
           <></>
         )}
+
+        {/* Fullscreen */}
+        {!userFeed && (
+          <button
+            onClick={() => openModal()}
+            className="text-neutral-400 transition-transform transform hover:scale-150"
+          >
+            <FontAwesomeIcon icon={faExpand}></FontAwesomeIcon>
+          </button>
+        )}
       </div>
+
+      {/* Modal */}
+      <FullscreenModal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="border-[0.5px] border-neutral-400">
+          <BouncingBall
+            xVelocity={xVelocity}
+            yVelocity={yVelocity}
+            ballSize={ballSize}
+            ballColor={ballColor}
+            backgroundColor={backgroundColor}
+            ballCount={ballCount}
+            randomnessFactor={randomnessFactor}
+            randomColors={randomColors}
+            borderRadius={borderRadius}
+            borderWidth={borderWidth}
+            borderColor={borderColor}
+          />
+        </div>
+      </FullscreenModal>
     </div>
   );
 };
