@@ -3,9 +3,10 @@ import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
-import EditorControl from "./EditorControl";
 import { valueToColor } from "@/utils/colorUtils";
 import "../styles/rainbox-color-input.css";
+import { ControlGroup } from "../types/types";
+import EditorControlDashboard from "./EditorControlDashboard";
 
 const Editor = () => {
   // Navigate
@@ -94,109 +95,119 @@ const Editor = () => {
     }
   }
 
-  const controls = [
-    // Numerical
+  // Control groups
+  const controlGroups: ControlGroup[] = [
     {
-      title: "X Velocity",
-      handler: handleSetXVelocity,
-      min: 0,
-      max: 20,
-      defaultValue: 1,
+      id: 0,
+      title: "General",
+      controls: [
+        {
+          title: "X Velocity",
+          handler: handleSetXVelocity,
+          min: 0,
+          max: 20,
+          defaultValue: 1,
+        },
+        {
+          title: "Y Velocity",
+          handler: handleSetYVelocity,
+          min: 0,
+          max: 20,
+          defaultValue: 1,
+        },
+
+        {
+          title: "Randomness",
+          handler: handleSetRandomnessFactor,
+          min: 1,
+          max: 50,
+          defaultValue: 1,
+        },
+        {
+          title: "Bg Color",
+          handler: handleSetBackgroundColor,
+          min: 0,
+          max: 360,
+          defaultValue: 360,
+          colorEditor: true,
+        },
+      ],
+      isOpen: false,
     },
     {
-      title: "Y Velocity",
-      handler: handleSetYVelocity,
-      min: 0,
-      max: 20,
-      defaultValue: 1,
+      id: 1,
+      title: "Ball",
+      controls: [
+        {
+          title: "Ball Size",
+          handler: handleSetBallSize,
+          min: 1,
+          max: 100,
+          defaultValue: 20,
+        },
+        {
+          title: "Ball Count",
+          handler: handleSetBallCount,
+          min: 1,
+          max: 60,
+          defaultValue: 1,
+        },
+        {
+          title: "Random Colors",
+          handler: handleSetRandomColors,
+          min: 0,
+          max: 1,
+          defaultValue: 0,
+        },
+        {
+          title: "Ball Color",
+          handler: handleSetBallColor,
+          min: 0,
+          max: 360,
+          defaultValue: 0,
+          colorEditor: true,
+        },
+      ],
+      isOpen: false,
     },
     {
-      title: "Ball Size",
-      handler: handleSetBallSize,
-      min: 1,
-      max: 100,
-      defaultValue: 20,
-    },
-    {
-      title: "Ball Count",
-      handler: handleSetBallCount,
-      min: 1,
-      max: 60,
-      defaultValue: 1,
-    },
-    {
-      title: "Randomness",
-      handler: handleSetRandomnessFactor,
-      min: 1,
-      max: 50,
-      defaultValue: 1,
-    },
-    {
-      title: "Border Radius",
-      handler: handleSetBorderRadius,
-      min: 0,
-      max: 50,
-      defaultValue: 50,
-    },
-    {
-      title: "Border Width",
-      handler: handleSetBorderWidth,
-      min: 0,
-      max: 50,
-      defaultValue: 0,
-    },
-    // Color
-    {
-      title: "Ball Color",
-      handler: handleSetBallColor,
-      min: 0,
-      max: 360,
-      defaultValue: 0,
-      colorEditor: true,
-    },
-    {
-      title: "Bg Color",
-      handler: handleSetBackgroundColor,
-      min: 0,
-      max: 360,
-      defaultValue: 360,
-      colorEditor: true,
-    },
-    {
-      title: "Border Color",
-      handler: handleSetBorderColor,
-      min: 0,
-      max: 360,
-      defaultValue: 0,
-      colorEditor: true,
-    },
-    {
-      title: "Random Colors",
-      handler: handleSetRandomColors,
-      min: 0,
-      max: 1,
-      defaultValue: 0,
+      id: 2,
+      title: "Border",
+      controls: [
+        {
+          title: "Border Width",
+          handler: handleSetBorderWidth,
+          min: 0,
+          max: 50,
+          defaultValue: 0,
+        },
+        {
+          title: "Border Radius",
+          handler: handleSetBorderRadius,
+          min: 0,
+          max: 50,
+          defaultValue: 50,
+        },
+        {
+          title: "Border Color",
+          handler: handleSetBorderColor,
+          min: 0,
+          max: 360,
+          defaultValue: 0,
+          colorEditor: true,
+        },
+      ],
+      isOpen: false,
     },
   ];
 
   return (
-    <div className="w-full flex flex-col justify-center p-6 items-center">
-      <div className="pb-6">
-        {controls.map((control, key) => (
-          <EditorControl
-            key={key}
-            title={control.title}
-            handler={control.handler}
-            min={control.min}
-            max={control.max}
-            defaultValue={control.defaultValue}
-            colorEditor={control.colorEditor}
-          />
-        ))}
-      </div>
+    <div className="w-full flex flex-col justify-center p-6 items-center space-y-4">
+      {/* Editor controls */}
+      <EditorControlDashboard controlGroups={controlGroups} />
 
       {/* Bouncing Ball viewer */}
-      <div className="mb-6 border-[1px] border-black">
+      <div className="border-[1px] border-black">
         <BouncingBall
           xVelocity={xVelocity}
           yVelocity={yVelocity}

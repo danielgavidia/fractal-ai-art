@@ -1,23 +1,13 @@
 import { hslToRgb } from "@/utils/colorUtils";
 import { useEffect, useState } from "react";
+import type { Control } from "../types/types";
 
 interface EditorControlProps {
-  title: string;
-  handler: (value: number) => void;
-  min: number;
-  max: number;
-  defaultValue: number;
-  colorEditor?: boolean;
+  control: Control;
 }
 
-const EditorControl = ({
-  title,
-  handler,
-  min,
-  max,
-  defaultValue,
-  colorEditor,
-}: EditorControlProps) => {
+const EditorControl = ({ control }: EditorControlProps) => {
+  const { title, handler, min, max, defaultValue, colorEditor } = control;
   const [value, setValue] = useState<number>(defaultValue);
 
   useEffect(() => {
@@ -33,7 +23,7 @@ const EditorControl = ({
   const rgb = `rgb(${r}, ${g}, ${b})`;
 
   return (
-    <div className="flex space-x-2 text-xs p-1 items-center max-w-96">
+    <div className="flex space-x-2 text-xs p-1 items-center">
       <span className="w-40">{title}</span>
       {colorEditor ? (
         <input
@@ -50,8 +40,8 @@ const EditorControl = ({
         <input type="range" min={min} max={max} value={value} onChange={handleValueChange} />
       )}
 
-      <div className="w-10 bg-stone-200 text-center border-[0.5px] border-black text-xs">
-        {value}
+      <div className="w-10 bg-stone-200 text-center border-[0.5px] border-neutral-400 text-xs">
+        {colorEditor ? <div className="p-2" style={{ background: rgb }}></div> : <div>{value}</div>}
       </div>
     </div>
   );
