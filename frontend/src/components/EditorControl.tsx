@@ -33,8 +33,8 @@ const EditorControl = ({
   const rgb = `rgb(${r}, ${g}, ${b})`;
 
   return (
-    <div className="flex space-x-2 text-sm p-1 items-center">
-      <span className="w-32">{title}</span>
+    <div className="flex space-x-2 text-xs p-1 items-center max-w-96">
+      <span className="w-40">{title}</span>
       {colorEditor ? (
         <input
           type="range"
@@ -50,7 +50,9 @@ const EditorControl = ({
         <input type="range" min={min} max={max} value={value} onChange={handleValueChange} />
       )}
 
-      <div className="w-10 bg-neutral-400 text-center">{value}</div>
+      <div className="w-10 bg-stone-200 text-center border-[0.5px] border-black text-xs">
+        {value}
+      </div>
     </div>
   );
 };
