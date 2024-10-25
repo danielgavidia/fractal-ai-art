@@ -55,3 +55,10 @@ export type Control = {
   defaultValue: number;
   colorEditor?: boolean;
 };
+
+export type ControlGroup = {
+  id: number;
+  title: string;
+  controls: Control[];
+  isOpen: boolean;
+};
