@@ -34,14 +34,14 @@ model Artwork {
   xVelocity        Int     @default(2)
   yVelocity        Int     @default(2)
   ballSize         Int     @default(30)
-  ballColor        String  @default("rgb(0, 0, 0)")
-  backgroundColor  String  @default("rgb(255, 255, 255)")
+  ballColor        Int     @default(0)
+  backgroundColor  Int     @default(360)
   ballCount        Int     @default(1)
   randomnessFactor Int     @default(1)
   randomColors     Boolean @default(false)
   borderRadius     Int     @default(50)
   borderWidth      Int     @default(0)
-  borderColor      String  @default("rgb(0, 0, 0)")
+  borderColor      Int     @default(360)
 
   // Relationships
   user   User   @relation(fields: [userId], references: [id])

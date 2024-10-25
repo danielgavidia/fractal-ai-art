@@ -48,7 +48,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false);
       }
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, [auth]);
 
   return (
