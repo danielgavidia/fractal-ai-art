@@ -24,9 +24,6 @@ services:
       - FIREBASE_UNIVERSE_DOMAIN=${FIREBASE_UNIVERSE_DOMAIN}
     env_file:
       - ./backend/.env
-    depends_on:
-      database:
-        condition: service_healthy
 
   # Frontend
   frontend:
