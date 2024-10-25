@@ -25,19 +25,21 @@ const Profile = ({ userId }: ProfileProps) => {
   }, []);
 
   return (
-    <div className="p-6">
+    <div className="px-6">
       {userInfo && (
         <div>
           {/* User info section */}
-          <p className="font-bold">{userInfo?.email}</p>
-          <p className="text-sm">
-            Joined:{" "}
-            {new Date(userInfo?.createdAt).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </p>
+          <div className="border-b border-neutral-300 p-4 sticky top-0 z-20 bg-neutral-200">
+            <p className="font-bold">{userInfo?.email}</p>
+            <p className="text-sm">
+              Joined:{" "}
+              {new Date(userInfo?.createdAt).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </p>
+          </div>
 
           {/* Artworks */}
           <div className="bg-stone-200 overflow-y-scroll space-y-4 flex flex-col justify-center items-center h-full py-6">

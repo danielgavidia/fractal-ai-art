@@ -8,7 +8,7 @@ const Root = () => {
       <Navbar />
 
       {/* Outlet */}
-      <div className="w-full overflow-y-scroll">
+      <div className="w-full overflow-y-scroll h-full">
         <Outlet />
       </div>
     </div>
