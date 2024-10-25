@@ -1,7 +1,7 @@
 #!/bin/sh
 # Prisma migration
 cd backend
-npx prisma migrate dev
+npx prisma migrate deploy
 
 # Start frontend and backend containers
 cd ..
