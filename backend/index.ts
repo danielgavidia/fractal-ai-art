@@ -160,7 +160,7 @@ app.post("/authenticate", verifyFirebaseToken, (req, res) => {
 app.post("/user/login", verifyFirebaseToken, async (req, res) => {
   console.log("POST: /user/login");
   const { firebaseId, email } = req.body;
-  const user: User = await getUserLogin(firebaseId, email);
+  const user: User = await getUserLogin(firebaseId);
   console.log(user);
   res.status(200).json({ user: user });
 });
@@ -168,8 +168,8 @@ app.post("/user/login", verifyFirebaseToken, async (req, res) => {
 // Signup
 app.post("/user/signup", verifyFirebaseToken, async (req, res) => {
   console.log("POST: /user/signup");
-  const { firebaseId, email } = req.body;
-  const user: User = await getUserSignup(firebaseId, email);
+  const { firebaseId, email, username } = req.body;
+  const user: User = await getUserSignup(firebaseId, email, username);
   console.log(user);
   res.status(200).json({ user: user });
 });

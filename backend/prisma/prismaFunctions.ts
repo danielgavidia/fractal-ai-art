@@ -132,13 +132,22 @@ export async function postArtwork(
     borderColor: borderColor,
   };
 
-  const res: Artwork = await prisma.artwork.upsert({
-    where: {
-      id: artworkId,
-    },
-    update: data,
-    create: data,
-  });
+  let res: Artwork;
+
+  if (artworkId) {
+    // Use upsert if artworkId is provided
+    res = await prisma.artwork.upsert({
+      where: { id: artworkId },
+      update: data,
+      create: data,
+    });
+  } else {
+    // Create a new artwork if artworkId is not provided
+    res = await prisma.artwork.create({
+      data,
+    });
+  }
+
   return res;
 }
 

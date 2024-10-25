@@ -14,10 +14,12 @@ const AuthForm = ({ authOperation }: AuthProps) => {
   const handleFirebaseAuth = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     const res = await firebaseAuth(email, password, authOperation);
-    console.log(`Login/Signup for email: ${res.email}`);
-    setEmail("");
-    setPassword("");
-    navigate("/feed");
+    if (res.success) {
+      console.log(`Login/Signup for email: ${res.email}`);
+      setEmail("");
+      setPassword("");
+      navigate("/feed");
+    }
   };
 
   return (
