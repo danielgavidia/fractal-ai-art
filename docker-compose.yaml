@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     ports:
-      - "3005"
+      - "3005:3005"
     environment:
       - FRONTEND_URL=${FRONTEND_URL}
       - DATABASE_URL=${DATABASE_URL}
