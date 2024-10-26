@@ -31,9 +31,7 @@ app.use(
 );
 app.use(express.json());
 
-app.options("/*", (req, res) => {
-  res.sendStatus(200);
-});
+app.options("*", cors()); // Preflight for all routes
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
