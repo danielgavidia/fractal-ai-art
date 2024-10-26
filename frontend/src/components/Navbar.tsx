@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebaseConfig";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,11 +18,6 @@ const Navbar = () => {
     return;
   }
   const { user, userInfo, loading } = context;
-
-  async function logOut() {
-    await auth.signOut();
-    navigate("/feed");
-  }
 
   return (
     <nav className="h-screen flex flex-col justify-center">
@@ -61,12 +55,6 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={faUser} />
                 </button>
               )}
-              <button
-                onClick={() => logOut()}
-                className="p-2 transition-transform transform hover:scale-110"
-              >
-                Logout
-              </button>
             </>
           ) : (
             <p>Loading...</p> // Optional: Show a loading indicator
