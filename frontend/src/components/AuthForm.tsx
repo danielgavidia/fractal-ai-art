@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { firebaseAuth } from "../firebase/firebaseUtils";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthProvider";
 
 interface AuthProps {
   authOperation: "login" | "signup";
@@ -27,6 +28,25 @@ const AuthForm = ({ authOperation }: AuthProps) => {
     const res = await firebaseAuth(email, password, authOperation, username);
     if (res.success) {
       console.log(`SUCCESS: Login/Signup for email: ${res.email}`);
+
+      // Check that user has been created
+      const context = useContext(AuthContext);
+      if (context === undefined) {
+        return;
+      }
+      const { loading } = context;
+      const checkUserCreation = () =>
+        new Promise<void>((resolve) => {
+          const interval = setInterval(() => {
+            if (!loading) {
+              clearInterval(interval);
+              resolve();
+            }
+          }, 100); // Check every 100ms
+        });
+
+      await checkUserCreation();
+
       navigate("/feed");
       setError(false);
       setMessage(res.message);

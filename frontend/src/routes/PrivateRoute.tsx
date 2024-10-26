@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
+import { useContext } from "react";
+import { AuthContext } from "@/components/AuthProvider";
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -8,7 +9,11 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({ element, requireAuth, redirectPath }: PrivateRouteProps) => {
-  const { user, loading } = useFirebaseAuth();
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    return;
+  }
+  const { user, loading } = context;
 
   if (loading) {
     return <div>Loading...</div>;
