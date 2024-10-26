@@ -26,8 +26,6 @@ const EditorControlDashboard = ({ controlGroups }: EditorControlDashboardProps) 
     setControlGroupState(newGroups);
   }
 
-  console.log(controlGroups);
-
   return (
     <div className="flex flex-col space-y-1 min-h-64">
       {controlGroupState.map((controlGroup, key) => (

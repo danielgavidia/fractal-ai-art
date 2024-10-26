@@ -64,8 +64,6 @@ const BouncingBall = ({
     setBorderWidthState(borderWidth);
     setBorderColorState(valueToColor(borderColor));
 
-    console.log(borderColorState);
-
     // Reset balls
     setBalls([]);
   }, [

@@ -27,7 +27,7 @@ const RouteEditor = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (artworkId) {
+      if (artworkId !== "new" && artworkId) {
         const res: Artwork = await getArtworkUser(artworkId);
         setArtwork(res);
       }
@@ -37,7 +37,7 @@ const RouteEditor = () => {
 
   return (
     <div>
-      {artworkId === "new" && <Editor config={defaultConfig} />}
+      {artworkId === "new" && artwork ? <Editor config={defaultConfig} /> : <></>}
       {artworkId !== "new" && artwork ? <Editor config={artwork} artworkId={artworkId} /> : <></>}
     </div>
   );
