@@ -25,7 +25,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="w-40 h-screen sticky top-0 left-0 z-10 flex flex-col border-r-2 border-black justify-center">
+    <nav className="h-screen flex flex-col justify-center">
       <button onClick={() => navigate("/feed")} className="p-2 border-b border-neutral-300 m-2">
         bouncy art
       </button>
