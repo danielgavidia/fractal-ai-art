@@ -20,9 +20,9 @@ const Search = () => {
   }, []);
 
   // Submit search query
-  function searchEmails(userData: User[], query: string): User[] {
+  function searchUsers(userData: User[], query: string): User[] {
     const lowerQuery = query.toLowerCase();
-    return userData.filter((x) => x.email.toLowerCase().includes(lowerQuery));
+    return userData.filter((x) => x.username.toLowerCase().includes(lowerQuery));
   }
 
   function handleSubmit(e: React.FormEvent): void {
@@ -30,13 +30,13 @@ const Search = () => {
     if (!userData) {
       return;
     }
-    const newData = searchEmails(userData, searchQuery);
+    const newData = searchUsers(userData, searchQuery);
     setUserData(newData);
     setSearchQuery("");
   }
 
   return (
-    <div className="h-full p-6">
+    <div className="h-full p-6 pt-10 w-full">
       <form onSubmit={handleSubmit}>
         <input
           value={searchQuery}
@@ -58,7 +58,7 @@ const Search = () => {
                     onClick={() => navigate(`/profile/${user.id}`)}
                     className="flex-1 text-start"
                   >
-                    {user.email}
+                    {user.username}
                   </button>
                   <p className="mr-4">{user.likesCount}</p>
                   <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>

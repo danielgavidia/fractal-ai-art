@@ -3,6 +3,8 @@ import { Artwork, User } from "../types/types";
 import { deleteArtwork, getArtworksUser, getUser } from "../utils/expressUtils";
 import ArtCard from "./ArtCard";
 import { AuthContext } from "./AuthProvider";
+import { auth } from "@/firebase/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileProps {
   userId: string;
@@ -11,6 +13,7 @@ interface ProfileProps {
 const Profile = ({ userId }: ProfileProps) => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [profileInfo, setProfileInfo] = useState<User>();
+  const navigate = useNavigate();
 
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -38,21 +41,39 @@ const Profile = ({ userId }: ProfileProps) => {
     return res;
   }
 
+  // Handle sign out
+  async function logOut() {
+    await auth.signOut();
+    navigate("/feed");
+  }
+
   return (
     <div className="px-6">
       {profileInfo && userInfo ? (
         <div>
           {/* User info section */}
-          <div className="border-b border-neutral-300 p-4 sticky top-0 z-20 bg-neutral-200">
-            <p className="font-bold">@{profileInfo?.username}</p>
-            <p className="text-sm">
-              Joined:{" "}
-              {new Date(profileInfo?.createdAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </p>
+          <div className="border-b border-neutral-300 p-4 sticky top-0 z-10 bg-neutral-200 flex">
+            <div className="flex-1">
+              <p className="font-bold">@{profileInfo?.username}</p>
+              <p className="text-sm">
+                Joined:{" "}
+                {new Date(profileInfo?.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+            {profileInfo.id === userInfo.id && (
+              <div className="flex items-center text-sm ">
+                <button
+                  onClick={() => logOut()}
+                  className="w-full h-full rounded-lg border-[0.5px] border-black p-2 hover:bg-black hover:text-white"
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Artworks */}

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -8,11 +7,10 @@ import {
   faHouse,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
-import { faCircle } from "@fortawesome/free-regular-svg-icons";
+import { useContext } from "react";
 
-const Navbar = () => {
+const BottomNavbar = () => {
   const navigate = useNavigate();
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -21,32 +19,24 @@ const Navbar = () => {
   const { user, userInfo, loading } = context;
 
   return (
-    <nav className="h-screen flex flex-col justify-center">
+    <nav className="w-full flex justify-around py-2">
       <button
         onClick={() => navigate("/feed")}
-        className="p-2 border-b border-neutral-300 m-2 flex space-x-2 items-center justify-center"
-      >
-        <p className="font-bold">bouncy art</p>
-        <FontAwesomeIcon icon={faCircle} />
-      </button>
-      <button
-        onClick={() => navigate("/feed")}
-        className="p-2 transition-transform transform hover:scale-150"
+        className="p-2 transition-transform transform hover:scale-125"
       >
         <FontAwesomeIcon icon={faHouse} />
       </button>
       {user ? (
-        // User is logged in
         <>
           <button
             onClick={() => navigate("/search")}
-            className="p-2 transition-transform transform hover:scale-150"
+            className="p-2 transition-transform transform hover:scale-125"
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
           <button
             onClick={() => navigate(`/editor/new`)}
-            className="p-2 transition-transform transform hover:scale-150"
+            className="p-2 transition-transform transform hover:scale-125"
           >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
@@ -55,14 +45,16 @@ const Navbar = () => {
               {userInfo && (
                 <button
                   onClick={() => navigate(`/profile/${userInfo.id}`)}
-                  className="p-2 transition-transform transform hover:scale-150"
+                  className="p-2 transition-transform transform hover:scale-125"
                 >
                   <FontAwesomeIcon icon={faUser} />
                 </button>
               )}
             </>
           ) : (
-            <p>Loading...</p> // Optional: Show a loading indicator
+            <>
+              <p>Loading...</p>
+            </>
           )}
         </>
       ) : (
@@ -80,4 +72,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default BottomNavbar;

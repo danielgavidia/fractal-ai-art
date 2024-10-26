@@ -1,15 +1,9 @@
-import { useParams } from "react-router-dom";
-import AuthForm from "../components/AuthForm";
+import AuthPage from "@/components/AuthPage";
 
 const RouteAuth = () => {
-  const { authOperation } = useParams();
   return (
     <div className="h-full">
-      {authOperation === "login" || authOperation === "signup" ? (
-        <AuthForm authOperation={authOperation} />
-      ) : (
-        <></>
-      )}
+      <AuthPage />
     </div>
   );
 };

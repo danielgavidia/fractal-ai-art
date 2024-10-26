@@ -24,7 +24,7 @@ const Feed = () => {
   }
 
   return (
-    <div className="bg-stone-200 overflow-y-scroll space-y-4 flex flex-col justify-center items-center h-full py-6">
+    <div className="bg-stone-200 overflow-y-scroll no-scrollbar space-y-4 flex flex-col justify-center items-center h-full py-6">
       {artworks
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .map((artwork, key) => (
