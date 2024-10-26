@@ -14,13 +14,13 @@ const AuthPage = () => {
       </div>
       <div className="text-xs text-center text-neutral-400 flex justify-center items-center">
         <div className="p-2">
-          <div className="w-20 border-b-[0.5px] border-black"></div>
-          <div className="w-20"></div>
+          <div className="w-12 border-b-[0.5px] border-black"></div>
+          <div className="w-12"></div>
         </div>
         <div>OR CONTINUE WITH EMAIL</div>
         <div className="p-2">
-          <div className="w-20 border-b-[0.5px] border-black"></div>
-          <div className="w-20"></div>
+          <div className="w-12 border-b-[0.5px] border-black"></div>
+          <div className="w-12"></div>
         </div>
       </div>
       <div>

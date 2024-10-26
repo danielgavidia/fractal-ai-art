@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
+import { faCircle } from "@fortawesome/free-regular-svg-icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,8 +22,12 @@ const Navbar = () => {
 
   return (
     <nav className="h-screen flex flex-col justify-center">
-      <button onClick={() => navigate("/feed")} className="p-2 border-b border-neutral-300 m-2">
-        bouncy art
+      <button
+        onClick={() => navigate("/feed")}
+        className="p-2 border-b border-neutral-300 m-2 flex space-x-2 items-center justify-center"
+      >
+        <p className="font-bold">bouncy art</p>
+        <FontAwesomeIcon icon={faCircle} />
       </button>
       <button
         onClick={() => navigate("/feed")}

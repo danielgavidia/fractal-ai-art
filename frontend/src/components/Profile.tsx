@@ -52,7 +52,7 @@ const Profile = ({ userId }: ProfileProps) => {
       {profileInfo && userInfo ? (
         <div>
           {/* User info section */}
-          <div className="border-b border-neutral-300 p-4 sticky top-0 z-20 bg-neutral-200 flex">
+          <div className="border-b border-neutral-300 p-4 sticky top-0 z-10 bg-neutral-200 flex">
             <div className="flex-1">
               <p className="font-bold">@{profileInfo?.username}</p>
               <p className="text-sm">
