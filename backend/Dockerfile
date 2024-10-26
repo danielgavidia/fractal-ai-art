@@ -23,4 +23,4 @@ COPY ./backend .
 RUN npx prisma generate
 
 # Run the prisma migrations and application
-CMD ["sh", "-c", "npx prisma migrate deploy && bun run index.ts"]
+CMD ["sh", "-c", "npx prisma migrate deploy && bun run --watch index.ts"]
