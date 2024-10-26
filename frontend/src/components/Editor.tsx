@@ -22,8 +22,6 @@ const Editor = ({ config, artworkId }: EditorProps) => {
     return;
   }
   const { userInfo } = context;
-  console.log(userInfo);
-  console.log(config);
 
   // State
   const [xVelocity, setXVelocity] = useState<number>(2);
@@ -222,9 +220,11 @@ const Editor = ({ config, artworkId }: EditorProps) => {
   ];
 
   return (
-    <div className="w-full flex flex-col justify-center p-6 items-center space-y-2">
+    <div className="w-full flex flex-col justify-center p-4 items-center space-y-2">
       {/* Editor controls */}
-      <EditorControlDashboard controlGroups={controlGroups} />
+      <div className="border-b-[1px] border-black p-4 mb-2">
+        <EditorControlDashboard controlGroups={controlGroups} />
+      </div>
 
       {/* Bouncing Ball viewer */}
       <div className="border-[1px] border-neutral-400 bg-white p-2">

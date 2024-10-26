@@ -20,14 +20,14 @@ const EditorControlDashboard = ({ controlGroups }: EditorControlDashboardProps) 
       if (group.id === id) {
         return { ...group, isOpen: !group.isOpen };
       } else {
-        return { ...group, isOpen: false };
+        return { ...group };
       }
     });
     setControlGroupState(newGroups);
   }
 
   return (
-    <div className="flex flex-col space-y-1 min-h-64">
+    <div className="flex flex-col space-y-1 h-52 overflow-y-auto">
       {controlGroupState.map((controlGroup, key) => (
         <EditorControlGroup
           key={key}
