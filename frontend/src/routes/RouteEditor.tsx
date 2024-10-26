@@ -33,7 +33,7 @@ const RouteEditor = () => {
       }
     };
     fetch();
-  }, []);
+  }, [artworkId]);
 
   return (
     <div>
