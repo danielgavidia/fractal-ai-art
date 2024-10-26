@@ -23,7 +23,8 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // Allow your frontend origins
+    // origin: process.env.FRONTEND_URL, // Allow your frontend origins
+    origin: "*", // Allow your frontend origins
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
