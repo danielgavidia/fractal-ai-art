@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/auth/:authOperation",
+        path: "/auth",
         element: <PrivateRoute element={<RouteAuth />} requireAuth={false} redirectPath="/feed" />,
       },
       {

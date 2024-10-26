@@ -7,6 +7,7 @@ import {
   faPenToSquare,
   faUser,
   faHouse,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
@@ -75,16 +76,10 @@ const Navbar = () => {
         // User is logged out / not signed up
         <>
           <button
-            onClick={() => navigate("/auth/login")}
-            className="p-2 transition-transform transform hover:scale-110"
+            onClick={() => navigate("/auth")}
+            className="p-2 transition-transform transform hover:scale-150"
           >
-            Login
-          </button>
-          <button
-            onClick={() => navigate("/auth/signup")}
-            className="p-2 transition-transform transform hover:scale-110"
-          >
-            Signup
+            <FontAwesomeIcon icon={faRightFromBracket} />
           </button>
         </>
       )}

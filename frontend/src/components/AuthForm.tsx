@@ -86,7 +86,7 @@ const AuthForm = ({ authOperation }: AuthProps) => {
         />
         <button
           onClick={handleFirebaseAuth}
-          className="border-2 border-neutral bg-black text-neutral-200 text-sm p-2 rounded-lg"
+          className="border-2 border-black bg-black text-neutral-200 text-sm p-2 rounded-lg"
         >
           {authOperation === "login" ? "Sign In" : "Sign Up"} with Email
         </button>

@@ -13,7 +13,7 @@ const Root = () => {
         </div>
 
         {/* Center Content */}
-        <div className="flex-grow max-w-2xl bg-white h-full overflow-y-scroll no-scrollbar">
+        <div className="flex-grow max-w-2xl bg-stone-200 h-full overflow-y-scroll no-scrollbar pb-14">
           <Outlet />
         </div>
 
