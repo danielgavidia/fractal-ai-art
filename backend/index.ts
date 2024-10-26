@@ -23,8 +23,9 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // Allow your frontend origins
+    // origin: process.env.FRONTEND_URL, // Allow your frontend origins
     // origin: "*", // Allow your frontend origins
+    origin: ["https://www.bouncy-art.com", "https://bouncy-art.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
