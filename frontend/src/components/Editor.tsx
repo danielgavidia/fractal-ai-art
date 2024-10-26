@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BouncingBall from "./BouncingBall";
 import { postArtwork } from "../utils/expressUtils";
 import { useNavigate } from "react-router-dom";
-import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 import "../styles/rainbox-color-input.css";
 import { Artwork, ControlGroup } from "../types/types";
 import EditorControlDashboard from "./EditorControlDashboard";
+import { AuthContext } from "./AuthProvider";
 
 interface EditorProps {
   config: Artwork;
@@ -17,7 +17,13 @@ const Editor = ({ config, artworkId }: EditorProps) => {
   const navigate = useNavigate();
 
   // Context
-  const { userInfo } = useFirebaseAuth();
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    return;
+  }
+  const { userInfo } = context;
+  console.log(userInfo);
+  console.log(config);
 
   // State
   const [xVelocity, setXVelocity] = useState<number>(2);

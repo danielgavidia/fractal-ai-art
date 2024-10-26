@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/firebaseConfig";
 
-import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -9,10 +8,16 @@ import {
   faUser,
   faHouse,
 } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { AuthContext } from "./AuthProvider";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user, userInfo } = useFirebaseAuth();
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    return;
+  }
+  const { user, userInfo, loading } = context;
 
   async function logOut() {
     await auth.signOut();
@@ -45,14 +50,16 @@ const Navbar = () => {
           >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
-          {userInfo && (
+          {!loading ? (
             <>
-              <button
-                onClick={() => navigate(`/profile/${userInfo.id}`)}
-                className="p-2 transition-transform transform hover:scale-150"
-              >
-                <FontAwesomeIcon icon={faUser} />
-              </button>
+              {userInfo && (
+                <button
+                  onClick={() => navigate(`/profile/${userInfo.id}`)}
+                  className="p-2 transition-transform transform hover:scale-150"
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </button>
+              )}
               <button
                 onClick={() => logOut()}
                 className="p-2 transition-transform transform hover:scale-110"
@@ -60,6 +67,8 @@ const Navbar = () => {
                 Logout
               </button>
             </>
+          ) : (
+            <p>Loading...</p> // Optional: Show a loading indicator
           )}
         </>
       ) : (

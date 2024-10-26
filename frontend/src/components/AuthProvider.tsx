@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const fetchUserInfo = async (user: FirebaseUser) => {
         try {
+          await new Promise((resolve) => setTimeout(resolve, 500));
           const res = await getCurrentUser(user);
           setUserInfo(res);
         } catch (error) {

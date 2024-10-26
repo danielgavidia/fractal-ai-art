@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Artwork, User } from "../types/types";
 import { deleteArtwork, getArtworksUser, getUser } from "../utils/expressUtils";
 import ArtCard from "./ArtCard";
-import { useFirebaseAuth } from "@/hooks/useFirebaseAuth";
+import { AuthContext } from "./AuthProvider";
 
 interface ProfileProps {
   userId: string;
@@ -12,7 +12,11 @@ const Profile = ({ userId }: ProfileProps) => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [profileInfo, setProfileInfo] = useState<User>();
 
-  const { userInfo } = useFirebaseAuth();
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    return;
+  }
+  const { userInfo } = context;
 
   // Fetch user information and artworks
   useEffect(() => {
